@@ -121,7 +121,7 @@ export default class extends Component {
 
            slide.assets.map((a, i) => new AssetLayer({ id : 'fgfdgfd' + i, onClick: () => { this.setState({editingAsset : a})}, scenegraph: a.type, asset : a})),
 
-           this.state.editingAsset && new EditLayer({asset : this.state.editingAsset}),
+           this.state.editingAsset && new EditLayer({refetch : this.props.refetch, client : this.props.client, asset : this.state.editingAsset}),
 
             false &&  new SimpleMeshLayer({
                 id: 'mesh-layer',

@@ -3,16 +3,26 @@ import {BitmapLayer} from '@deck.gl/layers';
 import GL from '@luma.gl/constants';
 import * as turf from "@turf/turf";
 import { EditableGeoJsonLayer, TransformMode, TranslateMode } from "nebula.gl";
+import gql from "graphql-tag";
 
 const VISIBLE = 1;
+
+const SAVE_ASSET_POSITION = gql `mutation MyMutation($id : Int, $position : jsonb) {
+  update_asset(where: {id: {_eq: $id}}, _set: {position: $position}) {
+    returning {
+      id
+    }
+  }
+}
+`
 
 export default class MaskLayer extends CompositeLayer {
 
     initializeState() {
         const { asset } = this.props;
 
-        console.log(turf.feature(([  -2.8729248046875, 54.54339315407258 ])));
-       // this.setState({position : turf.feature([  -2.8729248046875, 54.54339315407258 ])});
+        //console.log(turf.feature(([  -2.8729248046875, 54.54339315407258 ])));
+        this.setState({position : turf.featureCollection([turf.point(asset.position)])});
     }
 
     renderLayers() {
@@ -45,8 +55,7 @@ export default class MaskLayer extends CompositeLayer {
                   this.setState({position : updatedData});
                   //this.props.setSlidePhotoRotation({ ...this.props.slidePhotoRotation, position : updatedData});
                   if (editType === 'rotated' || editType === 'translated') {
-                      alert(asset.id);
-                      //this.props.client.mutate({mutation: SAVE_SLIDE_DATA, variables : {slide_id : slide.id, data : {...slide.data, geojson : updatedData} } });
+                      this.props.client.mutate({mutation: SAVE_ASSET_POSITION, variables : {id : asset.id, position : updatedData.features[0].geometry.coordinates } }).then(() => this.props.refetch());
                    }
 
               }

@@ -56,7 +56,10 @@ const GETCARD = gql`
                           id
                            assets(order_by: {order: desc}) {
                                   id
-                                  data
+                                  position
+                                  scale
+                                  translation
+                                  rotation
                                   type
                           }
                       }

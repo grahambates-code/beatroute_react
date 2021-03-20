@@ -28,7 +28,7 @@ export default class AssetLayer extends CompositeLayer {
 
                 id: 'scenegraph-layer' + asset.id,
 
-                data : [asset.data],
+                data : [asset],
 
                 pickable: true,
 
@@ -38,7 +38,7 @@ export default class AssetLayer extends CompositeLayer {
 
                 getTranslation : d=> d.translation,
 
-                getOrientation: d => [0, d.angle, 90 ],
+                getOrientation: d => [0, d.rotation, 90 ],
 
                 getScale: (d) =>[d.scale,d.scale,d.scale],
 
