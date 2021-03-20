@@ -54,6 +54,11 @@ const GETCARD = gql`
                           camera
                           data
                           id
+                           assets(order_by: {order: desc}) {
+                                  id
+                                  data
+                                  type
+                          }
                       }
                       
                     }

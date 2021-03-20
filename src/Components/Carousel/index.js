@@ -42,7 +42,7 @@ function Carousel({ slidePhotoRotation, setSlidePhotoRotation, setCurrentPhoto, 
         setCurrentPhoto(card.slides[name.nextItem].data.geojson); //setting photo geojson state
 
         card.slides[name.nextItem].camera && setViewState({
-            transitionDuration: 350,
+            transitionDuration: 750,
             transitionInterpolator: new LinearInterpolator(),
             ...card.slides[name.nextItem].camera});
     });

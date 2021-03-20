@@ -20,6 +20,7 @@ export default ({slide, viewState}) => {
 
     const viewport  = new WebMercatorViewport(viewState);
     const center    = viewport.unproject([viewport.width/2,viewport.width/2], {topLeft : true})
+    const pointB    = { scale : 1, rotation : 1,position : turf.featureCollection([turf.point(center)])};
 
     return <Fragment>
 
@@ -42,7 +43,7 @@ export default ({slide, viewState}) => {
 
              <button onClick={closeModal}>close</button>
 
-             <Query slide={slide} closeModal={closeModal} pointB={ turf.point(center) }/>
+             <Query slide={slide} closeModal={closeModal} pointB={ pointB }/>
 
          </Modal>
 

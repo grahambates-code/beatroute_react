@@ -4,26 +4,48 @@ import {GeoJsonLayer} from '@deck.gl/layers';
 import {MapController, LinearInterpolator, FlyToInterpolator} from '@deck.gl/core';
 import {BitmapLayer} from '@deck.gl/layers';
 import {TileLayer} from '@deck.gl/geo-layers';
+import {TextLayer} from '@deck.gl/layers';
 import {Component} from 'react';
 import _ from "lodash";
 import './index.less';
-import CustomPathLayer  from './layers/CustomPathLayer'
-import { EditableGeoJsonLayer, TransformMode, TranslateMode } from "nebula.gl";
 
-import MaskLayer from './layers/MaskLayer';
-import PolaroidAndPhoto from './layers/PolaroidAndPhoto';
+import CustomPathLayer  from './layers/CustomPathLayer'
+import AnimatedThingLayer  from './layers/AnimatedThingLayer'
+
+import { EditableGeoJsonLayer, TransformMode, TranslateMode } from "nebula.gl";
+import {SimpleMeshLayer} from '@deck.gl/mesh-layers';
+import {CubeGeometry} from '@luma.gl/core'
+
+import AssetLayer from './layers/AssetLayer';
+import EditLayer from './layers/EditLayer';
+
+import {OBJLoader} from '@loaders.gl/obj';
 
 import {bbox}  from '@turf/turf'
 import gql from "graphql-tag";
 import {AmbientLight, PointLight, DirectionalLight, LightingEffect} from '@deck.gl/core';
 
+import {_CameraLight as CameraLight} from '@deck.gl/core';
+
+const cl = new DirectionalLight({
+    color: [255, 255, 255],
+    direction: [1, 1, -1],
+    intensity: 0.8
+});
+
+const cl2 = new DirectionalLight({
+    color: [255, 255, 255],
+    direction: [1, 1, -1],
+    intensity: 0.8
+});
+
 // create ambient light source
 const ambientLight = new AmbientLight({
     color: [255, 255, 255],
-    intensity: 2.5
+    intensity: 0.4
 });
 
-const lightingEffect = new LightingEffect({ambientLight});
+const lightingEffect = new LightingEffect({ cl, cl2, ambientLight});
 
 
 const emptyFeatureCollection = {
@@ -33,34 +55,30 @@ const emptyFeatureCollection = {
     ]
 }
 
-const SAVE_SLIDE_DATA = gql`
-
-    mutation( $slide_id : Int,  $data : jsonb){
-                    update_card_slide(where: {id: {_eq: $slide_id}}, _set: { data: $data}) {
-                        returning {
-                                    id
-                                  }
-    }
-    }
-`;
+// const SAVE_SLIDE_DATA = gql`
+//
+//     mutation( $slide_id : Int,  $data : jsonb){
+//                     update_card_slide(where: {id: {_eq: $slide_id}}, _set: { data: $data}) {
+//                         returning {
+//                                     id
+//                                   }
+//     }
+//     }
+// `;
 
 export default class extends Component {
 
     constructor(props) {
         super(props);
-
+        this.state = {editingAsset : null};
         this.debounce  = _.debounce(e => e(), 300);
-
-        this.state = {
-            //data:       props.card && props.card.annotations ? props.card.annotations : myFeatureCollection,
-          //  viewState:  props.card && props.card.camera ? props.card.camera : {longitude: 1, latitude: 1, zoom: 1}
-        }
-
     }
 
     render() {
 
         const slide = this.props.card.slides[this.props.slideIndex];
+
+        //console.log( this.state.editingAsset);
 
         let layers = [
 
@@ -68,10 +86,6 @@ export default class extends Component {
                 id: 'TileLayer',
                 data: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                 tileSize: 256,
-
-                // onClick : (e) => {
-                //     this.props.updateLandscape({variables : {card_id : this.props.card.id, landscapecamera : { longitude : e.coordinate[0], latitude : e.coordinate[1]}}});
-                // },
 
                 renderSubLayers: props => {
                     const {
@@ -81,8 +95,6 @@ export default class extends Component {
                     return new BitmapLayer(props, {
                         data: null,
                         desaturate : 1,
-                        //opacity : 0.7,
-                        //transparentColor : [0,0,0,0],
                         image: props.data,
                         bounds: [west, south, east, north]
                     });
@@ -90,16 +102,15 @@ export default class extends Component {
                // pickable: true,
             }),
 
-
             new GeoJsonLayer({
                 id: 'route-layer',
                 data : this.props.card.data || emptyFeatureCollection,
                 lineWidthScale: 1,
-                lineWidthMinPixels: 12,
+                lineWidthMinPixels: 8,
                 lineWidthMaxPixels: 14,
                 getLineColor: [255, 238,100, 255],
                 getRadius: 100,
-                getLineWidth: 20,
+                getLineWidth: 10,
                 //modelMatrix : new Matrix4().makeTranslation(0,0,10 ),
 
                 _subLayerProps: {
@@ -108,40 +119,52 @@ export default class extends Component {
 
             }),
 
-          new EditableGeoJsonLayer({
-                id: 'mask-editor',
-                data:  this.props.slidePhotoRotation.position,
-                opacity : 1,
-                mode: TranslateMode,
-                selectedFeatureIndexes: [0],
+           slide.assets.map((a, i) => new AssetLayer({ id : 'fgfdgfd' + i, onClick: () => { this.setState({editingAsset : a})}, scenegraph: a.type, asset : a})),
 
-                _subLayerProps: {
-                    geojson: {
-                        getFillColor: (feature) => [255,0,255,0],
-                        getLineColor: (feature) => [255,255,255,0],
-                        pointRadiusMinPixels : 100
-                    }
-                },
+           this.state.editingAsset && new EditLayer({asset : this.state.editingAsset}),
 
-                onEdit: (event) => {
+            false &&  new SimpleMeshLayer({
+                id: 'mesh-layer',
+               data: [
+                   {
+                       "name": "Lafayette (LAFY)",
+                       "code": "LF",
+                       "address": "3601 Deer Hill Road, Lafayette CA 94549",
+                       "entries": "3481",
+                       "exits": "3616",
+                       "coordinates": [
+                           -2.9878563941855183,54.51836319674894
+                       ]
+                   }
+               ],
+               mesh: '/textures/paper2.obj',
+               sizeScale: 100,
+               texture: '/textures/looking.jpg',
+               getColor: d => [10, 140, 222],
+               getPosition: d => d.coordinates,
+                getTranslation : [0,0,100],
+               loaders: [OBJLoader],
 
-                    const { updatedData, editType } = event;
-
-                    this.props.setSlidePhotoRotation({ ...this.props.slidePhotoRotation, position : updatedData});
-                    // if (editType === 'rotated' || editType === 'translated') {
-                    //     const slide = that.props.card.slides[that.props.slideIndex];
-                    //     this.props.client.mutate({mutation: SAVE_SLIDE_DATA, variables : {slide_id : slide.id, data : {...slide.data, geojson : updatedData} } });
-                    // }
-
-                }
+                //getColor: d => d.color,
+                getOrientation: d => [0, 190, 90]
             }),
 
-            slide.data.pointB ? new PolaroidAndPhoto({
-                id : "media",
-                data : [{
-                    position    : this.props.slidePhotoRotation.position.features[0].geometry.coordinates,
-                    scale       : this.props.slidePhotoRotation.scale,
-                    angle       : this.props.slidePhotoRotation.rotation}]}) : null
+            ///new AnimatedThingLayer({center : [ -2.978496551513672, 54.533135289883056 ]}),
+
+            new TextLayer({
+                id: 'text-layer',
+                data : [1],
+                pickable: true,
+                getPosition: d => [ -2.978496551513672, 54.533135289883056 ],
+                getText: d => 'A fun day out',
+                getSize: 40,
+                sizeUnits : 'meters',
+                getAngle: 32,
+                billboard : false,
+                getTextAnchor: 'middle',
+                fontFamily : 'DJB Sand Shoes and a Fez',
+                getAlignmentBaseline: 'center'
+            })
 
             ];
 
@@ -156,10 +179,11 @@ export default class extends Component {
             handleEvent(event) {
 
                 super.handleEvent(event);
-
+                //console.log(event.type);
                 if ((event.type === 'panend' || event.type === 'wheel' )) {
+
                     const slide = that.props.card.slides[that.props.slideIndex];
-                   that.debounce(() => that.props.updateSlide({variables : {slide_id : slide.id,  camera : this.controllerState._viewportProps}}));
+                    that.debounce(() => that.props.updateSlide({variables : {slide_id : slide.id,  data :  {...slide.data, pointB : that.props.slidePhotoRotation}, camera : this.controllerState._viewportProps}}));
                 }
             }
         }
@@ -177,10 +201,11 @@ export default class extends Component {
                             viewState={this.props.viewState}
                             //controller={true}
                             controller={{type: controller, inertia: true, touchRotate : true, dragRotate : true, scrollZoom: true, doubleClickZoom : false}}
-                            _animate={false}
+                            _animate={true}
                             height="100%"
                             width="100%"
                             effects={[lightingEffect]}
+                            //effects={[lightingEffect]}
                             ref={deck => {
                                 this.deckGL = deck;
                             }}

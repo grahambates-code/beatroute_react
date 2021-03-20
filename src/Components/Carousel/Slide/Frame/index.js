@@ -12,6 +12,7 @@ import ListMedia from '../SlideMedia/ListMedia'
 import DeleteSlide from '../SlideMedia/DeleteSlide'
 import AdjustRotation from '../SlideMedia/AdjustRotation'
 import EditText from '../SlideMedia/EditText'
+import AddAsset from '../SlideMedia/AddAsset'
 
 export default ({setLocked, card, slide, refetch, slideIndex, setSlideIndex, viewState,slidePhotoRotation, setSlidePhotoRotation}) => {
 
@@ -24,6 +25,8 @@ export default ({setLocked, card, slide, refetch, slideIndex, setSlideIndex, vie
         {edit && <EditText slideIndex={slideIndex} edit={edit} slide={slide} refetch={refetch} setSlideIndex={setSlideIndex}/> }
 
         <DeleteSlide slide={slide} refetch={refetch}/>
+
+        <AddAsset slide={slide} refetch={refetch} viewState={viewState} type={'/textures/arrow2.glb'}/>
 
         <br/>
 
@@ -41,7 +44,7 @@ export default ({setLocked, card, slide, refetch, slideIndex, setSlideIndex, vie
 
         {/*<RemovePhoto slide={slide} refetch={refetch} viewState={viewState}/>*/}
 
-        <ListMedia slide={slide} refetch={refetch} viewState={viewState} />
+        {viewState && <ListMedia slide={slide} refetch={refetch} viewState={viewState} /> }
 
         <br/>
 

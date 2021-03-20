@@ -21,7 +21,7 @@ export default ({edit, slide, refetch, slideIndex, setSlideIndex}) => <Mutation 
 
         return <div contentEditable={edit} suppressContentEditableWarning={true} onBlur={(e) => updateSlide({
             variables: {
-                data: {text : e.currentTarget.textContent},
+                data: {...slide.data, text : e.currentTarget.textContent},
                 slide_id: slide.id
             }
         })

@@ -49,7 +49,7 @@ registerRoute(
 registerRoute(
     // Cache Image File
     /.*\.(?:png|jpg|jpeg|svg|gif)/,
-    cacheFirst({
+    new CacheFirst({
         cacheName: 'images',
         plugins: [
             new ExpirationPlugin({

@@ -1,0 +1,59 @@
+import { CompositeLayer } from '@deck.gl/core';
+import {BitmapLayer} from '@deck.gl/layers';
+import GL from '@luma.gl/constants';
+import * as turf from "@turf/turf";
+import { EditableGeoJsonLayer, TransformMode, TranslateMode } from "nebula.gl";
+
+const VISIBLE = 1;
+
+export default class MaskLayer extends CompositeLayer {
+
+    initializeState() {
+        const { asset } = this.props;
+
+        console.log(turf.feature(([  -2.8729248046875, 54.54339315407258 ])));
+       // this.setState({position : turf.feature([  -2.8729248046875, 54.54339315407258 ])});
+    }
+
+    renderLayers() {
+
+       const { asset } = this.props;
+
+       console.log(this.state.position);
+
+       const edit = new EditableGeoJsonLayer({
+              id: 'mask-editor',
+              data:  this.state.position,
+              opacity : VISIBLE,
+              mode: TranslateMode,
+              selectedFeatureIndexes: [0],
+
+              _subLayerProps: {
+                  geojson: {
+                      getFillColor: () => [255,0,255,255],
+                      getLineColor: () => [255,255,255,255],
+                      pointRadiusMinPixels : 50,
+                      pointRadiusMaxPixels : 50
+                  }
+              },
+
+              onEdit: (event) => {
+
+                  const { updatedData, editType } = event;
+
+                 // console.log(updatedData);
+                  this.setState({position : updatedData});
+                  //this.props.setSlidePhotoRotation({ ...this.props.slidePhotoRotation, position : updatedData});
+                  if (editType === 'rotated' || editType === 'translated') {
+                      alert(asset.id);
+                      //this.props.client.mutate({mutation: SAVE_SLIDE_DATA, variables : {slide_id : slide.id, data : {...slide.data, geojson : updatedData} } });
+                   }
+
+              }
+          })
+
+        return [  edit ];
+    }
+}
+
+MaskLayer.componentName = 'EditLayer';
