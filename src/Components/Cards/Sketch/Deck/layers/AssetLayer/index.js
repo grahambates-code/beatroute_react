@@ -32,19 +32,23 @@ export default class AssetLayer extends CompositeLayer {
 
                 pickable: true,
 
-                scenegraph,
+                scenegraph : asset.type,
 
-                getPosition: d => d.position,
+                opacity : 1,
 
-                getTranslation : d=> d.translation,
+                getPosition: asset => asset.position,
 
-                getOrientation: d => [0, d.rotation, 90 ],
+                getTranslation : asset=> asset.translation,
 
-                getScale: (d) =>[d.scale,d.scale,d.scale],
+                getOrientation: asset => [0, asset.rotation, 90 ],
+
+                getScale: (asset) =>[asset.scale,asset.scale,asset.scale],
 
                 sizeScale: 4,
 
-                // _lighting: 'flat'
+                //getColor : [0,0,200, 200]
+
+                 _lighting: 'pbr'
             })
 
         ];

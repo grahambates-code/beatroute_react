@@ -4,6 +4,7 @@ import GL from '@luma.gl/constants';
 import * as turf from "@turf/turf";
 import { EditableGeoJsonLayer, TransformMode, TranslateMode } from "nebula.gl";
 import gql from "graphql-tag";
+import AssetLayer from "../AssetLayer";
 
 const VISIBLE = 1;
 
@@ -16,7 +17,7 @@ const SAVE_ASSET_POSITION = gql `mutation MyMutation($id : Int, $position : json
 }
 `
 
-export default class MaskLayer extends CompositeLayer {
+export default class EditLayer extends CompositeLayer {
 
     initializeState() {
         const { asset } = this.props;
@@ -29,7 +30,7 @@ export default class MaskLayer extends CompositeLayer {
 
        const { asset } = this.props;
 
-       console.log(this.state.position);
+      // console.log(this.state.position);
 
        const edit = new EditableGeoJsonLayer({
               id: 'mask-editor',
@@ -42,8 +43,8 @@ export default class MaskLayer extends CompositeLayer {
                   geojson: {
                       getFillColor: () => [255,0,255,255],
                       getLineColor: () => [255,255,255,255],
-                      pointRadiusMinPixels : 50,
-                      pointRadiusMaxPixels : 50
+                      pointRadiusMinPixels : 20,
+                      pointRadiusMaxPixels : 20
                   }
               },
 
@@ -61,8 +62,10 @@ export default class MaskLayer extends CompositeLayer {
               }
           })
 
-        return [  edit ];
+        const assetL = new AssetLayer({ id : 'fgfdgfsd', asset : {...asset, position : this.state.position.features[0].geometry.coordinates} });
+
+        return [  edit, assetL ];
     }
 }
 
-MaskLayer.componentName = 'EditLayer';
+EditLayer.componentName = 'EditLayer';

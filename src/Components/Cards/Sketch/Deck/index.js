@@ -42,10 +42,10 @@ const cl2 = new DirectionalLight({
 // create ambient light source
 const ambientLight = new AmbientLight({
     color: [255, 255, 255],
-    intensity: 0.4
+    intensity: 1
 });
 
-const lightingEffect = new LightingEffect({ cl, cl2, ambientLight});
+const lightingEffect = new LightingEffect({  cl2});
 
 
 const emptyFeatureCollection = {
@@ -70,7 +70,7 @@ export default class extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {editingAsset : null};
+        this.state = {};
         this.debounce  = _.debounce(e => e(), 300);
     }
 
@@ -78,11 +78,11 @@ export default class extends Component {
 
         const slide = this.props.card.slides[this.props.slideIndex];
 
-        //console.log( this.state.editingAsset);
+        //console.log(  this.props.selectedAsset );
 
         let layers = [
 
-            new TileLayer({
+            true && new TileLayer({
                 id: 'TileLayer',
                 data: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                 tileSize: 256,
@@ -119,9 +119,11 @@ export default class extends Component {
 
             }),
 
-           slide.assets.map((a, i) => new AssetLayer({ id : 'fgfdgfd' + i, onClick: () => { this.setState({editingAsset : a})}, scenegraph: a.type, asset : a})),
+           slide.assets.map((a, i) => new AssetLayer({ id : 'fgfdgfd' + i, onClick: () => { this.props.setSelectedAsset(a)}, asset : a})),
 
-           this.state.editingAsset && new EditLayer({refetch : this.props.refetch, client : this.props.client, asset : this.state.editingAsset}),
+           this.props.selectedAsset && new EditLayer({refetch : this.props.refetch, client : this.props.client, asset : this.props.selectedAsset}),
+
+
 
             false &&  new SimpleMeshLayer({
                 id: 'mesh-layer',
@@ -179,7 +181,7 @@ export default class extends Component {
             handleEvent(event) {
 
                 super.handleEvent(event);
-                //console.log(event.type);
+
                 if ((event.type === 'panend' || event.type === 'wheel' )) {
 
                     const slide = that.props.card.slides[that.props.slideIndex];
@@ -201,7 +203,7 @@ export default class extends Component {
                             viewState={this.props.viewState}
                             //controller={true}
                             controller={{type: controller, inertia: true, touchRotate : true, dragRotate : true, scrollZoom: true, doubleClickZoom : false}}
-                            _animate={true}
+                           // _animate={true}
                             height="100%"
                             width="100%"
                             effects={[lightingEffect]}
