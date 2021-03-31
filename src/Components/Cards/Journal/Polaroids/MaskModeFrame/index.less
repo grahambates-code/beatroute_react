@@ -1,0 +1,30 @@
+.mask-mode-frame {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    background-image: url('/public/textures/polaroid_frame.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+
+
+    &-img {
+        pointer-events: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50%;
+        mask-mode: alpha;
+        mask-repeat: no-repeat;
+        mask-type: luminance;
+        mask-clip: border-box;
+        mask-size: 100% 100%;
+        mask-image: url('/public/textures/polaroid_mask.png');
+
+        img {
+            width: 100%;
+        }
+    }
+}
+

@@ -18,19 +18,31 @@ export default ({trip, refetch}) => {
 
         {showButtons && <div>
 
-            <AddFront trip={trip} refetch={refetch}/>
+            <h1>Journal </h1>
+
+            <AddFront trip={trip} refetch={refetch} type={'JournalFront'}/>
 
             <br/>
 
-            <AddTitle trip={trip} refetch={refetch}/>
+            <AddTitle trip={trip} refetch={refetch} type={'JournalTitle'}/>
 
             <br/>
 
-            <AddMap trip={trip} refetch={refetch}/>
+            <AddSketch trip={trip} refetch={refetch} type={'JournalSketch'}/>
+
+
+
+            <h1>Pro </h1>
+
+            <AddFront trip={trip} refetch={refetch} type={'ProFront'}/>
 
             <br/>
 
-            <AddSketch trip={trip} refetch={refetch}/>
+            <AddTitle trip={trip} refetch={refetch} type={'ProTitle'}/>
+
+            <br/>
+
+            <AddSketch trip={trip} refetch={refetch} type={'ProSketch'}/>
 
 
         </div> }

@@ -4,8 +4,8 @@ import gql from "graphql-tag";
 
 const ADD_FRONT = gql`
 
-mutation MyMutation($trip_id : Int) {
-  insert_cards(objects: {trip_id: $trip_id, type: "Front"}) {
+mutation MyMutation($trip_id : Int, $type : String) {
+  insert_card(objects: {trip_id: $trip_id, type: $type}) {
     returning {
       id
     }
@@ -13,7 +13,7 @@ mutation MyMutation($trip_id : Int) {
 }
 `;
 
-export default ({trip, refetch}) => {
+export default ({trip, refetch, type}) => {
 
     return <div>
 
@@ -21,7 +21,7 @@ export default ({trip, refetch}) => {
             onError={() => alert('Could not add front card')}
             onCompleted={() => refetch()}
             mutation={ADD_FRONT}
-            variables={{trip_id : trip.id}}
+            variables={{trip_id : trip.id, type}}
         >
 
             {(addFront, {loading, error}) => {

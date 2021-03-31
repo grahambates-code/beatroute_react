@@ -19,16 +19,12 @@ import * as portals from 'react-reverse-portal';
 import {coordEach} from '@turf/meta';
 
 import AddPhoto  from "./Components/Photos/Add";
-import Deck       from "./Components/Cards/Sketch/Deck";
 
-import Front        from "./Components/Cards/Front";
-import Title        from "./Components/Cards/Title";
-import Sketch     from "./Components/Cards/Sketch";
-import Polaroids  from "./Components/Cards/Polaroids/HTML";
+import JournalFront        from "./Components/Cards/Journal/Front";
+import JournalTitle        from "./Components/Cards/Journal/Title";
+import JournalSketch     from "./Components/Cards/Journal/Sketch";
 
 import CardAdder from './Components/Adder';
-import SimpleRichTextEditor from "./Components/Cards/Title/Editor";
-//import CarouselExample from './Components/Carousel/CarouselExample';
 
 const GETCARD = gql`
                {
@@ -40,7 +36,7 @@ const GETCARD = gql`
                 owners:owner(where: {id: {_eq: "cyclefriendly"}}) {
                   id
                   
-                  trips(where: {url: {_eq: "lakes2021"}}) {
+                  trips(where: {url: {_eq: "lakes2022"}}) {
                     id
                     name
                     url
@@ -112,7 +108,6 @@ const App = () => {
 
   const admin = true;
 
-  //return <SimpleRichTextEditor/>
  return (
     <div className="App">
 
@@ -127,7 +122,7 @@ const App = () => {
             const cards = data.owners[0].trips[0].cards;
             const stillLoading = loadedCount < cards.length;
 
-            trip.cards.forEach(c => {
+            trip.cards.filter(d => d.type === 'JournalSketch').forEach(c => {
               coordEach(c.data, function(coords) {
                 if (coords.length > 2) coords.pop();
               });
@@ -157,46 +152,16 @@ const App = () => {
 
                         {cards.map((card, i) => {
 
-                          if (card.type === 'Front') {
-                            return <div className="App-section" key={i} >
-                                    {admin && <code>{card.id}</code>}
-                                     <Front key={i + '' + card.id} trip={trip} card={card} index={i}/>
-                                   </div>
-                          }
-
-                          if (card.type === 'Title') {
-                            return <div className="App-section" key={i} >
-                              {admin && <code>{card.id}</code>}
-                              <Title key={i + '' + card.id} card={card} i={i}/>
-                            </div>
-                          }
-
-                          if (true && card.type === 'Sketch') {
-
-                            return  <div className="App-section" key={i} >
-                              { admin && <code>{JSON.stringify(card.id)}</code>}
-                              <Sketch client={client} trip={trip} portalNode2={portalNode2} width={width < 500 ? width : 500} admin={admin} stillLoading={stillLoading} incrementLoadedCount={() => setLoadedCount(loadedCount + 1)} key={i + '' + card.id} index={i} card={card} refetch={refetch}/>
-                            </div>
-                          }
-
-                          if (card.type === 'Polaroid') {
-
-                            return  <div className="App-section" key={i} >
-                              {admin && <code>{card.id}</code>}
-                              <Polaroids width={width < 500 ? width : 500} admin={admin} stillLoading={stillLoading} incrementLoadedCount={() => setLoadedCount(loadedCount + 1)} key={i + '' + card.id} index={i} card={card} refetch={refetch}/>
-                            </div>
-                          }
-
-                          return null;
+                          return <div className="App-section" key={i} >
+                            { card.type === 'JournalFront'  && <JournalFront   key={i + '' + card.id}  card={card} trip={trip}  index={i} client={client} /> }
+                            { card.type === 'JournalTitle'  && <JournalTitle   key={i + '' + card.id}  card={card} trip={trip} index={i} client={client} />}
+                            { card.type === 'JournalSketch' && <JournalSketch  key={i + '' + card.id}  card={card} trip={trip} portalNode2={portalNode2} width={width < 500 ? width : 500} admin={admin} stillLoading={stillLoading} incrementLoadedCount={() => setLoadedCount(loadedCount + 1)} index={i}  refetch={refetch}/> }
+                          </div>
                         })}
 
-                        <div className="xApp-section" style={{height : '100%'}}>
+                        <div className="App-section" style={{height : '100%'}}>
                           <CardAdder trip={trip} refetch={refetch}/>
                         </div>
-
-                        <div ref={measureRef}>My width is {width}</div>
-
-
 
                       </main>
                     </div>
