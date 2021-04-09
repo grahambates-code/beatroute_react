@@ -155,7 +155,7 @@ const App = () => {
                           return <div className="App-section" key={i} >
                             { card.type === 'JournalFront'  && <JournalFront   key={i + '' + card.id}  card={card} trip={trip}  index={i} client={client} /> }
                             { card.type === 'JournalTitle'  && <JournalTitle   key={i + '' + card.id}  card={card} trip={trip} index={i} client={client} />}
-                            { card.type === 'JournalSketch' && <JournalSketch  key={i + '' + card.id}  card={card} trip={trip} portalNode2={portalNode2} width={width < 500 ? width : 500} admin={admin} stillLoading={stillLoading} incrementLoadedCount={() => setLoadedCount(loadedCount + 1)} index={i}  refetch={refetch}/> }
+                            { card.type === 'JournalSketch' && <JournalSketch  key={i + '' + card.id}  card={card} trip={trip} index={i} client={client} portalNode2={portalNode2} width={width < 500 ? width : 500} admin={admin} stillLoading={stillLoading} incrementLoadedCount={() => setLoadedCount(loadedCount + 1)} index={i} refetch={refetch}/> }
                           </div>
                         })}
 

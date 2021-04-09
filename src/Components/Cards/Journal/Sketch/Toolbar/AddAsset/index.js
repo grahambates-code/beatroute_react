@@ -14,9 +14,9 @@ mutation MyMutationn($slide_id : Int, $scale : numeric, $rotation : numeric, $ty
 
 `;
 
-const MyMutationMutation = ({refetch, slide, type}) => {
+const MyMutationMutation = ({refetch, slide, type, viewState}) => {
 
-    const data = {"scale":100,"position":[-2.96,54.531],"rotation":50, translation : [0,0,0]};
+    const data = {"scale":100,"position":[viewState.longitude,viewState.latitude],"rotation":50, translation : [0,0,0]};
 
     return (
         <Mutation

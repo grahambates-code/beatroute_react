@@ -3,36 +3,21 @@ import { ScenegraphLayer} from '@deck.gl/mesh-layers';
 
 export default class AssetLayer extends CompositeLayer {
 
-    // initializeState() {
-    //
-    //     let self = this;
-    //
-    //     this.setState({ });
-    // }
-    //
-    // shouldUpdateState({ changeFlags }) {
-    //     return changeFlags.somethingChanged;
-    // }
-    //
-    // finalizeState() {
-    //     super.finalizeState();
-    // }
-
     renderLayers() {
-        //const {  } = this.state;
-        const { asset } = this.props;
+
+        const { data, type } = this.props;
 
         return [
 
             new ScenegraphLayer({
 
-                id: 'scenegraph-layer' + asset.id,
+                id: 'scenegraph-layer' + type,
 
-                data : [asset],
+                data :data,
 
                 pickable: true,
 
-                scenegraph : asset.type,
+                scenegraph : type,
 
                 opacity : 1,
 
@@ -44,7 +29,7 @@ export default class AssetLayer extends CompositeLayer {
 
                 getScale: (asset) =>[asset.scale,asset.scale,asset.scale],
 
-                sizeScale: 4,
+                sizeScale: 20000,
 
                  _lighting: 'pbr'
             })

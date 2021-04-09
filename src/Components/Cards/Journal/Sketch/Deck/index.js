@@ -50,7 +50,7 @@ export default class extends Component {
         const slide = this.props.card.slides[this.props.slideIndex];
 
         let layers = [
-           new JournalMap({slide : slide, refetch : this.props.refetch, client : this.props.client, trip : this.props.trip, width : this.props.width, data : this.props.card.data || emptyFeatureCollection}),
+           new JournalMap({ selectedAsset : slide.assets[0], slide : slide, refetch : this.props.refetch, client : this.props.client, trip : this.props.trip, width : this.props.width, data : this.props.card.data || emptyFeatureCollection}),
         ];
 
         let that = this;

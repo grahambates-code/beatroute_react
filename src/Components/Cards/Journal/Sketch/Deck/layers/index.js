@@ -5,7 +5,9 @@ import GL from '@luma.gl/constants';
 import CustomPathLayer from "./CustomPathLayer";
 import JournalMaskLayer from "./Masks/JournalMaskLayer";
 import AssetLayer from "./AssetLayer";
-import { ScenegraphLayer} from '@deck.gl/mesh-layers';
+import EditLayer from "./EditLayer";
+
+import _ from 'lodash';
 
 export default class JournalMap extends CompositeLayer {
 
@@ -20,9 +22,6 @@ export default class JournalMap extends CompositeLayer {
     }
 
     shouldUpdateState({ changeFlags }) {
-
-
-
         return changeFlags.somethingChanged;
     }
 
@@ -99,16 +98,16 @@ export default class JournalMap extends CompositeLayer {
             }
         });
 
-        let asset = slide.assets[0];
+        let grouped = _(slide.assets)
+                .groupBy(x => x.type)
+                .map((value, key) => ({type: key, assets: value}))
+                .value();
 
+        let assets = grouped.map(a =>  new AssetLayer({ data : a.assets, type : a.type}));
 
+        let selectedAssetLayer = selectedAsset && new EditLayer({refetch : refetch, client : client, asset : selectedAsset});
 
-        let assets = slide.assets.filter(a => a.id !== selectedAsset?.id).map((a, i) => new AssetLayer({ id : 'fgfdgfd' + i, onClick: () => { setSelectedAsset(a)}, asset : a}));
-
-        //let selectedAssetLayer = selectedAsset && new EditLayer({refetch : refetch, client : client, asset : selectedAsset});
-
-
-        return [  tilelayer, route, text, assets, masklayer];
+        return [  tilelayer, route, text, assets, selectedAssetLayer, masklayer    ];
     }
 }
 

@@ -33,13 +33,16 @@ export default class extends Component {
 
         let {client} = this.props;
 
-        let setViewState            = (p) => this.setState({viewState    : p});
-        let setSelectedAsset        = (p) => this.setState({selectedAsset    : p});
-        let setSlidePhotoRotation   = (p) => this.setState({slidePhotoRotation    : p});
+        let setViewState            = (p) => this.setState({viewState           : p});
+        let setSelectedAsset        = (p) => this.setState({selectedAsset       : p});
+        let setSlidePhotoRotation   = (p) => this.setState({slidePhotoRotation  : p});
+        let setSlideIndex           = (p) => this.setState({slideIndex          : p});
 
         let props = this.props;
 
         let slide = props.card.slides[0];
+
+        console.log(client);
 
         return <div className="sketch-card">
                     <div>
@@ -56,9 +59,9 @@ export default class extends Component {
 
                                         <Deck slide={slide} setSelectedAsset={setSelectedAsset} selectedAsset={selectedAsset} client={client} slideIndex={slideIndex} refetch={props.refetch} viewState={viewState} setViewState={setViewState} width={props.width} updateSlide={updateSlide} updateSlideMedia={updateSlideMedia} updateMap={updateMap} updateAnnotation={updateAnnotation} trip={props.trip} card={props.card} />
 
-                                        <Slides/>
+                                        <Slides updateSlide={updateSlide} slideIndex={slideIndex} setSlideIndex={setSlideIndex} card={props.card} viewState={viewState}  setViewState={setViewState}/>
 
-                                        <Toolbar slide={slide} selectedAsset={selectedAsset} setSelectedAsset={setSelectedAsset} refetch={props.refetch}/>
+                                        <Toolbar slide={slide} selectedAsset={selectedAsset} setSelectedAsset={setSelectedAsset} refetch={props.refetch} viewState={viewState} setViewState={setViewState} />
 
                                         {/*<Slides slidePhotoRotation={slidePhotoRotation} setSlidePhotoRotation={setSlidePhotoRotation}  slideIndex={slideIndex} viewState={viewState}  setViewState={setViewState} refetch={props.refetch} card={props.card}/>*/}
 

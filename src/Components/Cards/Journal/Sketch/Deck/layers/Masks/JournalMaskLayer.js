@@ -27,7 +27,7 @@ export default class JournalMaskLayer extends CompositeLayer {
             bounds: bounds,
             image: './textures/hand-map-mask-04.png',
             parameters: {
-                depthTest: true,
+                depthTest: false,
                 depthMask: true,
                 blend: true,
                 blendEquation: GL.FUNC_ADD,
@@ -40,6 +40,11 @@ export default class JournalMaskLayer extends CompositeLayer {
             id: 'mask-bitmap-layer',
             bounds: bounds,
             image: './textures/hands-map-05.png',
+            parameters: {
+                depthTest: false,
+                depthMask: true,
+                blend: true,
+            }
         });
 
         return [ papermasklayer, handslayer];

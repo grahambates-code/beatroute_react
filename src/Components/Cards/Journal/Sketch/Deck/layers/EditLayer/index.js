@@ -6,7 +6,7 @@ import { EditableGeoJsonLayer, TransformMode, TranslateMode } from "nebula.gl";
 import gql from "graphql-tag";
 import AssetLayer from "../AssetLayer";
 
-const VISIBLE = 1;
+const VISIBLE = 0;
 
 const SAVE_ASSET_POSITION = gql `mutation MyMutation($id : Int, $position : jsonb) {
   update_asset(where: {id: {_eq: $id}}, _set: {position: $position}) {
@@ -56,15 +56,17 @@ export default class EditLayer extends CompositeLayer {
                   this.setState({position : updatedData});
                   //this.props.setSlidePhotoRotation({ ...this.props.slidePhotoRotation, position : updatedData});
                   if (editType === 'rotated' || editType === 'translated') {
-                      this.props.client.mutate({mutation: SAVE_ASSET_POSITION, variables : {id : asset.id, position : updatedData.features[0].geometry.coordinates } }).then(() => this.props.refetch());
+                      console.log(updatedData);
+                      console.log(this.props.client);
+                      this.props.client && this.props.client.mutate({mutation: SAVE_ASSET_POSITION, variables : {id : asset.id, position : updatedData.features[0].geometry.coordinates } }).then(() => this.props.refetch());
                    }
 
               }
           })
 
-        const assetL = new AssetLayer({ id : 'fgfdgfsd', asset : {...asset, position : this.state.position.features[0].geometry.coordinates} });
+       // const assetL = new AssetLayer({ id : 'fgfdgfsd', type : asset.type, data : [{...asset, position : this.state.position.features[0].geometry.coordinates}] });
 
-        return [  edit, assetL ];
+        return [  edit ];
     }
 }
 
