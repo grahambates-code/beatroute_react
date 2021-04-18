@@ -20,11 +20,16 @@ import {coordEach} from '@turf/meta';
 
 import AddPhoto  from "./Components/Photos/Add";
 
+
+
 import JournalFront        from "./Components/Cards/Journal/Front";
 import JournalTitle        from "./Components/Cards/Journal/Title";
 import JournalSketch     from "./Components/Cards/Journal/Sketch";
 
 import CardAdder from './Components/Adder';
+import * as THREE from "three";
+
+const loader = new THREE.FontLoader();
 
 const GETCARD = gql`
                {
@@ -57,6 +62,7 @@ const GETCARD = gql`
                                   translation
                                   rotation
                                   type
+                                  file
                           }
                       }
                       
@@ -100,11 +106,24 @@ const httpLink = new HttpLink({ uri: 'https://guided-viper-73.hasura.app/v1/grap
 
 const client = new ApolloClient({ link: (httpLink), cache: new InMemoryCache() });
 
+function loadJSON(url) {
+  return new Promise(resolve => {
+    loader.load(url, resolve);
+  });
+}
+
+
 const App = () => {
 
   const portalNode2 = React.useMemo(() => portals.createHtmlPortalNode(), []);
 
   const [loadedCount, setLoadedCount] = useState(0);
+  const [font, setFont] = useState(null);
+
+  useEffect(async () => {
+     const result = await loadJSON( 'fonts/test.json');
+     setFont(result);
+  }, []);
 
   const admin = true;
 
@@ -155,7 +174,7 @@ const App = () => {
                           return <div className="App-section" key={i} >
                             { card.type === 'JournalFront'  && <JournalFront   key={i + '' + card.id}  card={card} trip={trip}  index={i} client={client} /> }
                             { card.type === 'JournalTitle'  && <JournalTitle   key={i + '' + card.id}  card={card} trip={trip} index={i} client={client} />}
-                            { card.type === 'JournalSketch' && <JournalSketch  key={i + '' + card.id}  card={card} trip={trip} index={i} client={client} portalNode2={portalNode2} width={width < 500 ? width : 500} admin={admin} stillLoading={stillLoading} incrementLoadedCount={() => setLoadedCount(loadedCount + 1)} index={i} refetch={refetch}/> }
+                            { card.type === 'JournalSketch' && font && <JournalSketch  key={i + '' + card.id}  card={card} trip={trip} index={i} client={client} font={font} portalNode2={portalNode2} width={width < 500 ? width : 500} admin={admin} stillLoading={stillLoading} incrementLoadedCount={() => setLoadedCount(loadedCount + 1)} index={i} refetch={refetch}/> }
                           </div>
                         })}
 

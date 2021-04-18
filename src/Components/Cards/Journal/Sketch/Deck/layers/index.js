@@ -1,11 +1,14 @@
 import { CompositeLayer } from '@deck.gl/core';
-import {BitmapLayer, GeoJsonLayer, TextLayer} from '@deck.gl/layers';
+import {BitmapLayer, GeoJsonLayer} from '@deck.gl/layers';
 import {TileLayer} from '@deck.gl/geo-layers';
 import GL from '@luma.gl/constants';
 import CustomPathLayer from "./CustomPathLayer";
 import JournalMaskLayer from "./Masks/JournalMaskLayer";
 import AssetLayer from "./AssetLayer";
 import EditLayer from "./EditLayer";
+import HighlightLayer from "./HighlightLayer";
+import PhotoLayer from "./PhotoLayer";
+import TextLayer from "./TextLayer";
 
 import _ from 'lodash';
 
@@ -31,7 +34,7 @@ export default class JournalMap extends CompositeLayer {
 
     renderLayers() {
         const { altitude , cameraBearing} = this.state;
-        const {  image, out, center, title, client, refetch, slide,selectedAsset, setSelectedAsset } = this.props;
+        const {  font, image, out, center, title, client, refetch, slide,selectedAsset, setSelectedAsset } = this.props;
 
         const height = this.props.width;
         //lock the mask to the bounds of the 500x600 container
@@ -41,6 +44,8 @@ export default class JournalMap extends CompositeLayer {
         const br = (this.context.deck.viewManager._viewports[0].unproject([this.props.width,0],         {topLeft : false}));
 
         const bounds = [ bl, tl, tr, br ];
+
+        const zoom = (this.context.viewport.zoom);
 
         const masklayer = new JournalMaskLayer({ bounds: bounds });
 
@@ -60,18 +65,9 @@ export default class JournalMap extends CompositeLayer {
         });
 
         const text = new TextLayer({
-            id: 'text-layer',
             data : [1],
-            pickable: false,
-            getPosition: d => [ -2.978496551513672, 54.533135289883056 ],
-            getText: d => 'A fun day out',
-            getSize: 4000,
-            sizeUnits : 'meters',
-            getAngle: 32,
-            billboard : false,
-            getTextAnchor: 'middle',
-            fontFamily : 'DJB Sand Shoes and a Fez',
-            getAlignmentBaseline: 'center'
+            font,
+            text : 'Georgia' + slide.id
         });
 
         const tilelayer = new TileLayer({
@@ -98,16 +94,20 @@ export default class JournalMap extends CompositeLayer {
             }
         });
 
+        const hl = new HighlightLayer();
+
+        const pl = new PhotoLayer();
+
         let grouped = _(slide.assets)
-                .groupBy(x => x.type)
-                .map((value, key) => ({type: key, assets: value}))
+                .groupBy(x => x.file)
+                .map((value, key) => ({file: key, assets: value}))
                 .value();
 
-        let assets = grouped.map(a =>  new AssetLayer({ data : a.assets, type : a.type}));
+        let assets = grouped.map(a =>  new AssetLayer({ data : a.assets, file : a.file, type : a.type}));
 
         let selectedAssetLayer = selectedAsset && new EditLayer({refetch : refetch, client : client, asset : selectedAsset});
 
-        return [  tilelayer, route, text, assets, selectedAssetLayer, masklayer    ];
+        return [  tilelayer, hl, text, assets, selectedAssetLayer, masklayer, pl    ];
     }
 }
 

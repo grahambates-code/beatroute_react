@@ -5,19 +5,19 @@ export default class AssetLayer extends CompositeLayer {
 
     renderLayers() {
 
-        const { data, type } = this.props;
+        const { data, type, file } = this.props;
 
         return [
 
             new ScenegraphLayer({
 
-                id: 'scenegraph-layer' + type,
+                id: 'scenegraph-layer' + file,
 
                 data :data,
 
                 pickable: true,
 
-                scenegraph : type,
+                scenegraph : file,
 
                 opacity : 1,
 
@@ -29,7 +29,7 @@ export default class AssetLayer extends CompositeLayer {
 
                 getScale: (asset) =>[asset.scale,asset.scale,asset.scale],
 
-                sizeScale: 20000,
+                sizeScale: 25000,
 
                  _lighting: 'pbr'
             })

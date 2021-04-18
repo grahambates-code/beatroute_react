@@ -31,7 +31,7 @@ export default class extends Component {
 
         let {selectedAsset, slideIndex, viewState, slidePhotoRotation} = this.state;
 
-        let {client} = this.props;
+        let {client, font} = this.props;
 
         let setViewState            = (p) => this.setState({viewState           : p});
         let setSelectedAsset        = (p) => this.setState({selectedAsset       : p});
@@ -42,7 +42,7 @@ export default class extends Component {
 
         let slide = props.card.slides[0];
 
-        console.log(client);
+       // console.log(client);
 
         return <div className="sketch-card">
                     <div>
@@ -57,7 +57,7 @@ export default class extends Component {
 
                                         <Procedural location={{animationDuration : 10, longitude: 7.698941573782926, latitude: 45.74338484004915, height: 2183.358398660126, angle: 36.11883143607126, bearing: 70.35532994923864}}/>
 
-                                        <Deck slide={slide} setSelectedAsset={setSelectedAsset} selectedAsset={selectedAsset} client={client} slideIndex={slideIndex} refetch={props.refetch} viewState={viewState} setViewState={setViewState} width={props.width} updateSlide={updateSlide} updateSlideMedia={updateSlideMedia} updateMap={updateMap} updateAnnotation={updateAnnotation} trip={props.trip} card={props.card} />
+                                        <Deck font={font} slide={slide} setSelectedAsset={setSelectedAsset} selectedAsset={selectedAsset} client={client} slideIndex={slideIndex} refetch={props.refetch} viewState={viewState} setViewState={setViewState} width={props.width} updateSlide={updateSlide} updateSlideMedia={updateSlideMedia} updateMap={updateMap} updateAnnotation={updateAnnotation} trip={props.trip} card={props.card} />
 
                                         <Slides updateSlide={updateSlide} slideIndex={slideIndex} setSlideIndex={setSlideIndex} card={props.card} viewState={viewState}  setViewState={setViewState}/>
 
