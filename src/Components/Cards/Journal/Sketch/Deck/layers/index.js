@@ -65,9 +65,8 @@ export default class JournalMap extends CompositeLayer {
         });
 
         const text = new TextLayer({
-            data : [1],
-            font,
-            text : 'Georgia' + slide.id
+            data : slide.assets.filter(a => a.type === 'text'),
+            font
         });
 
         const tilelayer = new TileLayer({

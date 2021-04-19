@@ -6,21 +6,8 @@ export default class PolaroidAndPhotoLayer extends CompositeLayer {
 
     initializeState() {
         let self = this;
-        const plane = new CustomGeometry({ text : this.props. text, font : this.props.font,  holed  : false});
-        self.setState({plane : plane})
-    }
-
-    shouldUpdateState(a) {
-
-        let self = this;
-
-        if (a.oldProps.text != a.props.text) {
-            const plane = new CustomGeometry({ text : this.props. text, font : this.props.font,  holed  : false});
-            self.setState({plane : plane})
-        }
-
-
-        return a.changeFlags.somethingChanged;
+        let meshes = this.props.data.map((d) => ({id : d.id, mesh : new CustomGeometry({ text : d.file, font : this.props.font,  holed  : false})}))
+        self.setState({meshes : meshes});
     }
 
     finalizeState() {
@@ -29,23 +16,20 @@ export default class PolaroidAndPhotoLayer extends CompositeLayer {
 
     renderLayers() {
         const { } = this.state;
-        const { id , text } = this.props;
+        const { data } = this.props;
 
-        return [
+        return data.map(d => new SimpleMeshLayer({
+            id: 'text',
+            getOrientation: d => [0, 0,0],
+            getTranslation : [1,1,1],
+            getScale: [700,700,700],
+            opacity: 1,
+            data : data,
+            mesh: this.state.meshes.find(m => m.id === d.id).mesh,
+            getColor : [0,0,0],
+            getPosition : (d) => { return d.position},
+        }))
 
-            new SimpleMeshLayer({
-                id: 'photo' + id,
-                getOrientation: d => [0, 0,0],
-                getTranslation : [1,1,1],
-                getScale: [700,700,700],
-                opacity: 1,
-                data : [1],
-                mesh: this.state.plane,
-                getColor : [0,0,0],
-                getPosition : (d) => {
-                    return [ 39.111328125, 28.8831596093235]},
-            })
-        ];
     }
 }
 
