@@ -24,7 +24,7 @@ import AddPhoto  from "./Components/Photos/Add";
 
 import JournalCover        from "./Components/Cards/Journal/Cover";
 import JournalHeading      from "./Components/Cards/Journal/Heading";
-import JournalTitle        from "./Components/Cards/Journal/Text";
+import JournalText        from "./Components/Cards/Journal/Text";
 import JournalMap       from "./Components/Cards/Journal/Map";
 
 import CardAdder from './Components/Adder';
@@ -175,7 +175,7 @@ const App = () => {
                           return <div className="App-section" key={i} >
                             { card.type === 'JournalFront'    && <JournalCover        key={i + '' + card.id}  card={card} trip={trip}  index={i} client={client} /> }
                             { card.type === 'JournalHeading'  && <JournalHeading      key={i + '' + card.id}  card={card} trip={trip}  index={i} client={client} /> }
-                            { card.type === 'JournalTitle'    && <JournalTitle        key={i + '' + card.id}  card={card} trip={trip} index={i} client={client} />}
+                            { card.type === 'JournalText'    && <JournalText        key={i + '' + card.id}  card={card} trip={trip} index={i} client={client} />}
                             { card.type === 'JournalMap'   && font && <JournalMap  key={i + '' + card.id}  card={card} trip={trip} index={i} client={client} font={font} portalNode2={portalNode2} width={width < 500 ? width : 500} admin={admin} stillLoading={stillLoading} incrementLoadedCount={() => setLoadedCount(loadedCount + 1)} index={i} refetch={refetch}/> }
                           </div>
                         })}
