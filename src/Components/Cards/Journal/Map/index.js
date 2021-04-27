@@ -8,6 +8,9 @@ import Toolbar from './Toolbar'
 import Slides from "./Slides";
 
 import './index.less';
+import Overlay from "../../Common/Overlay";
+import {Button} from "./Toolbar/Button";
+import Frame from "../../Common/Frame";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -39,9 +42,7 @@ export default class extends Component {
 
         let slide = props.card.slides[0];
 
-       // console.log(client);
-
-        return <div className="sketch-card">
+        return <Overlay card={props.card} button={<Button/>}> <div className="sketch-card">
                     <div>
 
                         {true && <CardSaver refetch={props.refetch}>
@@ -58,15 +59,13 @@ export default class extends Component {
 
                                         <Toolbar slide={slide} selectedAsset={selectedAsset} setSelectedAsset={setSelectedAsset} refetch={props.refetch} viewState={viewState} setViewState={setViewState} />
 
-                                        {/*<Slides slidePhotoRotation={slidePhotoRotation} setSlidePhotoRotation={setSlidePhotoRotation}  slideIndex={slideIndex} viewState={viewState}  setViewState={setViewState} refetch={props.refetch} card={props.card}/>*/}
-
                                     </div>
                                 }
                             }
                         </CardSaver> }
 
                     </div>
-                </div>
+                </div>  </Overlay>
     }
 }
 

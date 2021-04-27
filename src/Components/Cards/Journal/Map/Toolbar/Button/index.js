@@ -47,7 +47,7 @@ const actions = [
 
 export function Button() {
     const classes = useStyles();
-    const [direction, setDirection] = React.useState('down');
+    const [direction, setDirection] = React.useState('left');
     const [open, setOpen] = React.useState(false);
     const [hidden, setHidden] = React.useState(false);
 

@@ -23,7 +23,7 @@ export default ({trip, refetch}) => {
 
             <br/>
 
-            <AddTitle trip={trip} refetch={refetch} type={'JournalTitle'}/>
+            <AddTitle trip={trip} refetch={refetch} type={'JournalText'}/>
 
             <br/>
 

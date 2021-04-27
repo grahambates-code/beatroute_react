@@ -11,6 +11,10 @@ class Overlay extends Component {
       return (
         <div className={'Overlay'}>
 
+            <div className={'title'}>
+                <pre>{this.props.card.id + " " + this.props.card.type}</pre>
+            </div>
+
             <div className={'button'}>
                 {this.props.button}
             </div>

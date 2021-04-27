@@ -27,7 +27,7 @@ export default ({trip, refetch, type}) => {
             {(add, {loading, error}) => {
 
                 return <wired-button elevation="2" onClick={ add }>
-                            Add Title
+                            Add Text
                         </wired-button>
 
             }}

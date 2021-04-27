@@ -2,7 +2,7 @@ import React, {useState, useEffect, Fragment} from 'react'
 import './index.less'
 import {Mutation} from "react-apollo";
 import gql from "graphql-tag";
-import MapOverlay from "../../Common/Overlay";
+import Overlay from "../../Common/Overlay";
 import {Button} from "../Map/Toolbar/Button";
 import Frame from "../../Common/Frame";
 
@@ -39,9 +39,9 @@ export default ({card, i}) => {
 
     return <div className={'blue paper'}>
 
-        <MapOverlay button={<Button/>}>
+        <Overlay card={card} button={<Button/>}>
             <T card={card} i={i}/>
-        </MapOverlay>
+        </Overlay>
 
     </div>
 
