@@ -15,7 +15,6 @@ export default class PhotoLayer extends CompositeLayer {
 
                 data :[
                     {position : [ 40.45166015625, 43.3419109985686]},
-                    {position : [ 40.45166015625, 43.30019109985686]}
                 ],
 
                 pickable: true,
@@ -26,10 +25,11 @@ export default class PhotoLayer extends CompositeLayer {
 
                 getPosition: p => p.position,
 
-                getTranslation : asset=> [0,0,100],
+                getTranslation : asset=> [0,0,-200],
 
+                getScale: (asset) =>[300,300,300],
 
-                sizeScale: 55000,
+                sizeScale: 5500,
 
                // _lighting: 'pbr'
             })

@@ -29,7 +29,7 @@ export default ({card, i}) => {
                         }
                     })}
                                contentEditable suppressContentEditableWarning={true}>
-                        { card.data.text || 'Enter Text'}
+                        { card.data?.text || 'Enter Text'}
                     </h1>
 
                 } }

@@ -25,7 +25,7 @@ export default class JournalMaskLayer extends CompositeLayer {
         const papermasklayer = new BitmapLayer({
             id: 'mask-bitmap-paper-layer',
             bounds: bounds,
-            image: './textures/hand-map-mask-04.png',
+            image: './textures/paper1.png',
             parameters: {
                 depthTest: false,
                 depthMask: true,
@@ -36,18 +36,7 @@ export default class JournalMaskLayer extends CompositeLayer {
 
         });
 
-        const handslayer = new BitmapLayer({
-            id: 'mask-bitmap-layer',
-            bounds: bounds,
-            image: './textures/hands-map-05.png',
-            parameters: {
-                depthTest: false,
-                depthMask: true,
-                blend: true,
-            }
-        });
-
-        return [ papermasklayer, handslayer];
+        return [ papermasklayer];
     }
 }
 

@@ -64,20 +64,7 @@ export default class JournalMap extends CompositeLayer {
 
         });
 
-        const text = new TextLayer({
-            data : slide.assets.filter(a => a.type === 'text'),
-            font
-        });
-
-        const tilelayer = new TileLayer({
-            id : 'mask-tile',
-            data: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-
-            minZoom: 0,
-            maxZoom: 19,
-            tileSize: 256,
-
-            renderSubLayers: props => {
+        const tilelayer = new TileLayer({ data: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', tileSize: 256, renderSubLayers: props => {
                 const {
                     bbox: {west, south, east, north}
                 } = props.tile;
@@ -85,28 +72,22 @@ export default class JournalMap extends CompositeLayer {
                 return new BitmapLayer(props, {
                     data: null,
                     desaturate : 1,
-                    opacity : 1,
+                    opacity : 0.9,
                     image: props.data,
                     bounds: [west, south, east, north],
 
                 });
-            }
-        });
+            }});
 
         const hl = new HighlightLayer();
 
         const pl = new PhotoLayer();
 
-        let grouped = _(slide.assets)
-                .groupBy(x => x.file)
-                .map((value, key) => ({file: key, assets: value}))
-                .value();
+        const text = new TextLayer({ data : slide.assets.filter(a => a.type === 'text'), font });
 
-        let assets = grouped.map(a =>  new AssetLayer({ data : a.assets, file : a.file, type : a.type}));
+        let assets = new AssetLayer({ data : _(slide.assets).filter( a => a.type === 'asset')});
 
-        let selectedAssetLayer = selectedAsset && new EditLayer({refetch : refetch, client : client, asset : selectedAsset});
-
-        return [  tilelayer, hl, text, assets, selectedAssetLayer, masklayer, pl    ];
+        return [  tilelayer, hl, route, text, assets, masklayer   ];
     }
 }
 

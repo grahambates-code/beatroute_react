@@ -19,7 +19,6 @@ export default class PolaroidAndPhotoLayer extends CompositeLayer {
         const { data } = this.props;
 
         return data.map(d => new SimpleMeshLayer({
-            id: 'text',
             getOrientation: d => [0, 0,0],
             getTranslation : [1,1,1],
             getScale: [700,700,700],

@@ -4,13 +4,10 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import Deck from "./Deck";
 import CardSaver from "../../../Saver";
-import Procedural from './Procedural'
-import Label from './Label'
 import Toolbar from './Toolbar'
 import Slides from "./Slides";
 
 import './index.less';
-
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -53,9 +50,7 @@ export default class extends Component {
                                 (updateSlide, updateMap, updateTable, updateAnnotation, updateLandscape, updateSlideMedia, loading, error) => {
                                     return <div>
 
-                                        <Label card={props.card}/>
-
-                                        <Procedural location={{animationDuration : 10, longitude: 7.698941573782926, latitude: 45.74338484004915, height: 2183.358398660126, angle: 36.11883143607126, bearing: 70.35532994923864}}/>
+                                        {/*<Procedural location={{animationDuration : 10, longitude: 7.698941573782926, latitude: 45.74338484004915, height: 2183.358398660126, angle: 36.11883143607126, bearing: 70.35532994923864}}/>*/}
 
                                         <Deck font={font} slide={slide} setSelectedAsset={setSelectedAsset} selectedAsset={selectedAsset} client={client} slideIndex={slideIndex} refetch={props.refetch} viewState={viewState} setViewState={setViewState} width={props.width} updateSlide={updateSlide} updateSlideMedia={updateSlideMedia} updateMap={updateMap} updateAnnotation={updateAnnotation} trip={props.trip} card={props.card} />
 

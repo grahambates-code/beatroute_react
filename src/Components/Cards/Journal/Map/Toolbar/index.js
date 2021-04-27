@@ -3,6 +3,8 @@ import Rotation from './Rotation'
 import Scale from './Scale'
 
 import AddAsset from './AddAsset'
+import AddText from './AddText'
+import {Button} from './Button'
 
 import './index.less'
 
@@ -12,7 +14,9 @@ export default ({refetch, slide, selectedAsset, setSelectedAsset, viewState}) =>
 
     return <div className={'Toolbar'}>
 
-        <AddAsset viewState={viewState} slide={slide} type={'/textures/arrow2.glb'} refetch={refetch}/>
+        {/*<Button/>*/}
+        {/*<AddAsset viewState={viewState} slide={slide} file={'/textures/arrow2.glb'} refetch={refetch}/>*/}
+        {/*<AddText  viewState={viewState} slide={slide} refetch={refetch}/>*/}
 
         {selectedAsset && <div>
             <Rotation selectedAsset={selectedAsset} setSelectedAsset={setSelectedAsset}/>

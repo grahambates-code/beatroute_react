@@ -1,8 +1,7 @@
 import React, { Fragment, useState} from 'react'
 import AddFront     from './AddFront'
 import AddTitle     from './AddTitle'
-import AddMap       from './AddMap'
-import AddSketch    from './AddSketch'
+import AddMap    from './AddMap'
 
 export default ({trip, refetch}) => {
 
@@ -28,9 +27,7 @@ export default ({trip, refetch}) => {
 
             <br/>
 
-            <AddSketch trip={trip} refetch={refetch} type={'JournalSketch'}/>
-
-
+            <AddMap trip={trip} refetch={refetch} type={'JournalMap'}/>
 
             <h1>Pro </h1>
 
@@ -42,7 +39,7 @@ export default ({trip, refetch}) => {
 
             <br/>
 
-            <AddSketch trip={trip} refetch={refetch} type={'ProSketch'}/>
+            <AddMap trip={trip} refetch={refetch} type={'ProSketch'}/>
 
 
         </div> }
