@@ -29,17 +29,17 @@ export default ({trip, refetch}) => {
 
             <AddMap trip={trip} refetch={refetch} type={'JournalMap'}/>
 
-            <h1>Pro </h1>
+            {/*<h1>Pro </h1>*/}
 
-            <AddFront trip={trip} refetch={refetch} type={'ProFront'}/>
+            {/*<AddFront trip={trip} refetch={refetch} type={'ProFront'}/>*/}
 
-            <br/>
+            {/*<br/>*/}
 
-            <AddTitle trip={trip} refetch={refetch} type={'ProTitle'}/>
+            {/*<AddTitle trip={trip} refetch={refetch} type={'ProTitle'}/>*/}
 
-            <br/>
+            {/*<br/>*/}
 
-            <AddMap trip={trip} refetch={refetch} type={'ProSketch'}/>
+            {/*<AddMap trip={trip} refetch={refetch} type={'ProSketch'}/>*/}
 
 
         </div> }

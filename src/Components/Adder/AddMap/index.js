@@ -29,7 +29,7 @@ export default ({trip, refetch, type}) => {
     return <div>
 
         <Mutation
-            onError={() => alert('Could not add journal card')}
+            onError={() => alert('Could not add map')}
             onCompleted={() => refetch()}
             mutation={ADD}
             variables={{ camera : camera, type,content : content, slide_data : {text : 'Write here'}, trip_id : trip.id }}
@@ -38,7 +38,7 @@ export default ({trip, refetch, type}) => {
             {(add, {loading, error}) => {
 
                 return <wired-button elevation="2" onClick={ add }>
-                            Add Journal {trip.name}
+                            Add map
                         </wired-button>
 
             }}

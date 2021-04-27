@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     exampleWrapper: {
         position: 'relative',
         marginTop: theme.spacing(3),
-        height: 380,
+        height: 80,
     },
     radioGroup: {
         margin: theme.spacing(1, 0),
@@ -43,9 +43,6 @@ const useStyles = makeStyles((theme) => ({
 const actions = [
     { icon: <FileCopyIcon />, name: 'Copy' },
     { icon: <SaveIcon />, name: 'Save' },
-    { icon: <PrintIcon />, name: 'Print' },
-    { icon: <ShareIcon />, name: 'Share' },
-    { icon: <FavoriteIcon />, name: 'Like' },
 ];
 
 export function Button() {
