@@ -1,49 +1,91 @@
-import gql from "graphql-tag";
-import React from "react";
-import ReactDOM from "react-dom";
-import { InMemoryCache, HttpLink } from "apollo-boost";
-import { Mutation, ApolloProvider } from "react-apollo";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import Avatar from '@material-ui/core/Avatar';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItemText from '@material-ui/core/ListItemText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog';
+import PersonIcon from '@material-ui/icons/Person';
+import AddIcon from '@material-ui/icons/Add';
+import Typography from '@material-ui/core/Typography';
+import { blue } from '@material-ui/core/colors';
+import DraftsRounded from "@material-ui/icons/DraftsRounded";
 
-const MY_MUTATION_MUTATION = gql`
+const emails = ['username@gmail.com', 'user02@gmail.com'];
+const useStyles = makeStyles({
+    avatar: {
+        backgroundColor: blue[100],
+        color: blue[600],
+    },
+});
 
-mutation MyMutationn($slide_id : Int, $data : jsonb, $scale : numeric, $rotation : numeric, $type : String, $position : jsonb, $translation : jsonb) {
-  insert_asset_one(object: {order: 10, data : $data, position : $position, rotation: $rotation, scale: $scale, slide_id: $slide_id, translation: $translation, type: $type}) {
-    id
-  }
-}
+function SimpleDialog(props) {
+    const classes = useStyles();
+    const { onClose, selectedValue, open } = props;
 
-`;
+    const handleClose = () => {
+        onClose(selectedValue);
+    };
 
-const MyMutationMutation = ({refetch, slide, file, viewState}) => {
-
-    const data = {data : {file : file}, type : "asset", "scale":1,"position":[viewState.longitude,viewState.latitude],"rotation":50, translation : [0,0,0]};
+    const handleListItemClick = (value) => {
+        onClose(value);
+    };
 
     return (
-        <Mutation
-            mutation={MY_MUTATION_MUTATION}
-            onCompleted={() => refetch()}
-            variables={{slide_id : slide.id, ...data}}>
-            {(MyMutation, { loading, error, data }) => {
-                if (loading) return <pre>Loading</pre>
+        <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
+            <DialogTitle id="simple-dialog-title">Set backup account</DialogTitle>
+            <List>
+                {emails.map((email) => (
+                    <ListItem button onClick={() => handleListItemClick(email)} key={email}>
+                        <ListItemAvatar>
+                            <Avatar className={classes.avatar}>
+                                <PersonIcon />
+                            </Avatar>
+                        </ListItemAvatar>
+                        <ListItemText primary={email} />
+                    </ListItem>
+                ))}
 
-                if (error)
-                    return (
-                        <pre>
-                            Error in MY_MUTATION_MUTATION
-                            {JSON.stringify(error, null, 2)}
-                        </pre>
-                    );
+                <ListItem autoFocus button onClick={() => handleListItemClick('addAccount')}>
+                    <ListItemAvatar>
+                        <Avatar>
+                            <AddIcon />
+                        </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary="Add account" />
+                </ListItem>
+            </List>
+        </Dialog>
+    );
+}
 
-                return (
-                    <div>
-                        <button onClick={() => MyMutation()}>
-                            Add arrow
-                        </button>
-                    </div>
-                );
-            }}
-        </Mutation>
-    )
+SimpleDialog.propTypes = {
+    onClose: PropTypes.func.isRequired,
+    open: PropTypes.bool.isRequired,
+    selectedValue: PropTypes.string.isRequired,
 };
 
-export default  MyMutationMutation;
+export default function SimpleDialogDemo() {
+    const [open, setOpen] = React.useState(false);
+    const [selectedValue, setSelectedValue] = React.useState(emails[1]);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = (value) => {
+        setOpen(false);
+        setSelectedValue(value);
+    };
+
+    return (
+        <div>
+            <DraftsRounded onClick={handleClickOpen}> </DraftsRounded>
+            <SimpleDialog selectedValue={selectedValue} open={open} onClose={handleClose} />
+        </div>
+    );
+}
