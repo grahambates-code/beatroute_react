@@ -28,7 +28,7 @@ import JournalMap from './Components/Cards/Journal/Map';
 import CardAdder from './Components/Adder';
 import * as THREE from 'three';
 import { ThemeProvider } from '@material-ui/styles';
-import { Container, createMuiTheme, Box } from '@material-ui/core';
+import { createMuiTheme, Box } from '@material-ui/core';
 import Header from './Components/Header';
 
 const theme = createMuiTheme({});
