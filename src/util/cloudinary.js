@@ -11,7 +11,7 @@ export const openUploadWidget = (options, callback) => {
     return window.cloudinary.openUploadWidget(scOptions, callback);
 };
 
-export async function  fetchPhotos  (imageTag, setter)  {
+export async function fetchPhotos(imageTag, setter) {
     const options = {
         cloudName: 'db8uwhsbg',
         format: 'json',
@@ -22,7 +22,7 @@ export async function  fetchPhotos  (imageTag, setter)  {
     const urlPath = url(imageTag.toString(), options);
 
     fetch(urlPath)
-        .then(res => res.text())
-        .then(text => (text ? setter(JSON.parse(text).resources.map(image => image.public_id)) : []))
-        .catch(err => console.log(err));
-};
+        .then((res) => res.text())
+        .then((text) => (text ? setter(JSON.parse(text).resources.map((image) => image.public_id)) : []))
+        .catch((err) => console.log(err));
+}

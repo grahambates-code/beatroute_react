@@ -5,15 +5,13 @@ import './index.less';
 
 function MaskModeFrame(props) {
     return (
-        <div 
-            className='mask-mode-frame' 
-            style={{ 
-                transform: props.rotateDeg !== undefined 
-                    ?  `rotate(${props.rotateDeg}deg)`
-                    : undefined
+        <div
+            className="mask-mode-frame"
+            style={{
+                transform: props.rotateDeg !== undefined ? `rotate(${props.rotateDeg}deg)` : undefined,
             }}
         >
-            <div className="mask-mode-frame-img" >
+            <div className="mask-mode-frame-img">
                 <div>
                     <img src={props.imgSource} alt="" />
                 </div>
@@ -30,7 +28,7 @@ function MaskModeFrame(props) {
 MaskModeFrame.propTypes = {
     imgSource: PropTypes.string.isRequired,
     rotateDeg: PropTypes.number,
-    ActionComponent: PropTypes.node
+    ActionComponent: PropTypes.node,
 };
 
 export default MaskModeFrame;

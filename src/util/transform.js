@@ -3,5 +3,5 @@ export const getRandomDeg = (i) => {
         return (Math.random() - 1.5) * 4;
     }
 
-    return (Math.random()) * 8;
+    return Math.random() * 8;
 };

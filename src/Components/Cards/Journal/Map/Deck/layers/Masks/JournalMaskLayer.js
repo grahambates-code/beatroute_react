@@ -1,11 +1,9 @@
 import { CompositeLayer } from '@deck.gl/core';
-import {BitmapLayer, GeoJsonLayer, TextLayer} from '@deck.gl/layers';
+import { BitmapLayer, GeoJsonLayer, TextLayer } from '@deck.gl/layers';
 import GL from '@luma.gl/constants';
 
 export default class JournalMaskLayer extends CompositeLayer {
-
     initializeState() {
-
         let self = this;
 
         this.setState({});
@@ -20,7 +18,7 @@ export default class JournalMaskLayer extends CompositeLayer {
     }
 
     renderLayers() {
-        const {  bounds} = this.props;
+        const { bounds } = this.props;
 
         const papermasklayer = new BitmapLayer({
             id: 'mask-bitmap-paper-layer',
@@ -31,12 +29,11 @@ export default class JournalMaskLayer extends CompositeLayer {
                 depthMask: true,
                 blend: true,
                 blendEquation: GL.FUNC_ADD,
-                blendFunc: [GL.ONE, GL.ONE_MINUS_SRC_COLOR]
-            }
-
+                blendFunc: [GL.ONE, GL.ONE_MINUS_SRC_COLOR],
+            },
         });
 
-        return [ papermasklayer];
+        return [papermasklayer];
     }
 }
 

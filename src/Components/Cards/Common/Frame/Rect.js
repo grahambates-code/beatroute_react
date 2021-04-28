@@ -1,6 +1,6 @@
-import React from 'react'
+import React from 'react';
 
-const Rect = ({width, height, round, strokeWidth}) => {
+const Rect = ({ width, height, round, strokeWidth }) => {
     // overhang over given width and height that we get due to stroke width
     const s = strokeWidth / 2;
 
@@ -28,6 +28,5 @@ const Rect = ({width, height, round, strokeWidth}) => {
     `;
     return <path d={d} fill="none" stroke="black" strokeWidth={strokeWidth} />;
 };
-
 
 export default Rect;

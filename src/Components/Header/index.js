@@ -18,15 +18,13 @@ const Header = (props) => {
                     </Button>
                 </Grid>
             </Toolbar>
-            {assetOpen && (
-                <NewAsset onClose={() => setAssetOpen(false)} />
-            )}
+            {assetOpen && <NewAsset onClose={() => setAssetOpen(false)} />}
         </AppBar>
     );
-}
+};
 
 Header.propTypes = {
     title: PropTypes.string,
-}
+};
 
 export default Header;

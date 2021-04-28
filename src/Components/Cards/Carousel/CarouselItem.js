@@ -7,7 +7,7 @@ function CarouselItem({ children, ...restProps }) {
                 flex: 1,
                 cursor: 'grab',
                 userSelect: 'none',
-                margin : '30px',
+                margin: '30px',
                 ...restProps.style,
             }}
         >
@@ -15,6 +15,5 @@ function CarouselItem({ children, ...restProps }) {
         </div>
     );
 }
-
 
 export default CarouselItem;

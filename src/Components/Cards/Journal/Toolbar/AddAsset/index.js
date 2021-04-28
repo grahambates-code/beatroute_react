@@ -13,7 +13,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import AddIcon from '@material-ui/icons/Add';
 import Typography from '@material-ui/core/Typography';
 import { blue } from '@material-ui/core/colors';
-import DraftsRounded from "@material-ui/icons/DraftsRounded";
+import DraftsRounded from '@material-ui/icons/DraftsRounded';
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 const useStyles = makeStyles({

@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Landscape from '../../../Landscape'
-import * as portals from "react-reverse-portal";
+import Landscape from '../../../Landscape';
+import * as portals from 'react-reverse-portal';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -30,14 +30,14 @@ function Index(props) {
             onLeaveBack: () => {
                 setInViewport(false);
             },
-            scrub: 1
-          });
+            scrub: 1,
+        });
     }, []);
 
     return (
-        <div style={{height : '400px'}}>
+        <div style={{ height: '400px' }}>
             <div>test</div>
-                {true && <portals.OutPortal node={props.portalNode} />}
+            {true && <portals.OutPortal node={props.portalNode} />}
             <div>test2</div>
         </div>
     );

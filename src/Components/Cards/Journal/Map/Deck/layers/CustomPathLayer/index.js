@@ -1,4 +1,4 @@
-import {Layer, project32, picking} from '@deck.gl/core';
+import { Layer, project32, picking } from '@deck.gl/core';
 import PathLayer from './path-layer/path-layer.js';
 
 import vs from './path-layer/path-layer-vertex.glsl';
@@ -8,7 +8,8 @@ import fs from './path-layer/path-layer-fragment.glsl';
 const filterCall = 'DECKGL_FILTER_COLOR';
 
 const vertexShaderParts = vs.split(filterCall);
-const vertexShader = `
+const vertexShader =
+    `
 		attribute float instanceLengths;
 		attribute float instanceNextLengths;
 		varying float vLength;
@@ -16,16 +17,18 @@ const vertexShader = `
 		varying vec2 vPosition;
 		varying float vWidth;
 	` +
-	vertexShaderParts[0] + `
+    vertexShaderParts[0] +
+    `
 		vLength = instanceLengths + (instanceNextLengths - instanceLengths) * vPathPosition.y / vPathLength;
 		vPosition = geometry.position.xy - project_position(startingPoint);
 		vWidth = length(widthPixels);
 	` +
-	filterCall +
-	vertexShaderParts[1];
+    filterCall +
+    vertexShaderParts[1];
 
 const fragmentShaderParts = fs.split(filterCall);
-const fragmentShader = `
+const fragmentShader =
+    `
 		varying float vLength;
 		varying vec2 vPosition;
 		varying float vWidth;
@@ -46,7 +49,8 @@ const fragmentShader = `
 			return mix(l.x, l.y, l.w);
 		}
 	` +
-	fragmentShaderParts[0] + `
+    fragmentShaderParts[0] +
+    `
 		float a = 0.0;
 		for (int i = 1; i < 4; i++) {
 			float w = 0.33 - 0.01 * float(i);
@@ -60,47 +64,49 @@ const fragmentShader = `
 				 * (0.5 + 0.5 * (1.0 - zoomStrength) + zoomStrength * noise( vPosition * 2e5 - 4. * vec2(noise( vPosition * 1e4 )) ) )
 		), 0.66 );
 	` +
-	filterCall +
-	fragmentShaderParts[1];
+    filterCall +
+    fragmentShaderParts[1];
 
 export default class CustomPathLayer extends PathLayer {
-	constructor(start, your, free, trial, now) {
-		start.getLengths = (data) => {
-			let lengthSoFar = 0, points = this.props.getPath(data);
-			this.state.model.uniforms.startingPoint = points[0];
-			return points.map(function(point, index, points) {
-				lengthSoFar += index ? Math.sqrt(
-					(point[0] - points[index - 1][0])**2 +
-					(point[1] - points[index - 1][1])**2
-				) : 0;
-				return lengthSoFar;
-			});
-		}
+    constructor(start, your, free, trial, now) {
+        start.getLengths = (data) => {
+            let lengthSoFar = 0,
+                points = this.props.getPath(data);
+            this.state.model.uniforms.startingPoint = points[0];
+            return points.map(function (point, index, points) {
+                lengthSoFar += index ? Math.sqrt((point[0] - points[index - 1][0]) ** 2 + (point[1] - points[index - 1][1]) ** 2) : 0;
+                return lengthSoFar;
+            });
+        };
 
-		super(start, your, free, trial, now);
-	}
+        super(start, your, free, trial, now);
+    }
 
-	getShaders() {
-		return Layer.prototype.getShaders.call(this, {vs: vertexShader, fs: fragmentShader, modules: [project32, picking]});
-	}
+    getShaders() {
+        return Layer.prototype.getShaders.call(this, {
+            vs: vertexShader,
+            fs: fragmentShader,
+            modules: [project32, picking],
+        });
+    }
 
-	initializeState(params) {
-		super.initializeState(params);
+    initializeState(params) {
+        super.initializeState(params);
 
-		const attributeManager = this.getAttributeManager();
-		attributeManager.addInstanced({
-			lengths: {
-				size: 1,
-				accessor: 'getLengths',
-				shaderAttributes: {
-					instanceLengths: {
-						vertexOffset: 0
-					},
-					instanceNextLengths: {
-						vertexOffset: 1
-					}
-				}
-			}
-		});
-	}
+        const attributeManager = this.getAttributeManager();
+        attributeManager.addInstanced({
+            lengths: {
+                size: 1,
+                accessor: 'getLengths',
+                shaderAttributes: {
+                    instanceLengths: {
+                        vertexOffset: 0,
+                    },
+                    instanceNextLengths: {
+                        vertexOffset: 1,
+                    },
+                },
+            },
+        });
+    }
 }

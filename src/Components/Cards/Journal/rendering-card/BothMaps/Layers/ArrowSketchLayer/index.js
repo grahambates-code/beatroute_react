@@ -1,26 +1,24 @@
-import {BitmapLayer } from "@deck.gl/layers";
+import { BitmapLayer } from '@deck.gl/layers';
 import { Texture2D, lumaStats } from '@luma.gl/core';
 
 export default class ArrowSketchLayer extends BitmapLayer {
-
     draw(opts) {
-        const { } = this.props;
-        const {image, bitmapTexture} = this.state;
+        const {} = this.props;
+        const { image, bitmapTexture } = this.state;
 
         if (true && image) {
-            bitmapTexture.setSubImageData({data: image});
+            bitmapTexture.setSubImageData({ data: image });
         }
 
         super.draw(opts);
     }
 
     loadTexture(image) {
-
-        const {width, height} = this.props;
-        const {gl} = this.context;
+        const { width, height } = this.props;
+        const { gl } = this.context;
 
         this.setState({
-            image : image,
+            image: image,
             bitmapTexture: new Texture2D(gl, {
                 width: width,
                 height: height,
@@ -28,11 +26,10 @@ export default class ArrowSketchLayer extends BitmapLayer {
                     [gl.TEXTURE_MIN_FILTER]: gl.NEAREST,
                     [gl.TEXTURE_MAG_FILTER]: gl.NEAREST,
                     [gl.TEXTURE_WRAP_S]: gl.CLAMP_TO_EDGE,
-                    [gl.TEXTURE_WRAP_T]: gl.CLAMP_TO_EDGE
+                    [gl.TEXTURE_WRAP_T]: gl.CLAMP_TO_EDGE,
                 },
-                mipmaps: false
-            })
+                mipmaps: false,
+            }),
         });
     }
-
 }

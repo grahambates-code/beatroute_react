@@ -21,21 +21,19 @@ const useStyles = makeStyles((theme) => ({
         minHeight: 32,
         lineHeight: 1,
         '& svg': {
-            fontSize: '1.2rem'
-        }
+            fontSize: '1.2rem',
+        },
     },
     fabIcon: {
         display: 'flex',
-        height: '100%'
+        height: '100%',
     },
     tooltipPopper: {
         position: 'relative',
-    }
+    },
 }));
 
-
-
-export function Button({actions=[]}) {
+export function Button({ actions = [] }) {
     const classes = useStyles();
     const [direction, setDirection] = React.useState('left');
     const [open, setOpen] = React.useState(false);
@@ -61,14 +59,13 @@ export function Button({actions=[]}) {
         <SpeedDial
             ariaLabel="SpeedDial example"
             hidden={hidden}
-            icon={<SpeedDialIcon classes={{ root: classes.fabIcon }}  />}
+            icon={<SpeedDialIcon classes={{ root: classes.fabIcon }} />}
             onClose={handleClose}
             onOpen={handleOpen}
             open={open}
             direction={direction}
             classes={{
                 fab: classes.fab,
-
             }}
         >
             {actions.map((action) => (
@@ -78,7 +75,7 @@ export function Button({actions=[]}) {
                     tooltipTitle={action.name}
                     onClick={handleClose}
                     PopperProps={{
-                        className: classes.tooltipPopper
+                        className: classes.tooltipPopper,
                     }}
                     tooltipPlacement="bottom"
                 />

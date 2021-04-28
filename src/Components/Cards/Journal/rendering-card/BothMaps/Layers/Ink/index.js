@@ -1,12 +1,11 @@
 import { CompositeLayer } from '@deck.gl/core';
-import SketchLayer from "../SketchLayer";
-import {DrawPointMode, EditableGeoJsonLayer } from "nebula.gl";
-import * as turf from "@turf/turf";
+import SketchLayer from '../SketchLayer';
+import { DrawPointMode, EditableGeoJsonLayer } from 'nebula.gl';
+import * as turf from '@turf/turf';
 
 let selectedFeatureIndexes = [];
 
 export default class InkLayer extends CompositeLayer {
-
     initializeState() {
         let self = this;
     }
@@ -25,17 +24,18 @@ export default class InkLayer extends CompositeLayer {
         //     onEdit: this.props.onEdit,
         // })
 
-        const inks = this.props.data.features.filter(f => f.geometry.type ==='Point').map((point, i) => {
+        const inks = this.props.data.features
+            .filter((f) => f.geometry.type === 'Point')
+            .map((point, i) => {
+                var ellipse = turf.ellipse(point.geometry.coordinates, 10, 10);
 
-            var ellipse = turf.ellipse(point.geometry.coordinates, 10, 10);
+                return new SketchLayer({
+                    opacity: 1,
+                    id: 'mask-ink-layer ' + i,
+                    bounds: turf.bbox(ellipse),
+                });
+            });
 
-            return new SketchLayer({
-                opacity : 1,
-                id: 'mask-ink-layer ' + i,
-                bounds: turf.bbox(ellipse)
-            })
-        });
-
-        return [  ].concat(inks);
+        return [].concat(inks);
     }
 }
