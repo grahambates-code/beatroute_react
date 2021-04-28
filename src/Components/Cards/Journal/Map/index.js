@@ -11,6 +11,7 @@ import './index.less';
 import Overlay from "../../Common/Overlay";
 import {Button} from "../Toolbar/Button";
 import DeleteCard from "../Toolbar/DeleteCard";
+import AddAsset from "../Toolbar/AddAsset";
 import Frame from "../../Common/Frame";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -45,6 +46,7 @@ export default class extends Component {
 
         const actions = [
             { icon: <DeleteCard refetch={refetch} card={card}/>, name: 'Delete' },
+            { icon: <AddAsset refetch={refetch} card={card}/>, name: 'Add annotation' },
         ];
 
         return <Overlay card={props.card} button={<Button actions={actions}/>}> <div className="sketch-card">

@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 import React from "react";
 import Mutation from "react-apollo/Mutation";
-import FileCopyIcon from "@material-ui/icons/FileCopyOutlined";
+import DeleteOutline from "@material-ui/icons/DeleteOutline";
 
 const MY_MUTATION_MUTATION = gql`
   mutation MyMutation($card_id : Int) {
@@ -31,7 +31,7 @@ export default (props) => {
             </pre>
                     );
 
-                return (<FileCopyIcon onClick={() => MyMutation()}></FileCopyIcon>);
+                return (<DeleteOutline onClick={() => MyMutation()}></DeleteOutline>);
             }}
         </Mutation>
     )
