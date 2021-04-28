@@ -4,12 +4,13 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import Deck from "./Deck";
 import CardSaver from "../../../Saver";
-import Toolbar from './Toolbar'
+import Toolbar from '../Toolbar'
 import Slides from "./Slides";
 
 import './index.less';
 import Overlay from "../../Common/Overlay";
-import {Button} from "./Toolbar/Button";
+import {Button} from "../Toolbar/Button";
+import DeleteCard from "../Toolbar/DeleteCard";
 import Frame from "../../Common/Frame";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -31,7 +32,7 @@ export default class extends Component {
 
         let {selectedAsset, slideIndex, viewState, slidePhotoRotation} = this.state;
 
-        let {client, font} = this.props;
+        let {client, font, card, refetch} = this.props;
 
         let setViewState            = (p) => this.setState({viewState           : p});
         let setSelectedAsset        = (p) => this.setState({selectedAsset       : p});
@@ -42,7 +43,11 @@ export default class extends Component {
 
         let slide = props.card.slides[0];
 
-        return <Overlay card={props.card} button={<Button/>}> <div className="sketch-card">
+        const actions = [
+            { icon: <DeleteCard refetch={refetch} card={card}/>, name: 'Delete' },
+        ];
+
+        return <Overlay card={props.card} button={<Button actions={actions}/>}> <div className="sketch-card">
                     <div>
 
                         {true && <CardSaver refetch={props.refetch}>

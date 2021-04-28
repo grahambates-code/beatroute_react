@@ -4,7 +4,8 @@ import Frame from "./../../Common/Frame";
 import {Mutation} from "react-apollo";
 import gql from "graphql-tag";
 import Overlay from "../../Common/Overlay";
-import {Button} from "../Map/Toolbar/Button";
+import {Button} from "../Toolbar/Button";
+import DeleteCard from "../Toolbar/DeleteCard";
 const SAVE_TITLE = gql`
 
 mutation( $card_id : Int,  $data : jsonb){
@@ -16,7 +17,11 @@ mutation( $card_id : Int,  $data : jsonb){
                 }
 `;
 
-export default ({card, i}) => {
+export default ({card, i, refetch}) => {
+
+    const actions = [
+        { icon: <DeleteCard refetch={refetch} card={card}/>, name: 'Delete' },
+    ];
 
     const [seconds, setSeconds] = useState(170);
 
@@ -43,7 +48,7 @@ export default ({card, i}) => {
     </Frame>
     return  <div className={'Text'}>
 
-                <Overlay card={card} button={<Button/>}>
+                <Overlay card={card} button={<Button actions={actions}/>}>
                     <T card={card} i={i}/>
                 </Overlay>
 

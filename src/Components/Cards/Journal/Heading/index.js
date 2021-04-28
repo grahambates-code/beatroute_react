@@ -3,7 +3,7 @@ import './index.less'
 import {Mutation} from "react-apollo";
 import gql from "graphql-tag";
 import Overlay from "../../Common/Overlay";
-import {Button} from "../Map/Toolbar/Button";
+import {Button} from "../Toolbar/Button";
 import Frame from "../../Common/Frame";
 
 const SAVE_TITLE = gql`
