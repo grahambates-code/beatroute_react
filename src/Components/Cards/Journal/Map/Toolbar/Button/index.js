@@ -15,29 +15,22 @@ import ShareIcon from '@material-ui/icons/Share';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        transform: 'translateZ(0px)',
-        flexGrow: 1,
+    fab: {
+        width: 32,
+        height: 32,
+        minHeight: 32,
+        lineHeight: 1,
+        '& svg': {
+            fontSize: '1.2rem'
+        }
     },
-    exampleWrapper: {
+    fabIcon: {
+        display: 'flex',
+        height: '100%'
+    },
+    tooltipPopper: {
         position: 'relative',
-        marginTop: theme.spacing(3),
-        height: 80,
-    },
-    radioGroup: {
-        margin: theme.spacing(1, 0),
-    },
-    speedDial: {
-        position: 'absolute',
-        '&.MuiSpeedDial-directionUp, &.MuiSpeedDial-directionLeft': {
-            bottom: theme.spacing(2),
-            right: theme.spacing(2),
-        },
-        '&.MuiSpeedDial-directionDown, &.MuiSpeedDial-directionRight': {
-            top: theme.spacing(2),
-            left: theme.spacing(2),
-        },
-    },
+    }
 }));
 
 const actions = [
@@ -68,29 +61,31 @@ export function Button() {
     };
 
     return (
-        <div className={classes.root}>
-
-            <div className={classes.exampleWrapper}>
-                <SpeedDial
-                    ariaLabel="SpeedDial example"
-                    className={classes.speedDial}
-                    hidden={hidden}
-                    icon={<SpeedDialIcon />}
-                    onClose={handleClose}
-                    onOpen={handleOpen}
-                    open={open}
-                    direction={direction}
-                >
-                    {actions.map((action) => (
-                        <SpeedDialAction
-                            key={action.name}
-                            icon={action.icon}
-                            tooltipTitle={action.name}
-                            onClick={handleClose}
-                        />
-                    ))}
-                </SpeedDial>
-            </div>
-        </div>
+        <SpeedDial
+            ariaLabel="SpeedDial example"
+            hidden={hidden}
+            icon={<SpeedDialIcon classes={{ root: classes.fabIcon }}  />}
+            onClose={handleClose}
+            onOpen={handleOpen}
+            open={open}
+            direction={direction}
+            classes={{
+                fab: classes.fab,
+                
+            }}
+        >
+            {actions.map((action) => (
+                <SpeedDialAction
+                    key={action.name}
+                    icon={action.icon}
+                    tooltipTitle={action.name}
+                    onClick={handleClose}
+                    PopperProps={{
+                        className: classes.tooltipPopper
+                    }}
+                    tooltipPlacement="bottom"
+                />
+            ))}
+        </SpeedDial>
     );
 }
