@@ -2,6 +2,8 @@ import React, { Fragment, useState} from 'react'
 import AddFront     from './AddFront'
 import AddTitle     from './AddTitle'
 import AddMap    from './AddMap'
+import AddAltitude    from './AddAltitude'
+import {Button} from "@material-ui/core";
 
 export default ({trip, refetch}) => {
 
@@ -9,11 +11,11 @@ export default ({trip, refetch}) => {
 
     return  <Fragment>
 
-        <wired-button elevation="2" onClick={()=> {
+        <Button variant="contained"  onClick={()=> {
             setShowButtons(true);
         }}>
-             Add Content
-        </wired-button>
+            Add content
+        </Button>
 
         {showButtons && <div>
 
@@ -27,20 +29,13 @@ export default ({trip, refetch}) => {
 
             <br/>
 
+            <AddAltitude trip={trip} refetch={refetch} type={'JournalAltitude'}/>
+
+            <br/>
+
             <AddMap trip={trip} refetch={refetch} type={'JournalMap'}/>
 
-            {/*<h1>Pro </h1>*/}
-
-            {/*<AddFront trip={trip} refetch={refetch} type={'ProFront'}/>*/}
-
-            {/*<br/>*/}
-
-            {/*<AddTitle trip={trip} refetch={refetch} type={'ProTitle'}/>*/}
-
-            {/*<br/>*/}
-
-            {/*<AddMap trip={trip} refetch={refetch} type={'ProSketch'}/>*/}
-
+            <br/>
 
         </div> }
 

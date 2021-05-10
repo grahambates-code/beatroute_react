@@ -45,14 +45,8 @@ function AddPhoto({card, refetch}) {
                         if ('done' === status) {
 
                             exifr.gps(a.file).then(geo => {
-
                                 const object = {type : 'PHOTO', geo : geo, data : {...JSON.parse(a.xhr.response)}};
-
-                                addphoto({variables : {objects :  [object]}}).then(() => {
-                                    a.remove();
-                                });
-
-
+                                addphoto({variables : {objects :  [object]}}).then(() => a.remove());
                             });
                         }
                     }
@@ -64,7 +58,7 @@ function AddPhoto({card, refetch}) {
                                 onChangeStatus={handleChangeStatus}
                                 onSubmit={null}
                                 accept="image/*"
-                                inputContent={(files, extra) => (extra.reject ? 'Image, audio and video files only' : 'Drag Files')}
+                                inputContent={(files, extra) => <div>Add photo</div>}
                             />
 
                     </div>

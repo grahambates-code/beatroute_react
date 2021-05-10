@@ -6,7 +6,7 @@ import NewAsset from '../NewAsset';
 import SideBar from '../SideBar';
 
 const Header = (props) => {
-    const [assetOpen, setAssetOpen] = useState(false);
+    const [assetOpen, setAssetOpen] = useState(true);
     const [sideBarOpen, setSideBarOpen] = useState(false);
 
     return (
@@ -28,7 +28,7 @@ const Header = (props) => {
                     </Button>
                 </Grid>
             </Toolbar>
-            
+
             {assetOpen && (
                 <NewAsset onClose={() => setAssetOpen(false)} />
             )}

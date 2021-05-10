@@ -24,6 +24,9 @@ import JournalCover from './Components/Cards/Journal/Cover';
 import JournalHeading from './Components/Cards/Journal/Heading';
 import JournalText from './Components/Cards/Journal/Text';
 import JournalMap from './Components/Cards/Journal/Map';
+import JournalAltitude from './Components/Cards/Journal/Altitude';
+
+import Wood3D from './Components/Cards/Wood/3D';
 
 import CardAdder from './Components/Adder';
 import * as THREE from 'three';
@@ -161,16 +164,16 @@ const App = () => {
                         <Header title={trip.name} />
                         <Box maxHeight="100vh" overflow="scroll">
                           <h2>
-                            {' '}
-                            <AddPhoto refetch={refetch} />{' '}
+                            <AddPhoto refetch={refetch} />
                           </h2>
 
                           <main className="App-main">
                             <portals.InPortal node={portalNode2}>
                               <div> this is one time component</div>
-                              {/*updateCard will be overwritten when called in Sketch*/}
                               {/*<Deck trip={trip} width={width} updateCard={() => alert("not implemented")}/>*/}
                             </portals.InPortal>
+
+                            <Wood3D/>
 
                             {cards.map((card, i) => {
                               return (
@@ -205,6 +208,18 @@ const App = () => {
                                       refetch={refetch}
                                     />
                                   )}
+
+                                  {card.type === 'JournalAltitude' && (
+                                      <JournalAltitude
+                                          key={i + '' + card.id}
+                                          card={card}
+                                          trip={trip}
+                                          index={i}
+                                          client={client}
+                                          refetch={refetch}
+                                      />
+                                  )}
+
                                   {card.type === 'JournalMap' && font && (
                                     <JournalMap
                                       key={i + '' + card.id}
