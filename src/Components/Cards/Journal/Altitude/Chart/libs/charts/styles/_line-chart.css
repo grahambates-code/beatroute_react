@@ -1,0 +1,28 @@
+.chart-line {
+    display: block;
+}
+
+.chart-line .line {
+    fill: none;
+    stroke-width: 4;
+    pointer-events: none;
+}
+.chart-line .line--sm {
+    stroke-width: 1;
+}
+.chart-line .area {
+    stroke: none;
+    fill-opacity: 0.6;
+    stroke-width: 0;
+    pointer-events: none;
+}
+
+.chart-line .selection-group .brush-group rect.selection {
+    /* fill: #e3e3e3; */
+}
+
+.magnify-view-rect {
+    fill: #fff;
+    stroke-width: 1;
+    cursor: grab;
+}

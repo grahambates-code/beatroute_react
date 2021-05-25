@@ -1,129 +1,72 @@
-import React from 'react'
-import ReactAnnotation from 'react-annotation'
-import ReactRough, { Rectangle, Line } from 'react-rough';
+import React, {Fragment, useState, useEffect} from 'react'
+import gql from "graphql-tag";
+import {Query} from "react-apollo";
 import * as d3 from 'd3'
+import LineChart from './libs/charts/line-chart/LineChartComponent'
 
-const stock = [
-    {
-        date : "17-Apr-12",
-        close : 45
-    },
-
-    {
-        date : "18-Apr-12",
-        close : 66
-    },
-
-    {
-        date : "19-Apr-12",
-        close : 75
-    }
-
-
-];
-export default class LineChart extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            hover: false
-        }
-    }
-
-    render() {
-        const { AnnotationCallout } = ReactAnnotation
-
-        const margin = { top: 20, right: 20, bottom: 30, left: 20 },
-            height = 500 - margin.top - margin.bottom,
-            width = 500 - margin.left - margin.right
-
-        const x = d3.scaleTime().range([0, width])
-        const y = d3.scaleLinear().range([height, 0])
-
-        const valueline = d3
-            .line()
-            .x(d => x(d.date))
-            .y(d => y(d.close))
-
-        stock.forEach(function(d) {
-            d.date = new Date(d.date)
-            d.close = +d.close
-        })
-
-        x.domain(d3.extent(stock, d => d.date))
-        y.domain([0, d3.max(stock, d => d.close)])
-
-        //Add annotations
-        const labels = [
-            {
-                data: { date: "17-Apr-12", close: 45.23 },
-                dy: 50,
-                dx: 50
-            }
-
-        ].map(l => {
-            l.note = Object.assign({}, l.note, {
-                title: `Close: ${l.data.close}`,
-                label: `${l.data.date}`
-            })
-            l.x = x(new Date(l.data.date))
-            l.y = y(l.data.close)
-            l.subject = { radius: 4 }
-
-            return l
-        })
-
-        const annotations = labels.map((a, i) => (
-            <g key={i}>
-                <AnnotationCallout
-                    dx={a.dx}
-                    dy={a.dy}
-                    color={"#9610ff"}
-
-                    x={a.x}
-                    y={a.y}
-                    note={a.note}
-                    subject={a.subject}
-                />
-                <circle
-                    fill="#9610ff"
-                    r={5}
-                    cx={a.x}
-                    cy={a.y}
-                    onMouseOver={() =>
-                        this.setState({
-                            hover: i
-                        })}
-                    onMouseOut={() =>
-                        this.setState({
-                            hover: null
-                        })}
-                />
-            </g>
-        ))
-
-        return (
-
-                    <ReactRough  renderer="svg" config={{ options: { roughness: 0.5 } }} height={500} renderer="svg" width={500}>
-
-                        <Line
-                            x1={0}
-                            x2={width}
-                            y1={height }
-                            y2={height }
-                        />
-
-                        <Line
-                            x1={0}
-                            x2={0}
-                            y1={0 }
-                            y2={height }
-                        />
-
-                        <path d={valueline(stock)} stroke="#ddd" fill="none" />
-
-                        {annotations}
-                    </ReactRough>
-
-        )
-    }
+const GET_EXTRA = gql`
+             query MyQuery($card_id : Int) {
+                  gps_data(where: {card_id: {_eq: $card_id}}) {
+                    card_id
+                    data
+             }
 }
+
+`
+export default ({card}) => {
+
+    const [dataa, setData] = useState([]);
+
+    useEffect(() => {
+        setData(_generateRandomData());
+    }, []);
+
+
+    const _generateRandomData = () => {
+        const data = [];
+
+        for (let i = 0; i < 24; i++) {
+            const date = new Date();
+            date.setDate(i);
+
+            const d = {
+                x: date,
+                y: Math.random() * 20,
+            };
+
+            data.push(d);
+        }
+
+        return data;
+    };
+
+    return <div>
+
+    <Query query={GET_EXTRA} variables={{card_id : card.id}} >
+        {({ loading, error, data, refetch  }) => {
+
+            if (loading || !data) return null
+
+            if (!data.gps_data.length) return <span>no data</span>
+
+            return <Fragment>
+                <LineChart
+                    data={dataa}
+                    dimension={{
+                        height: 400,
+                    }}
+                    xAxis={{
+                        format: undefined
+                    }}
+                    yAxis={{
+                        format: d => d3.format('.2f')(d)
+                    }}
+                    color="#ec407a"
+                />
+            </Fragment>
+
+        }}
+
+    </Query>
+
+</div>}

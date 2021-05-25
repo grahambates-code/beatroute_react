@@ -1,0 +1,53 @@
+.chart {
+    width: 100%;
+    height: 100%;
+}
+
+.chart .axis text {
+    font-size: 12px;
+    color: currentColor;
+}
+
+.chart .axis {
+    color: #6f6f6f;
+}
+
+.chart .axis .domain {
+    display: none;
+}
+
+.chart .axis .tick {
+    stroke-opacity: 0.1;
+}
+
+.chart-line {
+    display: block;
+}
+
+.line {
+    fill: none;
+    stroke-width: 4;
+    pointer-events: none;
+}
+.chart-line-brush .line {
+    stroke-width: 1;
+}
+.area {
+    stroke: none;
+    fill-opacity: 0.6;
+    stroke-width: 0;
+    pointer-events: none;
+}
+.selection-group .brush-group rect.selection {
+    /* fill: #e3e3e3; */
+}
+
+.magnify-view-rect {
+    fill: #fff;
+    stroke-width: 1;
+    cursor: grab;
+}
+
+.line-brush .handle {
+    pointer-events: none;
+}

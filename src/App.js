@@ -161,19 +161,17 @@ const App = () => {
                       },
                     }) => (
                       <div>
-                        <Header title={trip.name} />
+                        <Header title={trip.name} ></Header>
                         <Box maxHeight="100vh" overflow="scroll">
-                          <h2>
-                            <AddPhoto refetch={refetch} />
-                          </h2>
+                          {/*<h2>*/}
+                          {/*  <AddPhoto refetch={refetch} />*/}
+                          {/*</h2>*/}
 
                           <main className="App-main">
                             <portals.InPortal node={portalNode2}>
                               <div> this is one time component</div>
                               {/*<Deck trip={trip} width={width} updateCard={() => alert("not implemented")}/>*/}
                             </portals.InPortal>
-
-                            <Wood3D/>
 
                             {cards.map((card, i) => {
                               return (

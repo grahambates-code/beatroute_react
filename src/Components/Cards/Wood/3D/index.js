@@ -29,7 +29,10 @@ export default class extends Component {
             position_x : 0,
             position_y : 5,
             position_z : 5,
-            viewState: {target: [0, 0, 0], rotationX: 0, rotationOrbit: 90, zoom: 5},
+            viewState: {
+                target: [0, 0, 0], rotationX: 0, rotationOrbit: 90, zoom: 5
+
+            },
         };
         this.debounce  = _.debounce(e => e(), 300);
     }
@@ -60,13 +63,21 @@ export default class extends Component {
             intensity: this.state.intensity
         });
 
+        const cl3 = new DirectionalLight({
+            color: [255, 255, 255],
+            direction: [this.state.position_x, this.state.position_y, this.state.position_z],
+            intensity: this.state.intensity
+        });
+
 // create ambient light source
         const ambientLight = new AmbientLight({
             color: [255, 255, 255],
             intensity: 0.2
         });
 
-        const lightingEffect = new LightingEffect({ ambientLight, cl2});
+        const lightingEffect = new LightingEffect({ ambientLight, cl2, cl3});
+
+        console.log(this.state)
 
         return (
             <div>
@@ -124,7 +135,7 @@ export default class extends Component {
                             controller={true}
                             height="100%"
                             width="100%"
-                            effects={[postProcessEffect, lightingEffect]}
+                            effects={[lightingEffect]}
                             ref={deck => {
                                 this.deckGL = deck;
                             }}

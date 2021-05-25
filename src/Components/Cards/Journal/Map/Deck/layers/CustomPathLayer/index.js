@@ -26,6 +26,9 @@ const vertexShader = `
 
 const fragmentShaderParts = fs.split(filterCall);
 const fragmentShader = `
+		uniform float sublinesNumber;
+		uniform float sublinesAmplitude;
+
 		varying float vLength;
 		varying vec2 vPosition;
 		varying float vWidth;
@@ -48,9 +51,9 @@ const fragmentShader = `
 	` +
 	fragmentShaderParts[0] + `
 		float a = 0.0;
-		for (int i = 1; i < 4; i++) {
+		for (int i = 1; i < 4; i++) if(float(i) <= sublinesNumber) {
 			float w = 0.33 - 0.01 * float(i);
-			float s = pingpong( 1234.5 * vLength / (8.7 - float(i)) + float(i) );
+			float s = pingpong( 1234.5 * vLength / (8.7 - float(i)) + float(i) ) * sublinesAmplitude;
 			float d = abs( (1.0 - 2.0 * w) * s - vPathPosition.x );
 			a = a + smoothstep(w, w - 0.2, d);
 		}
@@ -101,6 +104,16 @@ export default class CustomPathLayer extends PathLayer {
 					}
 				}
 			}
+		});
+	}
+
+	draw(stuff) {
+		super.draw({
+			uniforms: Object.assign({}, stuff.uniforms, {
+				// set these from this.props or whatever
+				sublinesNumber: 3,      // 1...4
+				sublinesAmplitude: 0.7  // 0...1
+			})
 		});
 	}
 }

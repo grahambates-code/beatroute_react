@@ -9,6 +9,7 @@ import EditLayer from "./EditLayer";
 import HighlightLayer from "./HighlightLayer";
 import PhotoLayer from "./PhotoLayer";
 import TextLayer from "./TextLayer";
+import MVTLayer from "./MVT";
 
 import _ from 'lodash';
 
@@ -64,6 +65,9 @@ export default class JournalMap extends CompositeLayer {
 
         });
 
+        const mvt = new MVTLayer();
+
+
         const tilelayer = new TileLayer({ data: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', tileSize: 256, renderSubLayers: props => {
                 const {
                     bbox: {west, south, east, north}
@@ -87,7 +91,7 @@ export default class JournalMap extends CompositeLayer {
 
         let assets = new AssetLayer({ data : _(slide.assets).filter( a => a.type === 'asset')});
 
-        return [  tilelayer, hl, route, text, assets, masklayer   ];
+        return [  tilelayer, hl, route, text, assets, mvt    ];
     }
 }
 

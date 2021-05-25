@@ -1,0 +1,23 @@
+@import './_line-chart.css';
+
+.chart-wrapper {
+    width: 100%;
+    height: 100%;
+}
+
+.chart-wrapper .axis text {
+    font-size: 12px;
+    color: currentColor;
+}
+
+.chart-wrapper .axis {
+    color: #6f6f6f;
+}
+
+.chart-wrapper .axis .domain {
+    display: none;
+}
+
+.chart-wrapper .axis .tick {
+    stroke-opacity: 0.1;
+}
