@@ -23,18 +23,6 @@ const TopScrollGraphic = () => {
     useLayoutEffect(() => {
         const scrollers = [];
 
-        // const headerScroll = ScrollTrigger.create({
-        //     trigger: ref.current,
-        //     pin: ref.current.querySelector('.top-scroll-graphic-header'),
-        //     pinSpacing: false,
-        //     start: 'top top',
-        //     end: 'bottom center',
-        //     scrub: true,
-        //     refreshPriority: 0
-        // });
-
-        // scrollers.push(headerScroll);
-
         gsap.utils.toArray(ref.current.querySelectorAll('.top-scroll-graphic-card')).forEach((el, index) => {
             const scroller = ScrollTrigger.create({
                 trigger: el,
