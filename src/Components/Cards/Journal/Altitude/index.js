@@ -16,11 +16,9 @@ export default ({card, refetch}) => {
     return <Fragment>
 
         <Overlay card={card} button={ <Button actions={actions}/>}>
-            <Frame width={350}  height={600} >
 
                 <Chart card={card }/>
 
-            </Frame>
         </Overlay>
 
     </Fragment>

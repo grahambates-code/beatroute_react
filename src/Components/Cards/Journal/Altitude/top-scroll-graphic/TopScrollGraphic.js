@@ -1,14 +1,15 @@
-import React, { useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SampleData from './sample-data.json';
 import { parseToLineData } from './chart.utils';
 
-import './styles.css';
 import LineChart from '../libs/charts/LineChart';
 import AxisX from '../libs/charts/AxisX';
 import AxisY from '../libs/charts/AxisY';
 import LineScatter from '../libs/charts/LineScatter';
+
+import './styles.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -17,13 +18,29 @@ const range = Math.floor(lineData.length / 3);
 
 const TopScrollGraphic = () => {
     const [scatterData, setScatterData] = useState(lineData[0]);
+    const ref = useRef(null);
 
     useLayoutEffect(() => {
-        gsap.utils.toArray('.top-scroll-graphic-card').forEach((el, index) => {
-            ScrollTrigger.create({
+        const scrollers = [];
+
+        // const headerScroll = ScrollTrigger.create({
+        //     trigger: ref.current,
+        //     pin: ref.current.querySelector('.top-scroll-graphic-header'),
+        //     pinSpacing: false,
+        //     start: 'top top',
+        //     end: 'bottom center',
+        //     scrub: true,
+        //     refreshPriority: 0
+        // });
+
+        // scrollers.push(headerScroll);
+
+        gsap.utils.toArray(ref.current.querySelectorAll('.top-scroll-graphic-card')).forEach((el, index) => {
+            const scroller = ScrollTrigger.create({
                 trigger: el,
                 start: 'top center',
                 end: 'bottom center',
+                refreshPriority: 0,
                 onUpdate: ({ progress }) => {
                     let distance = 0;
 
@@ -38,11 +55,19 @@ const TopScrollGraphic = () => {
                     setScatterData(lineData[index * range + distance]);
                 }
             });
+
+            scrollers.push(scroller);
         });
+
+        return () => {
+            scrollers.forEach((scroller) => {
+                scroller.kill();
+            });
+        };
     }, []);
 
     return (
-        <div className="top-scroll-graphic">
+        <div ref={ref} className="top-scroll-graphic">
             <div className="top-scroll-graphic-header">
                 <div>
                     <LineChart
