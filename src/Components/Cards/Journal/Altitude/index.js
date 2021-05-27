@@ -5,7 +5,7 @@ import Overlay from "../../Common/Overlay";
 import {Button} from "../Toolbar/Button";
 import DeleteCard from "../Toolbar/DeleteCard";
 import Frame from "../../Common/Frame";
-import Chart from './top-scroll-graphic/TopScrollGraphic'
+import Chart from './TopScrollGraphic';
 
 export default ({card, refetch}) => {
     const actions = [

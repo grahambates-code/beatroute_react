@@ -1,12 +1,10 @@
 .top-scroll-graphic {
-    min-height: 300vh;
+    min-height: 200vh;
 }
 
-.top-scroll-graphic > .top-scroll-graphic-header {
+.top-scroll-graphic .top-scroll-graphic-header {
     position: sticky;
-    top: 0;
-    left: 0;
-    right: 0;
+    top: 64px;
     background-color: #fff;
 }
 

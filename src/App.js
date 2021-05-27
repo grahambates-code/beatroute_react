@@ -8,9 +8,9 @@ import Measure from 'react-measure';
 
 import { ApolloClient, InMemoryCache, HttpLink } from 'apollo-boost';
 
-import { ApolloProvider } from 'react-apollo';
+import { ApolloProvider,  } from 'react-apollo';
 
-import { Query } from 'react-apollo';
+import { Query,  } from 'react-apollo';
 
 import gql from 'graphql-tag';
 
@@ -31,7 +31,7 @@ import Wood3D from './Components/Cards/Wood/3D';
 import CardAdder from './Components/Adder';
 import * as THREE from 'three';
 import { ThemeProvider } from '@material-ui/styles';
-import { createMuiTheme, Box } from '@material-ui/core';
+import { createMuiTheme } from '@material-ui/core';
 import Header from './Components/Header';
 
 const theme = createMuiTheme({});
@@ -152,73 +152,67 @@ const App = () => {
                 });
 
               return (
-                <Fragment>
-                  <Measure bounds>
-                    {({
-                      measureRef,
-                      contentRect: {
-                        bounds: { width },
-                      },
-                    }) => (
-                      <div>
-                        <Header title={trip.name} ></Header>
-                        <Box maxHeight="100vh" overflow="scroll">
-                          {/*<h2>*/}
-                          {/*  <AddPhoto refetch={refetch} />*/}
-                          {/*</h2>*/}
+                <div>
+                  <Header title={trip.name} />
+                  <main className="app-main">
+                      <portals.InPortal node={portalNode2}>
+                        <div> this is one time component</div>
+                        {/*<Deck trip={trip} width={width} updateCard={() => alert("not implemented")}/>*/}
+                      </portals.InPortal>
 
-                          <main className="App-main">
-                            <portals.InPortal node={portalNode2}>
-                              <div> this is one time component</div>
-                              {/*<Deck trip={trip} width={width} updateCard={() => alert("not implemented")}/>*/}
-                            </portals.InPortal>
+                      {cards.map((card, i) => {
+                        return (
+                          <div className="app-section" key={i}>
+                            {card.type === 'JournalFront' && (
+                              <JournalCover
+                                key={i + '' + card.id}
+                                card={card}
+                                trip={trip}
+                                index={i}
+                                client={client}
+                                refetch={refetch}
+                              />
+                            )}
+                            {card.type === 'JournalHeading' && (
+                              <JournalHeading
+                                key={i + '' + card.id}
+                                card={card}
+                                trip={trip}
+                                index={i}
+                                client={client}
+                                refetch={refetch}
+                              />
+                            )}
+                            {card.type === 'JournalText' && (
+                              <JournalText
+                                key={i + '' + card.id}
+                                card={card}
+                                trip={trip}
+                                index={i}
+                                client={client}
+                                refetch={refetch}
+                              />
+                            )}
 
-                            {cards.map((card, i) => {
-                              return (
-                                <div className="App-section" key={i}>
-                                  {card.type === 'JournalFront' && (
-                                    <JournalCover
-                                      key={i + '' + card.id}
-                                      card={card}
-                                      trip={trip}
-                                      index={i}
-                                      client={client}
-                                      refetch={refetch}
-                                    />
-                                  )}
-                                  {card.type === 'JournalHeading' && (
-                                    <JournalHeading
-                                      key={i + '' + card.id}
-                                      card={card}
-                                      trip={trip}
-                                      index={i}
-                                      client={client}
-                                      refetch={refetch}
-                                    />
-                                  )}
-                                  {card.type === 'JournalText' && (
-                                    <JournalText
-                                      key={i + '' + card.id}
-                                      card={card}
-                                      trip={trip}
-                                      index={i}
-                                      client={client}
-                                      refetch={refetch}
-                                    />
-                                  )}
+                            {card.type === 'JournalAltitude' && (
+                                <JournalAltitude
+                                    key={i + '' + card.id}
+                                    card={card}
+                                    trip={trip}
+                                    index={i}
+                                    client={client}
+                                    refetch={refetch}
+                                />
+                            )}
 
-                                  {card.type === 'JournalAltitude' && (
-                                      <JournalAltitude
-                                          key={i + '' + card.id}
-                                          card={card}
-                                          trip={trip}
-                                          index={i}
-                                          client={client}
-                                          refetch={refetch}
-                                      />
-                                  )}
-
-                                  {card.type === 'JournalMap' && font && (
+                            {card.type === 'JournalMap' && font && (
+                              <Measure bounds>
+                                {({
+                                  measureRef,
+                                  contentRect: {
+                                    bounds: { width },
+                                  },
+                                }) => (
                                     <JournalMap
                                       key={i + '' + card.id}
                                       card={card}
@@ -236,23 +230,21 @@ const App = () => {
                                       index={i}
                                       refetch={refetch}
                                     />
-                                  )}
-                                </div>
-                              );
-                            })}
+                                )}
+                              </Measure>
+                            )}
+                          </div>
+                        );
+                      })}
 
-                            <div
-                              className="App-section"
-                              style={{ height: '100%' }}
-                            >
-                              <CardAdder trip={trip} refetch={refetch} />
-                            </div>
-                          </main>
-                        </Box>
+                      <div
+                        className="app-section"
+                        style={{ height: '100%' }}
+                      >
+                        <CardAdder trip={trip} refetch={refetch} />
                       </div>
-                    )}
-                  </Measure>
-                </Fragment>
+                    </main>
+                </div>
               );
             }}
           </Query>
