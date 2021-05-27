@@ -9,7 +9,7 @@ import AxisX from '../libs/charts/AxisX';
 import AxisY from '../libs/charts/AxisY';
 import LineScatter from '../libs/charts/LineScatter';
 
-import './styles.css';
+import './index.css';
 
 gsap.registerPlugin(ScrollTrigger);
 

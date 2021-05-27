@@ -31,9 +31,8 @@ import Wood3D from './Components/Cards/Wood/3D';
 import CardAdder from './Components/Adder';
 import * as THREE from 'three';
 import { ThemeProvider } from '@material-ui/styles';
-import { createMuiTheme, Box } from '@material-ui/core';
+import { createMuiTheme } from '@material-ui/core';
 import Header from './Components/Header';
-import TopScrollGraphic from './Components/Cards/Journal/Altitude/top-scroll-graphic/TopScrollGraphic';
 
 const theme = createMuiTheme({});
 
