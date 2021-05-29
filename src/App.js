@@ -200,6 +200,7 @@ const App = () => {
                                     card={card}
                                     trip={trip}
                                     index={i}
+                                    width={500}
                                     client={client}
                                     refetch={refetch}
                                 />
