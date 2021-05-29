@@ -22,26 +22,31 @@ const TopScrollGraphic = () => {
 
     useLayoutEffect(() => {
         const scrollers = [];
+        const allCardElements = ref.current.querySelectorAll('.top-scroll-graphic-card');
 
-        gsap.utils.toArray(ref.current.querySelectorAll('.top-scroll-graphic-card')).forEach((el, index) => {
+        const fadeAllCards = () => {
+            gsap.to('.top-scroll-graphic-card', { alpha: 0.2 });
+        };
+
+        gsap.utils.toArray(allCardElements).forEach((el, index) => {
             const scroller = ScrollTrigger.create({
                 trigger: el,
                 start: 'top center',
                 end: 'bottom center',
                 refreshPriority: 0,
+                onEnter: () => {
+                    fadeAllCards();
+                    gsap.to(el, { alpha: 1 });
+                },
+                onEnterBack: () => {
+                    fadeAllCards();
+                    gsap.to(el, { alpha: 1 });
+                },
                 onUpdate: ({ progress }) => {
-                    let distance = 0;
-
-                    if (progress >= 0.25 && progress <= 0.75) {
-                        distance = 3;
-                    }
-
-                    if (progress > 0.75) {
-                        distance = 6;
-                    }
+                    const distance = Math.floor(progress * 10);
 
                     setScatterData(lineData[index * range + distance]);
-                }
+                },
             });
 
             scrollers.push(scroller);
