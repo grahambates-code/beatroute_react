@@ -117,7 +117,7 @@ const TopScrollGraphic = ({card, width, refetch}) => {
                 </div>
             </div>
 
-            <AddChapter card={card} refetch={refetch}/>
+            <AddChapter card={card} refetch={refetch} data={[1,2,3]}/>
 
             <pre>{card.slides.length}</pre>
 
