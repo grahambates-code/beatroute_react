@@ -16,7 +16,7 @@ mutation MyMutation($card_id : Int, $data : jsonb) {
 const MyMutationMutation = (props) => {
     return (
         <Mutation
-            mutation={MY_MUTATION_MUTATION} >
+            mutation={MY_MUTATION_MUTATION} onCompleted={props.close} >
             {(updateData, { loading, error, data }) => {
                 if (loading) return <pre>Loading</pre>
 
@@ -29,7 +29,7 @@ const MyMutationMutation = (props) => {
                     );
 
                 return (
-                    <Reader card={props.card} updateTripGeojson={updateData}/>
+                    <Reader card={props.card} updateData={updateData}/>
                 );
             }}
         </Mutation>

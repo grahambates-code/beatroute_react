@@ -14,6 +14,7 @@ import {
 } from "@material-ui/core";
 
 import AddGPS from "../AddGPS";
+import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
 
 export default ({refetch, card}) => {
 
@@ -28,14 +29,7 @@ export default ({refetch, card}) => {
                 <Toolbar>
                     <Grid container={true} alignItems="center" justify="space-between">
                         <Box display="flex" alignItems="center">
-
-                            <Box marginRight={1}>
-                                <AddGPS refetch={refetch} card={card}/>
-                            </Box>
-
-                            <Typography variant="h4" color="inherit">
-                              Add
-                            </Typography>
+                                <AddGPS close={() => setModal(false)} refetch={refetch} card={card}/>
                         </Box>
 
                     </Grid>
@@ -47,7 +41,7 @@ export default ({refetch, card}) => {
 
                 <Grid container={true} justify="flex-end">
 
-                    <Button variant="contained">
+                    <Button variant="contained" onClick={() => setModal(false)}>
                         Cancel
                     </Button>
 
@@ -55,9 +49,7 @@ export default ({refetch, card}) => {
             </DialogContent>
         </Dialog>
 
-        <Button variant="outlined" color="inherit" onClick={() => setModal(true)}>
-            Add gps
-        </Button>
+        <AddToPhotosIcon onClick={() => setModal(true)}></AddToPhotosIcon>
 
     </Fragment>
 }

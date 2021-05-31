@@ -12,6 +12,19 @@ import AxisY from '../libs/charts/AxisY';
 import LineScatter from '../libs/charts/LineScatter';
 
 import './index.css';
+import {Query} from "react-apollo";
+import gql from "graphql-tag";
+
+
+const GET_EXTRA = gql`
+             query MyQuery($card_id : Int) {
+                  gps_data(where: {card_id: {_eq: $card_id}}) {
+                    card_id
+                    data
+             }
+}
+
+`
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -65,19 +78,30 @@ const TopScrollGraphic = ({card, width}) => {
         <div ref={ref} className="top-scroll-graphic">
             <div className="top-scroll-graphic-header">
                 <div>
-                    <LineChart
-                        height={300}
-                        data={lineData}
-                        color="#ec407a"
-                    >
-                        <AxisX />
-                        <AxisY />
-                        <LineScatter
-                            data={scatterData}
-                            color="#2196f3"
-                            radius={7}
-                        />
-                    </LineChart>
+
+                    <Query query={GET_EXTRA} variables={{card_id : card.id}} >
+                        {({ loading, error, data, refetch  }) => {
+
+                            if (loading || !data || !data.gps_data.length) return null
+
+
+                          //  return <pre>{JSON.stringify(data.gps_data[0].data)}</pre>
+                            return <LineChart
+                                height={300}
+                                data={parseToLineData(data.gps_data[0].data)}
+                                color="#ec407a"
+                            >
+
+                                <AxisY/>
+                                <LineScatter
+                                    data={scatterData}
+                                    color="#2196f3"
+                                    radius={7}
+                                />
+                            </LineChart>
+                        }}
+                    </Query>
+
                 </div>
             </div>
 

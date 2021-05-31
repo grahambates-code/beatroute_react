@@ -7,7 +7,7 @@ import AddCircleOutline from "@material-ui/icons/AddCircleOutline";
 // example of using that class
 import {GoogleMapsApi} from './../../../../../util/googlemaps';
 
-export default function MyDropzone({card, updateTripGeojson}) {
+export default function MyDropzone({card, updateData, close}) {
 
     const onDrop = useCallback(acceptedFiles => {
 
@@ -27,7 +27,10 @@ export default function MyDropzone({card, updateTripGeojson}) {
 
             const gmapApi = new GoogleMapsApi();
 
-            let path = gpx(doc).features.filter(d => d.geometry.type=== 'Point').map(s => ({lng : s.geometry.coordinates[0], lat : s.geometry.coordinates[1]}));
+           // console.log( gpx(doc).features);
+            let path = gpx(doc).features[0].geometry.coordinates.map(s => ({lng : s[0], lat : s[1]}));
+
+            console.log(path);
 
             gmapApi.load().then(() => {
 
@@ -40,7 +43,8 @@ export default function MyDropzone({card, updateTripGeojson}) {
                     },
                     (e) => {
                         let r = (e.map(d => ({type : "Feature", properties : {elevation : d.elevation}, geometry : {type : "Point", coordinates : [d.location.lng(), d.location.lat()]}})));
-                        updateTripGeojson({ variables : {card_id : card.id, data : {type : 'FeatureCollection', features : r} }});
+
+                        updateData({ variables : {card_id : card.id, data : {type : 'FeatureCollection', features : r} }});
                     }
                 );
 
@@ -57,7 +61,7 @@ export default function MyDropzone({card, updateTripGeojson}) {
     return (
         <div {...getRootProps()}>
             <input {...getInputProps()} />
-            <AddCircleOutline></AddCircleOutline>
+            <AddCircleOutline></AddCircleOutline> Drag your gpx file here
         </div>
     )
 }
