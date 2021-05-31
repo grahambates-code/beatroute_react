@@ -7,11 +7,17 @@ const LineScatter = ({ color, radius, data }) => {
     const circleRef = useRef(null);
 
     useLayoutEffect(() => {
-        d3.select(circleRef.current)
-            .transition()
-            .attr('cx', context.xScale(data.x))
-            .attr('cy', context.yScale(data.y));
+        if (data) {
+            d3.select(circleRef.current)
+                .transition()
+                .attr('cx', context.xScale(data.x))
+                .attr('cy', context.yScale(data.y));
+        }
     }, [data, context]);
+
+    if (!data) {
+        return null;
+    }
 
     return (
         <g className="chart-line-scatters">
