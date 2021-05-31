@@ -1,8 +1,8 @@
 import React from "react";
 import { Item, AppContainer, Code } from "./components";
 import Carousel from "./Carousel";
-import MaskModeFrame from "../../../Polaroids/MaskModeFrame";
-import * as TransformUtils from "../../../../../../util/transform";
+import MaskModeFrame from "../../../Journal/Polaroids/MaskModeFrame";
+import * as TransformUtils from "../../../../../util/transform";
 
 function App() {
     return (

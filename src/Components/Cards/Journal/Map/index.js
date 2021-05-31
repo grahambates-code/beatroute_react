@@ -2,7 +2,7 @@ import React, {Component, useLayoutEffect, useRef, useState} from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-import Deck from "./Deck";
+import Deck from "../../Common/Deck";
 import CardSaver from "../../../Saver";
 import Toolbar from '../Toolbar'
 import Slides from "./Slides";
@@ -24,7 +24,7 @@ export default class extends Component {
         this.state = {
             slideIndex : 0,
             selectedAsset   : null,
-            viewState       : props.card.slides[0].camera ? props.card.slides[0]?.camera : {longitude : 0, latitude : 50, zoom : 4 }
+            viewState       : props.card.slides[0]?.camera ? props.card.slides[0]?.camera : {longitude : 0, latitude : 50, zoom : 4 }
         }
 
     }

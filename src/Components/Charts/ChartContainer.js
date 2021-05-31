@@ -60,6 +60,11 @@ const ChartContainer = ({ width, height, margin, data, children, color, classNam
         }
     }, [height, width]);
 
+    if (data[0]) {
+        if (typeof data[0].x === 'number') {
+            scales.current.xScale = d3.scaleLinear();
+        }
+    }
 
     scales.current.xScale = scales.current.xScale
         .domain(d3.extent(data, d => d.x))

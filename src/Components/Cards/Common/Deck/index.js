@@ -47,10 +47,10 @@ export default class extends Component {
 
     render() {
 
-        const slide = this.props.card.slides[this.props.slideIndex];
+        const slide = this.props.slide;
 
         let layers = [
-           new JournalMap({ font : this.props.font, selectedAsset : null, slide : slide, refetch : this.props.refetch, client : this.props.client, trip : this.props.trip, width : this.props.width, data : this.props.card.data || emptyFeatureCollection}),
+           new JournalMap({ font : this.props.font, selectedAsset : null, slide : slide, refetch : this.props.refetch, client : this.props.client, trip : this.props.trip, width : this.props.width, data : this.props.data || emptyFeatureCollection}),
         ];
 
         let that = this;
@@ -67,8 +67,8 @@ export default class extends Component {
 
                 if ((event.type === 'panend' || event.type === 'wheel' )) {
 
-                    const slide = that.props.card.slides[that.props.slideIndex];
-                    that.debounce(() => that.props.updateSlide({variables : {slide_id : slide.id,  data :  {...slide.data, pointB : that.props.slidePhotoRotation}, camera : this.controllerState._viewportProps}}));
+                   // const slide = that.props.card.slides[that.props.slideIndex];
+                   // that.debounce(() => that.props.updateSlide({variables : {slide_id : slide.id,  data :  {...slide.data, pointB : that.props.slidePhotoRotation}, camera : this.controllerState._viewportProps}}));
                 }
             }
         }
@@ -87,7 +87,7 @@ export default class extends Component {
                             //controller={true}
                             controller={{type: controller, inertia: true, touchRotate : true, dragRotate : true, scrollZoom: true, doubleClickZoom : false}}
                            // _animate={true}
-                            height="100%"
+                            height="100vh"
                             width="100%"
                             effects={[lightingEffect]}
                             ref={deck => {
