@@ -96,17 +96,19 @@ const TopScrollGraphic = ({card, width}) => {
             <pre>selectedLongLat</pre>
 
             <div className="top-scroll-graphic-content">
-                {card.slides.map((s, i) => 
-                    <Chapter 
-                        key={i} 
-                        selectedLongLat={{ 
-                            long: scatterData.y, 
-                            lat: scatterData.x 
-                        }} 
-                        width={width} 
-                        slide={s} 
-                    />
-                )}
+                {card.slides.map((s, i) => (
+                    <div className="top-scroll-graphic-card">
+                        <Chapter 
+                            key={i} 
+                            selectedLongLat={{ 
+                                long: scatterData.y, 
+                                lat: scatterData.x 
+                            }} 
+                            width={width} 
+                            slide={s} 
+                        />
+                    </div>
+                ))}
             </div>
         </div>
     );
