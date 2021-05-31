@@ -4,10 +4,10 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SampleData from './sample-data.json';
 import { parseToLineData } from './chart.utils';
 
-import LineChart from '../libs/charts/LineChart';
-import AxisX from '../libs/charts/AxisX';
-import AxisY from '../libs/charts/AxisY';
-import LineScatter from '../libs/charts/LineScatter';
+import LineChart from '../../../../Charts/LineChart';
+import AxisX from '../../../../Charts/AxisX';
+import AxisY from '../../../../Charts/AxisY';
+import LineScatter from '../../../../Charts/LineScatter';
 
 import './index.css';
 
@@ -16,9 +16,11 @@ gsap.registerPlugin(ScrollTrigger);
 const lineData = parseToLineData(SampleData);
 const range = Math.floor(lineData.length / 3);
 
-const TopScrollGraphic = () => {
+const TopScrollGraphic = ({ card }) => {
     const [scatterData, setScatterData] = useState(lineData[0]);
     const ref = useRef(null);
+
+    console.log('card', card);
 
     useLayoutEffect(() => {
         const scrollers = [];
