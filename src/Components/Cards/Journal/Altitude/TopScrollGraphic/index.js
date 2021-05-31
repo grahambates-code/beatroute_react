@@ -12,15 +12,29 @@ import AxisY from '../../../../Charts/AxisY';
 import LineMagnifyingView from '../../../../Charts/LineMagnifyingView';
 import LineScatter from '../../../../Charts/LineScatter';
 import Chapter from './../Chapter'
+import AddChapter from './../AddChapter'
 
 import './index.css';
+import {Query} from "react-apollo";
+import gql from "graphql-tag";
+
+
+const GET_EXTRA = gql`
+             query MyQuery($card_id : Int) {
+                  gps_data(where: {card_id: {_eq: $card_id}}) {
+                    card_id
+                    data
+             }
+}
+
+`
 
 gsap.registerPlugin(ScrollTrigger);
 
 const lineData = parseToLineData(SampleData);
 const range = Math.floor(lineData.length / 3);
 
-const TopScrollGraphic = ({card, width}) => {
+const TopScrollGraphic = ({card, width, refetch}) => {
     const [scatterData, setScatterData] = useState(lineData[0]);
     const ref = useRef(null);
 
@@ -69,43 +83,55 @@ const TopScrollGraphic = ({card, width}) => {
         <div ref={ref} className="top-scroll-graphic">
             <div className="top-scroll-graphic-header">
                 <div>
-                    <ConnectCharts>
-                        <LineChart
-                            height={300}
-                            data={lineData}
-                            color="#ec407a"
-                        >
-                            <AxisX />
-                            <AxisY />
-                            <LineScatter
-                                data={scatterData}
-                                color="#2196f3"
-                                radius={7}
-                            />
-                            <LineMagnifyingView />
-                        </LineChart>
-                        <LineBrush 
-                            height={100}
-                            data={lineData}
-                            color="#ec407a"
-                        />
-                    </ConnectCharts>
+
+                    <Query query={GET_EXTRA} variables={{card_id : card.id}} >
+                        {({ loading, error, data  }) => {
+
+                            if (loading || !data || !data.gps_data.length) return null
+
+                            //return <pre>{JSON.stringify((data.gps_data[0].data))}</pre>
+                            return   <ConnectCharts>
+                                        <LineChart
+                                            height={300}
+                                            data={parseToLineData(data.gps_data[0].data)}
+                                            color="#ec407a"
+                                        >
+
+                                            <AxisY />
+                                            <LineScatter
+                                                data={parseToLineData(data.gps_data[0].data)}
+                                                color="#2196f3"
+                                                radius={7}
+                                            />
+                                            <LineMagnifyingView />
+                                        </LineChart>
+                                        <LineBrush
+                                            height={100}
+                                            data={parseToLineData(data.gps_data[0].data)}
+                                            color="#ec407a"
+                                        />
+                                    </ConnectCharts>
+
+                        }}
+                    </Query>
                 </div>
             </div>
 
-            <pre>selectedLongLat</pre>
+            <AddChapter card={card} refetch={refetch}/>
+
+            <pre>{card.slides.length}</pre>
 
             <div className="top-scroll-graphic-content">
-                {card.slides.map((s, i) => (
+                {false && card.slides.map((s, i) => (
                     <div className="top-scroll-graphic-card">
-                        <Chapter 
-                            key={i} 
-                            selectedLongLat={{ 
-                                long: scatterData.y, 
-                                lat: scatterData.x 
-                            }} 
-                            width={width} 
-                            slide={s} 
+                        <Chapter
+                            key={i}
+                            selectedLongLat={{
+                                long: scatterData.y,
+                                lat: scatterData.x
+                            }}
+                            width={width}
+                            slide={s}
                         />
                     </div>
                 ))}

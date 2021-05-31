@@ -11,7 +11,6 @@ import Chart from './TopScrollGraphic';
 export default ({card, refetch, client}) => {
     const actions = [
         { icon: <DeleteCard refetch={refetch} card={card}/>, name: 'Delete' },
-        { icon: <AddChapter refetch={refetch} card={card}/>, name: 'Add chapter' },
         { icon: <AddGPS2 refetch={refetch} card={card}/>, name: 'Add gps' },
     ];
 

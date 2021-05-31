@@ -4,6 +4,7 @@ import ChartContext from './ChartContext';
 import Line from './Line';
 
 const LineChart = ({ width, height, data, margin, color, children }) => {
+    //return children
     return (
         <ChartContainer
             className="chart-line"
@@ -15,7 +16,7 @@ const LineChart = ({ width, height, data, margin, color, children }) => {
         >
             <ChartContext.Consumer>
                 {({ innerWidth, innerHeight, data, xScale, yScale }) => (
-                    <Line 
+                    <Line
                         width={innerWidth}
                         height={innerHeight}
                         data={data}
