@@ -1,8 +1,6 @@
 import React, { useLayoutEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import SampleData from './sample-data.json';
-import { parseToLineData } from './chart.utils';
 
 import ConnectCharts from '../../../../Charts/ConnectCharts';
 import LineChart from '../../../../Charts/LineChart';
@@ -20,25 +18,24 @@ import gql from "graphql-tag";
 
 
 const GET_EXTRA = gql`
-             query MyQuery($card_id : Int) {
-                  gps_data(where: {card_id: {_eq: $card_id}}) {
-                    card_id
-                    data
-             }
-}
-
-`
+    query MyQuery($card_id : Int) {
+        gps_data(where: {card_id: {_eq: $card_id}}) {
+        card_id
+        data
+    }
+}`
 
 gsap.registerPlugin(ScrollTrigger);
 
-const lineData = parseToLineData(SampleData);
-const range = Math.floor(lineData.length / 3);
+// const lineData = parseToLineData(SampleData);
+// const range = Math.floor(lineData.length / 3);
+
 
 const TopScrollGraphic = ({card, width, refetch}) => {
-    const [scatterData, setScatterData] = useState(lineData[0]);
+    // const [scatterData, setScatterData] = useState(lineData[0]);
+    const [chapterDataArr, setChapterDataArr] = useState([]);
+    const brushFocusRef = useRef(null);
     const ref = useRef(null);
-
-    console.log('card', card);
 
     useLayoutEffect(() => {
         const scrollers = [];
@@ -65,7 +62,7 @@ const TopScrollGraphic = ({card, width, refetch}) => {
                 onUpdate: ({ progress }) => {
                     const distance = Math.floor(progress * 10);
 
-                    setScatterData(lineData[index * range + distance]);
+                    // setScatterData(lineData[index * range + distance]);
                 },
             });
 
@@ -83,35 +80,56 @@ const TopScrollGraphic = ({card, width, refetch}) => {
         <div ref={ref} className="top-scroll-graphic">
             <div className="top-scroll-graphic-header">
                 <div>
-
                     <Query query={GET_EXTRA} variables={{card_id : card.id}} >
                         {({ loading, error, data  }) => {
+                            if (loading || !data || !data.gps_data.length) {
+                                return null
+                            };
 
-                            if (loading || !data || !data.gps_data.length) return null
+                            const { data: { features } } = data.gps_data[0];
+                            const lineData = features.map((feature) => ({ 
+                                x: feature.geometry.coordinates[0], 
+                                y: feature.geometry.coordinates[1] 
+                            })).sort((a, b) => a.x - b.x);
 
-                            //return <pre>{JSON.stringify((data.gps_data[0].data))}</pre>
-                            return   <ConnectCharts>
-                                        <LineChart
-                                            height={300}
-                                            data={parseToLineData(data.gps_data[0].data)}
-                                            color="#ec407a"
-                                        >
-
-                                            <AxisY />
-                                            <LineScatter
-                                                data={parseToLineData(data.gps_data[0].data)}
-                                                color="#2196f3"
-                                                radius={7}
-                                            />
-                                            <LineMagnifyingView />
-                                        </LineChart>
-                                        <LineBrush
-                                            height={100}
-                                            data={parseToLineData(data.gps_data[0].data)}
-                                            color="#ec407a"
+                            return (
+                                <ConnectCharts>
+                                    <LineBrush
+                                        height={150}
+                                        data={lineData}
+                                        color="#ec407a"
+                                        margin={{
+                                            top: 16,
+                                            left: 16,
+                                            right: 16,
+                                            bottom: 16
+                                        }}
+                                        onSelection={(focus) => {
+                                            const prevFocus = brushFocusRef.current;
+                                            if (!prevFocus || ((focus[0] !== prevFocus[0] || focus[1] !== prevFocus[1]))) {
+                                                const subData = [];
+    
+                                                for (const data of lineData) {
+                                                    if (data.x >= focus[0] && data.x <= focus[1]) {
+                                                        subData.push([data.x, data.y]);
+                                                    }
+                                                }
+    
+                                                brushFocusRef.current = focus;
+    
+                                                // setChapterDataArr(subData);
+                                                console.log('focus', subData);
+                                            }
+                                        }}
+                                    >
+                                        <LineScatter
+                                            data={lineData[100]}
+                                            color="#2196f3"
+                                            radius={7}
                                         />
-                                    </ConnectCharts>
-
+                                    </LineBrush>
+                                </ConnectCharts>
+                            );
                         }}
                     </Query>
                 </div>
@@ -126,10 +144,10 @@ const TopScrollGraphic = ({card, width, refetch}) => {
                     <div className="top-scroll-graphic-card">
                         <Chapter
                             key={i}
-                            selectedLongLat={{
-                                long: scatterData.y,
-                                lat: scatterData.x
-                            }}
+                            // selectedLongLat={{
+                            //     long: scatterData.y,
+                            //     lat: scatterData.x
+                            // }}
                             width={width}
                             slide={s}
                         />

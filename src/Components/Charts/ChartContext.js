@@ -13,7 +13,7 @@ const ChartContext = React.createContext({
         left: 48
     },
     data: [],
-    xScale: d3.scaleUtc(),
+    xScale: d3.scaleLinear(),
     yScale: d3.scaleLinear(),
     svg: null,
     rootGroup: null,

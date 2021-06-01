@@ -67,6 +67,7 @@ const ChartContainer = ({ width, height, margin, data, children, color, classNam
     }
 
     scales.current.xScale = scales.current.xScale
+        .nice()
         .domain(d3.extent(data, d => d.x))
         .range([0, dimension.innerWidth]);
 
