@@ -4,8 +4,9 @@ import ChartContainer from './ChartContainer';
 import ChartContext from './ChartContext';
 import Line from './Line';
 import { ConnectChartContext } from './ConnectCharts';
+import Scatter from './Scatter';
 
-const LineBrushWrapper = ({ color }) => {
+const LineBrushWrapper = ({ color, scatterData, onSelection, children }) => {
     const connectContext = useContext(ConnectChartContext);
     const context = useContext(ChartContext);
     const ref = useRef(null);
@@ -37,6 +38,10 @@ const LineBrushWrapper = ({ color }) => {
             function brushed({ selection }) {
                 const focus = selection.map(xScale.invert, xScale);
                 connectContext.updateMagnifyingFocusData(focus);
+
+                if (typeof onSelection === 'function') {
+                    onSelection(focus);
+                }
             }
 
             function brushEnded({ selection }) {
@@ -48,7 +53,7 @@ const LineBrushWrapper = ({ color }) => {
     }, [context]);
 
     return (
-        <g className="line-brush" ref={ref}>
+        <g className="line-brush">
             <Line 
                 width={context.innerWidth}
                 height={context.innerHeight}
@@ -57,11 +62,13 @@ const LineBrushWrapper = ({ color }) => {
                 yScale={context.yScale}
                 color={color}
             />
+            {children}
+            <g ref={ref} />
         </g>
     );
 }
 
-const LineBrush = ({ width, height, margin, data, color }) => {
+const LineBrush = ({ width, height, margin, data, color, children, onSelection }) => {
     return (
         <ChartContainer
             className="chart-line-brush"
@@ -71,7 +78,9 @@ const LineBrush = ({ width, height, margin, data, color }) => {
             data={data}
             color={color}
         >
-            <LineBrushWrapper color={color} />
+            <LineBrushWrapper color={color} onSelection={onSelection}>
+                {children}
+            </LineBrushWrapper>
         </ChartContainer>
     );
 };

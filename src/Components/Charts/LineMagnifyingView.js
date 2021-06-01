@@ -3,8 +3,9 @@ import * as d3 from 'd3';
 import ChartContext from './ChartContext';
 import { ConnectChartContext } from './ConnectCharts';
 import Line from './Line';
+import Scatter from './Scatter';
 
-const LineMagnifyingView = ({ color }) => {
+const LineMagnifyingView = ({ color, enableScatter }) => {
     const chartContext = useContext(ChartContext);
     const ref = useRef(null);
     
@@ -50,14 +51,16 @@ const LineMagnifyingView = ({ color }) => {
             <g clipPath="url(#clipPathDef)">
                 <ConnectChartContext.Consumer>
                     {({ magnifyingFocusData }) => (
-                        <Line 
-                            width={width}
-                            height={height}
-                            data={chartContext.data}
-                            xScale={chartContext.xScale.copy().range([0, width]).domain(magnifyingFocusData)}
-                            yScale={chartContext.yScale.copy().range([height, 0])}
-                            color={color}
-                        />
+                        <>
+                            <Line 
+                                width={width}
+                                height={height}
+                                data={chartContext.data}
+                                xScale={chartContext.xScale.copy().range([0, width]).domain(magnifyingFocusData)}
+                                yScale={chartContext.yScale.copy().range([height, 0])}
+                                color={color}
+                            />
+                        </>
                     )}
                 </ConnectChartContext.Consumer>
             </g>

@@ -1,4 +1,4 @@
-import React, { forwardRef, useContext, useLayoutEffect, useRef } from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
 import * as d3 from 'd3';
 
 const Line = ({ xScale, yScale, width, height, data, color, forwardRef,  }) => {

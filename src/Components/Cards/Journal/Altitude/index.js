@@ -6,7 +6,7 @@ import Overlay from "../../Common/Overlay";
 import {Button} from "../Toolbar/Button";
 import DeleteCard from "../Toolbar/DeleteCard";
 import Frame from "../../Common/Frame";
-import Chart from './TopScrollGraphic';
+import AltitudeChart from './AltitudeChart';
 
 export default ({card, refetch, client}) => {
     const actions = [
@@ -21,7 +21,7 @@ export default ({card, refetch, client}) => {
 
                 Day 1
 
-                <Chart width={500}  card={card } refetch={refetch} client={client}/>
+                <AltitudeChart width={500}  card={card } refetch={refetch} client={client}/>
 
             </Frame>
         </Overlay>
