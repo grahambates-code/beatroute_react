@@ -28,11 +28,13 @@ const AltitudeChart = ({ card, refetch, onSelection }) => {
                     return null
                 };
 
+                console.log('asdsadsdsdsd', data.gps_data[0]);
+
                 const { data: { features } } = data.gps_data[0];
-                const lineData = features.map((feature) => ({ 
-                    x: feature.geometry.coordinates[0], 
-                    y: feature.geometry.coordinates[1] 
-                })).sort((a, b) => a.x - b.x);
+                const lineData = features.map((feature, i) => ({ 
+                    x: i, 
+                    y: feature.properties.elevation
+                }));
 
                 return (
                     <ConnectCharts>
@@ -49,18 +51,13 @@ const AltitudeChart = ({ card, refetch, onSelection }) => {
                             onSelection={(focus) => {
                                 const prevFocus = brushFocusRef.current;
                                 if (!prevFocus || ((focus[0] !== prevFocus[0] || focus[1] !== prevFocus[1]))) {
-                                    const subData = [];
-
-                                    for (const data of lineData) {
-                                        if (data.x >= focus[0] && data.x <= focus[1]) {
-                                            subData.push([data.x, data.y]);
-                                        }
-                                    }
+                                    const subFeatures = features.slice(Math.floor(focus[0]), Math.ceil(focus[1]));
+                                    const subCoordinates = subFeatures.map(feature => feature.geometry.coordinates);
 
                                     brushFocusRef.current = focus;
 
                                     if (onSelection) {
-                                        onSelection(subData);
+                                        onSelection(subCoordinates);
                                     }
                                 }
                             }}
