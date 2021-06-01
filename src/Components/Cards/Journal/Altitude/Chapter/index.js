@@ -33,7 +33,9 @@ export default class extends Component {
         return  <div>
 
                 {true && <div refetch={props.refetch}>
-                        <Deck slide={slide}   client={client} slideIndex={slideIndex} refetch={props.refetch} viewState={viewState} setViewState={setViewState} width={props.width}  trip={props.trip} card={props.card} />
+
+                            <pre>data : {slide.data}</pre>
+
                     </div>
                         }
                     }

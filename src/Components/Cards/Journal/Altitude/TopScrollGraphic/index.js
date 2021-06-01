@@ -117,18 +117,18 @@ const TopScrollGraphic = ({card, width, refetch}) => {
                 </div>
             </div>
 
-            <AddChapter card={card} refetch={refetch} data={[1,2,3]}/>
+            <AddChapter card={card} refetch={refetch} data={['test']}/>
 
             <pre>{card.slides.length}</pre>
 
             <div className="top-scroll-graphic-content">
-                {false && card.slides.map((s, i) => (
+                {true && card.slides.map((s, i) => (
                     <div className="top-scroll-graphic-card">
                         <Chapter
                             key={i}
                             selectedLongLat={{
-                                long: scatterData.y,
-                                lat: scatterData.x
+                                long: scatterData?.y,
+                                lat: scatterData?.x
                             }}
                             width={width}
                             slide={s}
