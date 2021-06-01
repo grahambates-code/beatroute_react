@@ -78,9 +78,8 @@ const LineBrush = ({ width, height, margin, data, color, children, onSelection }
             data={data}
             color={color}
         >
-            <LineBrushWrapper color={color} onSelection={onSelection}>
-                {children}
-            </LineBrushWrapper>
+            <LineBrushWrapper color={color} onSelection={onSelection} />
+            {children}
         </ChartContainer>
     );
 };

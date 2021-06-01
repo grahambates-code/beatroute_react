@@ -9,6 +9,7 @@ import LineBrush from '../../../../Charts/LineBrush';
 // import AxisY from '../../../../Charts/AxisY';
 // import LineMagnifyingView from '../../../../Charts/LineMagnifyingView';
 import LineScatter from '../../../../Charts/LineScatter';
+import LineMagnifyingView from '../../../../Charts/LineMagnifyingView';
 
 const GET_EXTRA = gql`
     query MyQuery($card_id : Int) {
@@ -27,8 +28,6 @@ const AltitudeChart = ({ card, refetch, onSelection }) => {
                 if (loading || !data || !data.gps_data.length) {
                     return null
                 };
-
-                console.log('asdsadsdsdsd', data.gps_data[0]);
 
                 const { data: { features } } = data.gps_data[0];
                 const lineData = features.map((feature, i) => ({ 
@@ -62,11 +61,8 @@ const AltitudeChart = ({ card, refetch, onSelection }) => {
                                 }
                             }}
                         >
-                            <LineScatter
-                                data={undefined}
-                                color="#2196f3"
-                                radius={7}
-                            />
+                            <LineScatter color="#2196f3" radius={7} />
+                            <LineMagnifyingView  color="#ec407a" />
                         </LineBrush>
                     </ConnectCharts>
                 );
