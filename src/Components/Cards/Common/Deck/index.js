@@ -47,10 +47,12 @@ export default class extends Component {
 
     render() {
 
-        const slide = this.props.slide;
+        const {slide, gps_data} = this.props;
+
+        // console.log(gps_data);
 
         let layers = [
-           new JournalMap({ font : this.props.font, selectedAsset : null, slide : slide, refetch : this.props.refetch, client : this.props.client, trip : this.props.trip, width : this.props.width, data : this.props.data || emptyFeatureCollection}),
+           new JournalMap({ font : this.props.font, selectedAsset : null, slide : slide, refetch : this.props.refetch, client : this.props.client, trip : this.props.trip, width : this.props.width, data : gps_data.data || emptyFeatureCollection}),
         ];
 
         let that = this;
@@ -66,9 +68,9 @@ export default class extends Component {
                 super.handleEvent(event);
 
                 if ((event.type === 'panend' || event.type === 'wheel' )) {
-
+                    let slide = that.props.slide;
                    // const slide = that.props.card.slides[that.props.slideIndex];
-                   // that.debounce(() => that.props.updateSlide({variables : {slide_id : slide.id,  data :  {...slide.data, pointB : that.props.slidePhotoRotation}, camera : this.controllerState._viewportProps}}));
+                   that.debounce(() => that.props.updateSlideCamera({variables : {slide_id : slide.id, camera : this.controllerState._viewportProps}}));
                 }
             }
         }
@@ -83,10 +85,7 @@ export default class extends Component {
                     <div className="poster">
                         <DeckGL
 
-                            viewState={this.props.viewState}
-                            //controller={true}
-                            controller={{type: controller, inertia: true, touchRotate : true, dragRotate : true, scrollZoom: true, doubleClickZoom : false}}
-                           // _animate={true}
+                            viewState={this.props.viewState} controller={{type: controller, inertia: true, touchRotate : true, dragRotate : true, scrollZoom: true, doubleClickZoom : false}}
                             height="100vh"
                             width="100%"
                             effects={[lightingEffect]}

@@ -5,13 +5,13 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Chapter from '../Chapter'
 import AddChapter from '../AddChapter'
 import AltitudeChartHeader from './AltitudeChartHeader';
-
+import * as turf from '@turf/turf'
 import './index.css';
 import { useState } from 'react';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const AltitudeChart = ({card, width, refetch}) => {
+const AltitudeChart = ({font, card, width, refetch, updateSlideCamera, gps_data}) => {
     const [chapterDataSet, setChapterDataSet] = useState([]);
     // const [scatterData, setScatterData] = useState(lineData[0]);
     const ref = useRef(null);
@@ -58,36 +58,43 @@ const AltitudeChart = ({card, width, refetch}) => {
         <div ref={ref} className="top-scroll-graphic">
             <div className="top-scroll-graphic-header">
                 <div>
-                    <AltitudeChartHeader 
+                    <AltitudeChartHeader
                         card={card}
                         refetch={refetch}
                         onSelection={(subData) => {
-                            setChapterDataSet(subData);
-                            console.log('chapterDataSet', subData);
+
+                          //  console.log(subData);
+                            if (subData.length > 2) {
+                                var line = turf.lineString(subData);
+                                var bbox = turf.bbox(line);
+                                var bboxPolygon = turf.bboxPolygon(bbox);
+
+                                setChapterDataSet(bboxPolygon);
+                            }
+
                         }}
                     />
                 </div>
             </div>
 
-            <AddChapter card={card} refetch={refetch} data={chapterDataSet}/>
-
-            <pre>{card.slides.length}</pre>
-
             <div className="top-scroll-graphic-content">
-                {false && card.slides.map((s, i) => (
+                {true && card.slides.map((s, i) => (
                     <div className="top-scroll-graphic-card">
                         <Chapter
                             key={i}
-                            // selectedLongLat={{
-                            //     long: scatterData.y,
-                            //     lat: scatterData.x
-                            // }}
+                            font={font}
+                            card={card}
+                            gps_data={gps_data}
+                            updateSlideCamera={updateSlideCamera}
                             width={width}
                             slide={s}
                         />
                     </div>
                 ))}
             </div>
+
+            <AddChapter card={card} refetch={refetch} data={chapterDataSet}/>
+
         </div>
     );
 };

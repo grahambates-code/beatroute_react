@@ -201,6 +201,7 @@ const App = () => {
                                     trip={trip}
                                     index={i}
                                     width={500}
+                                    font={font}
                                     client={client}
                                     refetch={refetch}
                                 />

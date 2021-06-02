@@ -10,6 +10,7 @@ import HighlightLayer from "./HighlightLayer";
 import PhotoLayer from "./PhotoLayer";
 import TextLayer from "./TextLayer";
 import MVTLayer from "./MVT";
+import * as turf from '@turf/turf'
 
 import _ from 'lodash';
 
@@ -50,11 +51,17 @@ export default class JournalMap extends CompositeLayer {
 
         const masklayer = new JournalMaskLayer({ bounds: bounds });
 
+        let t = turf.lineString(this.props.data.features.map(d => d.geometry.coordinates));
+
+       // console.log(t);
+      //  console.log(turf.linestring(this.props.data.data.features).map(s => s.geometry.coordinates));
+
+        //console.log(t);
         const route = new GeoJsonLayer({
             id: 'route-layer',
-            data : this.props.data,
+            data : turf.featureCollection([t]),
             lineWidthScale: 1,
-            lineWidthMinPixels: 8,
+            lineWidthMinPixels: 12,
             lineWidthMaxPixels: 14,
             getLineColor: [255, 238,100, 255],
             getRadius: 100,
@@ -83,15 +90,15 @@ export default class JournalMap extends CompositeLayer {
                 });
             }});
 
-        const hl = new HighlightLayer();
+        //const hl = new HighlightLayer();
 
-        const pl = new PhotoLayer();
+       // const pl = new PhotoLayer();
 
-        const text = new TextLayer({ data : slide.assets.filter(a => a.type === 'text'), font });
+       // const text = new TextLayer({ data : slide.assets.filter(a => a.type === 'text'), font });
 
         let assets = new AssetLayer({ data : _(slide.assets).filter( a => a.type === 'asset')});
 
-        return [  tilelayer, hl, route, text, assets, mvt    ];
+        return [  tilelayer, route , assets  ];
     }
 }
 

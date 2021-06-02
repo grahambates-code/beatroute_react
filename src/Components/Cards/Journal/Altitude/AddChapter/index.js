@@ -4,8 +4,8 @@ import Mutation from "react-apollo/Mutation";
 import AddToPhotosIcon from '@material-ui/icons/AddToPhotos';
 
 const MY_MUTATION_MUTATION = gql`
-  mutation MyMutation($card_id : Int, $data : jsonb) {
-     insert_card_slide_one(object: {card_id: $card_id, data: $data, camera: []}) {
+  mutation MyMutation($card_id : Int, $data : jsonb, $camera : jsonb) {
+     insert_card_slide_one(object: {card_id: $card_id, data: $data, camera: $camera}) {
     id
   }
   }
@@ -15,7 +15,7 @@ export default (props) => {
     return (
         <Mutation
             mutation={MY_MUTATION_MUTATION}
-            variables={{card_id : props.card.id, data : props.data}}
+            variables={{card_id : props.card.id, data : props.data, camera : {zoom : 5, latitude : props.data?.geometry?.coordinates[0][0][1], longitude : props.data?.geometry?.coordinates[0][0][0]}}}
             onCompleted={() => props.refetch()}
         >
             {(MyMutation, { loading, error, data }) => {

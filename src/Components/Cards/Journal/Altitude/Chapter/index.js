@@ -4,42 +4,40 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import Deck from "../../../Common/Deck";
 
-
-gsap.registerPlugin(ScrollTrigger);
-
 export default class extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            slideIndex : 0,
-            selectedAsset   : null,
-            viewState       : props.slide.camera
+            slideIndex: 0,
+            selectedAsset: null,
+            viewState: props.slide.camera
         }
 
     }
 
     render() {
 
-        let {selectedAsset, slideIndex, viewState, slidePhotoRotation} = this.state;
+        let { viewState } = this.state;
 
-        let {client, slide} = this.props;
+        let {font, client, slide, refetch, width, trip, card, updateSlideCamera, gps_data} = this.props;
 
-        let setViewState            = (p) => this.setState({viewState           : p});
+        let setViewState = (p) => this.setState({viewState: p});
 
-        let props = this.props;
+        return <Deck slide={slide}
+                     client={client}
+                     refetch={refetch}
+                     updateSlideCamera={updateSlideCamera}
+                     font={font}
+                     viewState={viewState}
+                     setViewState={setViewState}
+                     width={width}
+                     trip={trip}
+                     gps_data={gps_data}
+                     card={card}/>
 
-        return  <div>
+    }
 
-                {true && <div refetch={props.refetch}>
-
-                            <pre>data : {slide.data}</pre>
-
-                    </div>
-                        }
-                    }
-                </div> }
 
 }
-

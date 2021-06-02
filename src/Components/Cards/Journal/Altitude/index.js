@@ -7,8 +7,32 @@ import {Button} from "../Toolbar/Button";
 import DeleteCard from "../Toolbar/DeleteCard";
 import Frame from "../../Common/Frame";
 import AltitudeChart from './AltitudeChart';
+import {Mutation, Query} from "react-apollo";
+import gql from "graphql-tag";
 
-export default ({card, refetch, client}) => {
+const GET_EXTRA = gql`
+    query MyQuery($card_id : Int) {
+        gps_data(where: {card_id: {_eq: $card_id}}) {
+        card_id
+        data
+    }
+}`
+
+const SAVE_SLIDE = gql`
+
+mutation( $slide_id : Int,  $camera : jsonb){
+                update_card_slide(where: {id: {_eq: $slide_id}}, _set: { camera : $camera}) {
+                    returning {
+                                data
+                                camera
+                                id
+                              }
+                    }
+                }
+`;
+
+
+export default ({card, refetch, client, font}) => {
     const actions = [
         { icon: <DeleteCard refetch={refetch} card={card}/>, name: 'Delete' },
         { icon: <AddGPS2 refetch={refetch} card={card}/>, name: 'Add gps' },
@@ -21,7 +45,31 @@ export default ({card, refetch, client}) => {
 
                 Day 1
 
-                <AltitudeChart width={500}  card={card } refetch={refetch} client={client}/>
+                <Query query={GET_EXTRA} variables={{card_id : card.id}} >
+                    {({ loading, error, data  }) => {
+                        if (loading || !data || !data.gps_data.length) {
+                            return null
+                        }
+                        ;
+
+                        return <Mutation
+                            onError={() => alert('Could not save slide media')}
+                            onCompleted={() => refetch()}
+                            mutation={SAVE_SLIDE}
+                        >
+
+                            {(updateSlideCamera, {loading, error}) => {
+                                return <AltitudeChart updateSlideCamera={updateSlideCamera}
+                                                      font={font}
+                                                      width={500}
+                                                      gps_data={data.gps_data[0]}
+                                                      card={card} refetch={refetch} client={client}/>
+                            }}
+                        </Mutation>
+                    }}
+
+                    </Query>
+
 
             </Frame>
         </Overlay>
