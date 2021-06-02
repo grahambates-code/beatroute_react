@@ -1,13 +1,9 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import ConnectCharts from '../../../../Charts/ConnectCharts';
-// import LineChart from '../../../../Charts/LineChart';
 import LineBrush from '../../../../Charts/LineBrush';
-// import AxisX from '../../../../Charts/AxisX';
-// import AxisY from '../../../../Charts/AxisY';
-// import LineMagnifyingView from '../../../../Charts/LineMagnifyingView';
 import LineScatter from '../../../../Charts/LineScatter';
 import LineMagnifyingView from '../../../../Charts/LineMagnifyingView';
 
@@ -19,7 +15,7 @@ const GET_EXTRA = gql`
     }
 }`
 
-const AltitudeChart = ({ card, refetch, onSelection }) => {
+const AltitudeChartHeader = ({ card, refetch, onSelection }) => {
     const brushFocusRef = useRef(null);
 
     return (
@@ -72,6 +68,6 @@ const AltitudeChart = ({ card, refetch, onSelection }) => {
 };
 
 export default React.memo(
-    AltitudeChart, 
-    (prevProps, nextProps) => prevProps.card === nextProps.card
+    AltitudeChartHeader, 
+    (prevProps, nextProps) => prevProps.card.id === nextProps.card.id
 );
