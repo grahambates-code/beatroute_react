@@ -15,7 +15,7 @@ export default class Chapter extends Component {
         this.state = {
             slideIndex: 0,
             selectedAsset: null,
-            viewState: props.slide.camera
+            viewState: props.chapter.camera
         }
     }
 
@@ -29,12 +29,12 @@ export default class Chapter extends Component {
 
     render() {
         let { viewState } = this.state;
-        let { font, client, slide, refetch, width, trip, card, updateSlideCamera, gps_data } = this.props;
+        let { font, client, chapter, refetch, width, trip, card, updateSlideCamera, gps_data } = this.props;
 
         return (
             <div className="chapter">
-                <Deck 
-                    slide={slide}
+                <Deck
+                    chapter={chapter}
                     client={client}
                     refetch={refetch}
                     updateSlideCamera={updateSlideCamera}
