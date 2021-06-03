@@ -96,9 +96,9 @@ export default class JournalMap extends CompositeLayer {
 
        // const text = new TextLayer({ data : slide.assets.filter(a => a.type === 'text'), font });
 
-        let assets = new AssetLayer({ data : _(slide.assets).filter( a => a.type === 'asset')});
+       //s let assets = new AssetLayer({ data : _(slide.assets).filter( a => a.type === 'asset')});
 
-        return [  tilelayer, route , assets  ];
+        return [  tilelayer, route   ];
     }
 }
 

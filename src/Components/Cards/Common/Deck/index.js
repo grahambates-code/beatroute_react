@@ -68,9 +68,9 @@ export default class extends Component {
                 super.handleEvent(event);
 
                 if ((event.type === 'panend' || event.type === 'wheel' )) {
-                    let slide = that.props.slide;
+                    let chapter = that.props.chapter;
                    // const slide = that.props.card.slides[that.props.slideIndex];
-                   that.debounce(() => that.props.updateSlideCamera({variables : {slide_id : slide.id, camera : this.controllerState._viewportProps}}));
+                   that.debounce(() => that.props.updateSlideCamera({variables : {chapter_id : chapter.id, camera : this.controllerState._viewportProps}}));
                 }
             }
         }
@@ -86,7 +86,7 @@ export default class extends Component {
                         <DeckGL
 
                             viewState={this.props.viewState} controller={{type: controller, inertia: true, touchRotate : true, dragRotate : true, scrollZoom: true, doubleClickZoom : false}}
-                            height="100vh"
+                            height="100%"
                             width="100%"
                             effects={[lightingEffect]}
                             ref={deck => {

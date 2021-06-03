@@ -1,5 +1,5 @@
 .top-scroll-graphic {
-    min-height: 200vh;
+    min-height: 50vh;
 }
 
 .top-scroll-graphic .top-scroll-graphic-header {
@@ -7,32 +7,4 @@
     top: 64px;
     background-color: #fff;
     z-index: 1;
-}
-
-.top-scroll-graphic .top-scroll-graphic-card {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-top: 32px;
-    margin-bottom: 48px;
-    padding: 16px;
-    box-sizing: border-box;
-    z-index: 0;
-}
-
-.top-scroll-graphic-card > figure {
-    width: 50%;
-    padding: 16px;
-    box-sizing: border-box;
-    margin: 0;
-}
-
-.top-scroll-graphic-card > figure > img {
-    width: 100%;
-    height: auto;
-}
-.top-scroll-graphic-card > div {
-    padding: 16px;
-    width: 100%;
 }

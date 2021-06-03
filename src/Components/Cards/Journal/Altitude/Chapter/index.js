@@ -1,6 +1,7 @@
 import React, {Fragment, Component } from 'react';
-import Page from "./../Page"
-import Deck from "../../../Common/Deck";
+import Page         from "./../Page"
+import PhotoLookup  from "./../PhotoLookup"
+import Deck         from "../../../Common/Deck";
 
 export default class extends Component {
 
@@ -23,23 +24,23 @@ export default class extends Component {
         let setViewState = (p) => this.setState({viewState: p});
 
         return <Fragment>
+                <PhotoLookup viewState={viewState}>
+                    <Deck    chapter={chapter}
+                             client={client}
+                             refetch={refetch}
+                             updateSlideCamera={updateSlideCamera}
+                             font={font}
+                             viewState={viewState}
+                             setViewState={setViewState}
+                             width={width}
+                             trip={trip}
+                             gps_data={gps_data}
+                             card={card}/>
+                </PhotoLookup>
 
-                <Deck slide={chapter}
-                         client={client}
-                         refetch={refetch}
-                         updateSlideCamera={updateSlideCamera}
-                         font={font}
-                         viewState={viewState}
-                         setViewState={setViewState}
-                         width={width}
-                         trip={trip}
-                         gps_data={gps_data}
-                         card={card}/>
-
-                         <br/>
-
+            <div>
                {chapter.pages.map(p => <Page page={p} /> )}
-
+            </div>
         </Fragment>
 
     }

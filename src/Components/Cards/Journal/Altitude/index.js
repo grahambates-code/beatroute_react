@@ -18,10 +18,10 @@ const GET_EXTRA = gql`
     }
 }`
 
-const SAVE_SLIDE = gql`
+const SAVE_CHAPTER = gql`
 
-mutation( $slide_id : Int,  $camera : jsonb){
-                update_card_slide(where: {id: {_eq: $slide_id}}, _set: { camera : $camera}) {
+mutation( $chapter_id : Int,  $camera : jsonb){
+                update_chapter(where: {id: {_eq: $chapter_id}}, _set: { camera : $camera}) {
                     returning {
                                 data
                                 camera
@@ -43,19 +43,19 @@ export default ({card, refetch, client, font}) => {
         <Overlay card={card} button={ <Button actions={actions}/>}>
             <Frame width={350}  height={600} >
 
-                Day 1
+                Day {card.id}
 
                 <Query query={GET_EXTRA} variables={{card_id : card.id}} >
                     {({ loading, error, data  }) => {
+
                         if (loading || !data || !data.gps_data.length) {
                             return null
-                        }
-                        ;
+                        };
 
                         return <Mutation
                             onError={() => alert('Could not save slide media')}
                             onCompleted={() => refetch()}
-                            mutation={SAVE_SLIDE}
+                            mutation={SAVE_CHAPTER}
                         >
 
                             {(updateSlideCamera, {loading, error}) => {

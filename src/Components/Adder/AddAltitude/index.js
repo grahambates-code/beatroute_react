@@ -8,7 +8,7 @@ const ADD = gql`
 mutation ($content : jsonb, $type : String, $camera : jsonb, $trip_id : Int, $slide_data : jsonb) {
 
   insert_card(objects: [
-                {trip_id: $trip_id, type: $type, data : $content, slides : {data : [{data : $slide_data, camera : $camera}]}},
+                {trip_id: $trip_id, type: $type, data : $content, chapters : {data : [{data : $slide_data, camera : $camera}]}},
               
                 ]) {
     returning {
