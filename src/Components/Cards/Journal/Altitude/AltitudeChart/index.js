@@ -78,7 +78,7 @@ const AltitudeChart = ({font, card, width, refetch, updateSlideCamera, gps_data}
             </div>
 
             <div className="top-scroll-graphic-content">
-                {true && card.slides.map((s, i) => (
+                {true && card.chapters.map((c, i) => (
                     <div className="top-scroll-graphic-card">
                         <Chapter
                             key={i}
@@ -87,7 +87,7 @@ const AltitudeChart = ({font, card, width, refetch, updateSlideCamera, gps_data}
                             gps_data={gps_data}
                             updateSlideCamera={updateSlideCamera}
                             width={width}
-                            slide={s}
+                            chapter={c}
                         />
                     </div>
                 ))}

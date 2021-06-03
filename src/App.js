@@ -57,10 +57,17 @@ const GETCARD = gql`
           type
           data
 
-          slides(order_by: { id: asc }) {
+          chapters(order_by: { id: asc }) {
             camera
             data
             id
+            
+            pages {
+              id
+              camera
+              text
+            }
+            
             assets(order_by: { order: desc }) {
               id
               position

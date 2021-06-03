@@ -1,7 +1,5 @@
-import React, {Component, useLayoutEffect, useRef, useState} from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
+import React, {Fragment, Component } from 'react';
+import Page from "./../Page"
 import Deck from "../../../Common/Deck";
 
 export default class extends Component {
@@ -10,9 +8,8 @@ export default class extends Component {
         super(props);
 
         this.state = {
-            slideIndex: 0,
             selectedAsset: null,
-            viewState: props.slide.camera
+            viewState: props.chapter.camera
         }
 
     }
@@ -21,23 +18,29 @@ export default class extends Component {
 
         let { viewState } = this.state;
 
-        let {font, client, slide, refetch, width, trip, card, updateSlideCamera, gps_data} = this.props;
+        let {font, client, chapter, refetch, width, trip, card, updateSlideCamera, gps_data} = this.props;
 
         let setViewState = (p) => this.setState({viewState: p});
 
-        return <Deck slide={slide}
-                     client={client}
-                     refetch={refetch}
-                     updateSlideCamera={updateSlideCamera}
-                     font={font}
-                     viewState={viewState}
-                     setViewState={setViewState}
-                     width={width}
-                     trip={trip}
-                     gps_data={gps_data}
-                     card={card}/>
+        return <Fragment>
+
+                <Deck slide={chapter}
+                         client={client}
+                         refetch={refetch}
+                         updateSlideCamera={updateSlideCamera}
+                         font={font}
+                         viewState={viewState}
+                         setViewState={setViewState}
+                         width={width}
+                         trip={trip}
+                         gps_data={gps_data}
+                         card={card}/>
+
+                         <br/>
+
+               {chapter.pages.map(p => <Page page={p} /> )}
+
+        </Fragment>
 
     }
-
-
 }
