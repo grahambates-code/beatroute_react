@@ -62,8 +62,6 @@ const AltitudeChart = ({font, card, width, refetch, updateSlideCamera, gps_data}
                         card={card}
                         refetch={refetch}
                         onSelection={(subData) => {
-
-                          //  console.log(subData);
                             if (subData.length > 2) {
                                 var line = turf.lineString(subData);
                                 var bbox = turf.bbox(line);
@@ -78,7 +76,7 @@ const AltitudeChart = ({font, card, width, refetch, updateSlideCamera, gps_data}
             </div>
 
             <div className="top-scroll-graphic-content">
-                {true && card.chapters.map((c, i) => (
+                {card.slides.map((s, i) => (
                     <div className="top-scroll-graphic-card">
                         <Chapter
                             key={i}
@@ -87,7 +85,7 @@ const AltitudeChart = ({font, card, width, refetch, updateSlideCamera, gps_data}
                             gps_data={gps_data}
                             updateSlideCamera={updateSlideCamera}
                             width={width}
-                            chapter={c}
+                            slide={s}
                         />
                     </div>
                 ))}
