@@ -31,15 +31,15 @@ const AltitudeChart = ({font, card, width, refetch, updateSlideCamera, gps_data}
                 end: 'bottom center',
                 refreshPriority: 0,
                 onEnter: () => {
-                    fadeAllCards();
-                    gsap.to(el, { alpha: 1 });
+                    // fadeAllCards();
+                    // gsap.to(el, { alpha: 1 });
                 },
                 onEnterBack: () => {
-                    fadeAllCards();
-                    gsap.to(el, { alpha: 1 });
+                    // fadeAllCards();
+                    // gsap.to(el, { alpha: 1 });
                 },
                 onUpdate: ({ progress }) => {
-                    const distance = Math.floor(progress * 10);
+                    // const distance = Math.floor(progress * 10);
                     // setScatterData(lineData[index * range + distance]);
                 },
             });
