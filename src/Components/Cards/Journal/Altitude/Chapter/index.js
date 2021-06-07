@@ -5,6 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Deck from '../../../Common/Deck';
 
 import './index.less';
+import PhotoLookup from "../PhotoLookup";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -50,19 +51,22 @@ export default class Chapter extends Component {
         return (
             <div ref={this.ref} className="chapter">
                 <div className="chapter-deck">
-                    <Deck
-                        chapter={chapter}
-                        client={client}
-                        refetch={refetch}
-                        updateSlideCamera={updateSlideCamera}
-                        font={font}
-                        viewState={viewState}
-                        setViewState={this.setViewState}
-                        width={width}
-                        trip={trip}
-                        gps_data={gps_data}
-                        card={card}
-                    />
+                    <PhotoLookup viewState={viewState}>
+
+                        <Deck
+                            chapter={chapter}
+                            client={client}
+                            refetch={refetch}
+                            updateSlideCamera={updateSlideCamera}
+                            font={font}
+                            viewState={viewState}
+                            setViewState={this.setViewState}
+                            width={width}
+                            trip={trip}
+                            gps_data={gps_data}
+                            card={card}
+                        />
+                    </PhotoLookup>
                 </div>
                 <div className="chapter-descriptions">
                     <div className="chapter-description-wrapper">
