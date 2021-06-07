@@ -25,9 +25,9 @@ export default class Chapter extends Component {
             scrollTrigger: {
                 trigger: this.ref.current,
                 start: 'top top+=260',
-                end: 'bottom center+=-16',
+                end: 'bottom+=-40 center+=-16',
                 scrub: true,
-                pinSpacing: false,
+                pinSpacing: 'margin',
                 pin: this.ref.current.querySelector('.chapter-deck'),
                 refreshPriority: 0,
             }
