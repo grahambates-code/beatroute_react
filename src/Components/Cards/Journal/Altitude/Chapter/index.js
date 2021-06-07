@@ -36,8 +36,8 @@ export default class Chapter extends Component {
         gsap.utils
             .toArray(this.ref.current.querySelectorAll('.chapter-description-wrapper'))
             .forEach((el, i) => {
-                tl.fromTo(el, { alpha: 0 }, { alpha: 1 });
-                tl.to(el, { alpha: 0, y: '-50%' });
+                tl.fromTo(el, { alpha: 0, y: 128 }, { alpha: 1, y: 0 });
+                tl.to(el, { alpha: 0 });
             });
     }
 
