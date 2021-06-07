@@ -1,18 +1,25 @@
 .chapter {
     position: relative;
-    margin: 24px 0px;
+    margin-bottom: 200px;
+    box-sizing: border-box;
+    // height: 70vh;
+    .chapter-deck {
+        margin-bottom: 48px;
+    }
     .chapter-descriptions {
         position: absolute;
-        top: 0;
-        max-height: 100%;
+        top: 300px;
         left: 0;
         right: 0;
         z-index: 1;
-        overflow: hidden;
 
         .chapter-description-wrapper {
-            margin-bottom: 48px;
-            padding: 16px 48px;
+            position: absolute;
+            top: 0;
+            width: 50%;
+            left: 25%;
+            padding: 8px 48px;
+            background-color: #fff;
             box-sizing: border-box;
         }
     }

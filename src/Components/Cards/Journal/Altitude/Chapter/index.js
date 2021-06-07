@@ -17,10 +17,26 @@ export default class Chapter extends Component {
             selectedAsset: null,
             viewState: props.chapter.camera
         }
+        this.ref = React.createRef(null);
     }
 
     componentDidMount() {
-        //TODO: Handle GSAP here
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: this.ref.current,
+                start: 'top top+=260',
+                end: 'bottom center+=-16',
+                scrub: true,
+                pinSpacing: false,
+                pin: this.ref.current.querySelector('.chapter-deck'),
+                refreshPriority: 0,
+            }
+        });
+
+        gsap.utils.toArray(this.ref.current.querySelectorAll('.chapter-description-wrapper')).forEach((el, i) => {
+            tl.fromTo(el, { alpha: 0, y: -20 }, { alpha: 1, y: -40 * (4 - i) });
+            tl.to(el, { alpha: 0 });
+        });
     }
 
     setViewState = (p) => {
@@ -32,29 +48,31 @@ export default class Chapter extends Component {
         let { font, client, chapter, refetch, width, trip, card, updateSlideCamera, gps_data } = this.props;
 
         return (
-            <div className="chapter">
-                <Deck
-                    chapter={chapter}
-                    client={client}
-                    refetch={refetch}
-                    updateSlideCamera={updateSlideCamera}
-                    font={font}
-                    viewState={viewState}
-                    setViewState={this.setViewState}
-                    width={width}
-                    trip={trip}
-                    gps_data={gps_data}
-                    card={card}
-                />
+            <div ref={this.ref} className="chapter">
+                <div className="chapter-deck">
+                    <Deck
+                        chapter={chapter}
+                        client={client}
+                        refetch={refetch}
+                        updateSlideCamera={updateSlideCamera}
+                        font={font}
+                        viewState={viewState}
+                        setViewState={this.setViewState}
+                        width={width}
+                        trip={trip}
+                        gps_data={gps_data}
+                        card={card}
+                    />
+                </div>
                 <div className="chapter-descriptions">
                     <div className="chapter-description-wrapper">
-                        <p>Description 1</p>
+                        <h6>Description 1</h6>
                     </div>
                     <div className="chapter-description-wrapper">
-                        <p>Description 2</p>
+                        <h6>Description 2</h6>
                     </div>
                     <div className="chapter-description-wrapper">
-                        <p>Description 3</p>
+                        <h6>Description 3</h6>
                     </div>
                 </div>
             </div>
