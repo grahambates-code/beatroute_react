@@ -33,10 +33,12 @@ export default class Chapter extends Component {
             }
         });
 
-        gsap.utils.toArray(this.ref.current.querySelectorAll('.chapter-description-wrapper')).forEach((el, i) => {
-            tl.fromTo(el, { alpha: 0, y: -20 }, { alpha: 1, y: -40 * (4 - i) });
-            tl.to(el, { alpha: 0 });
-        });
+        gsap.utils
+            .toArray(this.ref.current.querySelectorAll('.chapter-description-wrapper'))
+            .forEach((el, i) => {
+                tl.fromTo(el, { alpha: 0 }, { alpha: 1 });
+                tl.to(el, { alpha: 0, y: '-50%' });
+            });
     }
 
     setViewState = (p) => {
@@ -63,16 +65,16 @@ export default class Chapter extends Component {
                         gps_data={gps_data}
                         card={card}
                     />
-                </div>
-                <div className="chapter-descriptions">
-                    <div className="chapter-description-wrapper">
-                        <h6>Description 1</h6>
-                    </div>
-                    <div className="chapter-description-wrapper">
-                        <h6>Description 2</h6>
-                    </div>
-                    <div className="chapter-description-wrapper">
-                        <h6>Description 3</h6>
+                    <div className="chapter-descriptions">
+                        <div className="chapter-description-wrapper">
+                            <h6>Description 1 testsetest</h6>
+                        </div>
+                        <div className="chapter-description-wrapper">
+                            <h6>Description 2 aaaa</h6>
+                        </div>
+                        <div className="chapter-description-wrapper">
+                            <h6>Description 3 bhnnhnhnhn</h6>
+                        </div>
                     </div>
                 </div>
             </div>
