@@ -25,8 +25,10 @@ export default class Chapter extends Component {
             scrollTrigger: {
                 trigger: this.ref.current,
                 start: 'top top+=260',
-                end: 'bottom+=-40 center+=-16',
-                scrub: 2,
+                end: "+=" + (window.innerHeight * 3),
+                anticipatePin: true,
+                // end: 'bottom+=-40 center+=-16',
+                scrub: true,
                 pinSpacing: 'margin',
                 pin: this.ref.current.querySelector('.chapter-deck'),
                 refreshPriority: 0,
@@ -36,11 +38,11 @@ export default class Chapter extends Component {
         gsap.utils
             .toArray(this.ref.current.querySelectorAll('.chapter-description-wrapper'))
             .forEach((el, i) => {
-                tl.fromTo(el, { alpha: 0, y: 128 }, { alpha: 1, y: 0, duration: 2 });
+                tl.fromTo(el, { alpha: 0, y: 128 }, { alpha: 1, y: 0 });
                 tl.to(el, { alpha: 0 });
             });
 
-        tl.duration(10)
+        // tl.duration(10)
     }
 
     setViewState = (p) => {
