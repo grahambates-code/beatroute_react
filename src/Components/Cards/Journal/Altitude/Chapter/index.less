@@ -5,6 +5,13 @@
     height: 200%;
     .chapter-deck {
         margin-bottom: 48px;
+        z-index: 2;
+        .chapter-btn {
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 999;
+        }
     }
     .chapter-descriptions {
         position: absolute;
@@ -12,7 +19,7 @@
         top: 0;
         left: 0;
         right: 0;
-        z-index: 1;
+        z-index: 99;
 
         .chapter-description-wrapper {
             position: absolute;
@@ -25,6 +32,7 @@
             border: 1px solid #000;
             box-sizing: border-box;
             box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+            pointer-events: none;
         }
 
     }

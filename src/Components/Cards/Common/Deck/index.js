@@ -37,7 +37,7 @@ const emptyFeatureCollection = {
     ]
 }
 
-export default class extends Component {
+export default class Deck extends Component {
 
     constructor(props) {
         super(props);
@@ -58,11 +58,6 @@ export default class extends Component {
         let that = this;
 
         class Controller extends MapController {
-
-            constructor(props) {
-                super(props);
-            }
-
             handleEvent(event) {
 
                 super.handleEvent(event);
@@ -80,29 +75,25 @@ export default class extends Component {
         // console.log(this.props.media);
 
         return (
-            <div>
+            <div className="Deck" >
 
-                <div className="Deck" >
+                <div className="poster">
+                    <DeckGL
 
-                    <div className="poster">
-                        <DeckGL
+                        viewState={this.props.viewState} controller={{type: controller, inertia: true, touchRotate : true, dragRotate : true, scrollZoom: true, doubleClickZoom : false}}
+                        height="100%"
+                        width="100%"
+                        effects={[lightingEffect]}
+                        ref={deck => {
+                            this.deckGL = deck;
+                        }}
 
-                            viewState={this.props.viewState} controller={{type: controller, inertia: true, touchRotate : true, dragRotate : true, scrollZoom: true, doubleClickZoom : false}}
-                            height="100%"
-                            width="100%"
-                            effects={[lightingEffect]}
-                            ref={deck => {
-                                this.deckGL = deck;
-                            }}
+                        onViewStateChange={({viewId, viewState}) => {
+                                this.props.setViewState(viewState);
+                        }
+                        }
 
-                            onViewStateChange={({viewId, viewState}) => {
-                                    this.props.setViewState(viewState);
-                            }
-                            }
-
-                            layers={layers}/>
-                    </div>
-
+                        layers={layers}/>
                 </div>
 
             </div>
