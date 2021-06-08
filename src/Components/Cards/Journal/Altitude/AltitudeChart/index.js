@@ -86,6 +86,9 @@ const AltitudeChart = ({font, card, width, refetch, updateSlideCamera, gps_data}
                             updateSlideCamera={updateSlideCamera}
                             width={width}
                             chapter={s}
+                            onDescriptionEnter={(index) => {
+                                console.log('the description comes in', index);
+                            }}
                         />
                     </div>
                 ))}
