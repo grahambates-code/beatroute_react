@@ -83,7 +83,7 @@ export default class Deck extends Component {
                         viewState={this.props.viewState} controller={{type: controller, inertia: true, touchRotate : true, dragRotate : true, scrollZoom: true, doubleClickZoom : false}}
                         height="100%"
                         width="100%"
-                        effects={[lightingEffect]}
+                        //effects={[lightingEffect]}
                         ref={deck => {
                             this.deckGL = deck;
                         }}

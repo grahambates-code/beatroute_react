@@ -90,7 +90,7 @@ export default class Chapter extends Component {
                         </Tooltip>
                     </div>
                     <div style={{ zIndex: this.state.interactiveMap ? 9 : 0 }}>
-                        <PhotoLookup viewState={viewState}>
+                        <PhotoLookup viewState={chapter.camera}>
                             <Deck
                                 chapter={chapter}
                                 client={client}

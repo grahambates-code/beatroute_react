@@ -32,9 +32,7 @@ export default ({viewState, children}) => {
             <Query query={GET_EXTRA} variables={{x1 : nw[0], y1 : nw[1], x2: se[0], y2 : se[1]}} >
                 {({ loading, error, data  }) => {
 
-                    if (loading || !data ) {
-                        return <span>loading</span>
-                    };
+
 
                   return <Fragment>
                       {React.cloneElement(children, { media: data.search_media })} </Fragment>

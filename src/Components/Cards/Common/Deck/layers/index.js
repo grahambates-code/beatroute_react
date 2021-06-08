@@ -92,13 +92,13 @@ export default class JournalMap extends CompositeLayer {
 
         //const hl = new HighlightLayer();
 
-       // const pl = new PhotoLayer();
+        const pl = new PhotoLayer({media : this.props.media});
 
        // const text = new TextLayer({ data : slide.assets.filter(a => a.type === 'text'), font });
 
        //s let assets = new AssetLayer({ data : _(slide.assets).filter( a => a.type === 'asset')});
 
-        return [  tilelayer, route   ];
+        return [  tilelayer, route , pl ];
     }
 }
 

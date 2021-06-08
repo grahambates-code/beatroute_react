@@ -5,33 +5,26 @@ export default class PhotoLayer extends CompositeLayer {
 
     renderLayers() {
 
-        const { data, type } = this.props;
+        const { data, type, media } = this.props;
 
         return [
 
             new ScenegraphLayer({
 
                 id: 'photo-layer',
-
-                data :[
-                    {position : [ 40.45166015625, 43.3419109985686]},
-                ],
-
+                data :media,
                 pickable: true,
-
-                scenegraph : '/assets/journal/5.glb',
-
+                xscenegraph : '/assets/journal/1.glb',
+                scenegraph: 'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/BoxAnimated/glTF-Binary/BoxAnimated.glb',
                 opacity : 1,
+                sizeScale: 100,
+                _lighting: 'pbr',
 
-                getPosition: p => p.position,
+                getPosition: p => {
+                    const a = p.location.replace('(', '').replace(')', '').split(',');
+                    return [+a[0], +a[1]];
 
-                getTranslation : asset=> [0,0,-200],
-
-                getScale: (asset) =>[300,300,300],
-
-                sizeScale: 5500,
-
-               // _lighting: 'pbr'
+                    },
             })
 
         ];
