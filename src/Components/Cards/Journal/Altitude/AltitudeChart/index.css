@@ -4,6 +4,7 @@
 
 .top-scroll-graphic .top-scroll-graphic-header {
     position: sticky;
+    padding-top: 32px;
     top: 64px;
     background-color: #fff;
     z-index: 2;
