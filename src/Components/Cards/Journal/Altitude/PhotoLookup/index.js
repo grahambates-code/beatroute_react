@@ -18,23 +18,26 @@ query($x1 : numeric, $y1 : numeric,$x2 : numeric, $y2 : numeric) {
 
 export default ({viewState, children}) => {
 
-    const viewport = new WebMercatorViewport(viewState);
+    const viewport = new WebMercatorViewport({...viewState, height : 400, width : 400});
 
-    const nw = viewport.unproject([0, 0]);
-    const se = viewport.unproject([viewport.width, viewport.height]);
+    const nw = viewport.unproject([0, 0], {topLeft : true});
+    const se = viewport.unproject([viewport.width, viewport.height], {topLeft : true});
+
+    console.log(nw);
+    console.log(se);
 
     return <Fragment>
 
-        <pre>{JSON.stringify([nw,se])}</pre>
 
-            <Query query={GET_EXTRA} variables={{x1 : 1, y1 : 1, x2: 2, y2 : 2}} >
+            <Query query={GET_EXTRA} variables={{x1 : nw[0], y1 : nw[1], x2: se[0], y2 : se[1]}} >
                 {({ loading, error, data  }) => {
 
                     if (loading || !data ) {
                         return <span>loading</span>
                     };
 
-                  return <Fragment> {React.cloneElement(children, { data: data })} </Fragment>
+                  return <Fragment>
+                      {React.cloneElement(children, { media: data.search_media })} </Fragment>
                 }}
 
             </Query>

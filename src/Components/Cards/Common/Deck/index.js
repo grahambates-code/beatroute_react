@@ -47,12 +47,12 @@ export default class extends Component {
 
     render() {
 
-        const {slide, gps_data} = this.props;
+        const {slide, gps_data, media} = this.props;
 
         // console.log(gps_data);
 
         let layers = [
-           new JournalMap({ font : this.props.font, selectedAsset : null, slide : slide, refetch : this.props.refetch, client : this.props.client, trip : this.props.trip, width : this.props.width, data : gps_data.data || emptyFeatureCollection}),
+           new JournalMap({ media : media, font : this.props.font, selectedAsset : null, slide : slide, refetch : this.props.refetch, client : this.props.client, trip : this.props.trip, width : this.props.width, data : gps_data.data || emptyFeatureCollection}),
         ];
 
         let that = this;
@@ -76,6 +76,8 @@ export default class extends Component {
         }
 
         let controller = Controller;
+
+        // console.log(this.props.media);
 
         return (
             <div>
