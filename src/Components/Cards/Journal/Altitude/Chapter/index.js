@@ -5,6 +5,7 @@ import { IconButton, Tooltip } from '@material-ui/core';
 import PublicOutlinedIcon from '@material-ui/icons/PublicOutlined';
 
 import Deck from '../../../Common/Deck';
+import PhotoLookup from './../PhotoLookup';
 
 import './index.less';
 
@@ -89,19 +90,22 @@ export default class Chapter extends Component {
                         </Tooltip>
                     </div>
                     <div style={{ zIndex: this.state.interactiveMap ? 9 : 0 }}>
-                        <Deck
-                            chapter={chapter}
-                            client={client}
-                            refetch={refetch}
-                            updateSlideCamera={updateSlideCamera}
-                            font={font}
-                            viewState={viewState}
-                            setViewState={this.setViewState}
-                            width={width}
-                            trip={trip}
-                            gps_data={gps_data}
-                            card={card}
-                        />
+                        <PhotoLookup viewState={viewState}>
+                            <Deck
+                                chapter={chapter}
+                                client={client}
+                                refetch={refetch}
+                                updateSlideCamera={updateSlideCamera}
+                                font={font}
+                                viewState={viewState}
+                                setViewState={this.setViewState}
+                                width={width}
+                                trip={trip}
+                                gps_data={gps_data}
+                                card={card}
+                            />
+                        </PhotoLookup>
+
                     </div>
                     <div className="chapter-descriptions" style={{ pointerEvents: this.state.interactiveMap ? 'none' : 'auto'}}>
                         <div className="chapter-description-wrapper">
