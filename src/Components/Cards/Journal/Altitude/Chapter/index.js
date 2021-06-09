@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { IconButton, Tooltip } from '@material-ui/core';
 import PublicOutlinedIcon from '@material-ui/icons/PublicOutlined';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
 import Deck from '../../../Common/Deck';
 import PhotoLookup from './../PhotoLookup';
@@ -88,6 +89,13 @@ export default class Chapter extends Component {
                                 <PublicOutlinedIcon fontSize="small" />
                             </IconButton>
                         </Tooltip>
+
+                        <Tooltip placement="top" title={`Add photo`}>
+                            <IconButton color={ 'primary' } onClick={() => alert('open side panel')}>
+                                <AddCircleOutlineIcon fontSize="small" />
+                            </IconButton>
+                        </Tooltip>
+
                     </div>
                     <div style={{ zIndex: this.state.interactiveMap ? 9 : 0 }}>
                         <PhotoLookup viewState={chapter.camera}>
