@@ -66,35 +66,28 @@ export default class JournalMap extends CompositeLayer {
                 });
             }});
 
-        console.log(this.props)
-
         if (this.props.data.length ===0) return [tilelayer]
 
         let t = turf.lineString(this.props.data.map(d => d.geometry.coordinates));
 
-        console.log(t);
-      //  console.log(turf.linestring(this.props.data.data.features).map(s => s.geometry.coordinates));
-
-        //console.log(t);
         const route = new GeoJsonLayer({
             id: 'route-layer',
             data : turf.featureCollection([t]),
-            lineWidthScale: 1,
-            lineWidthMinPixels: 12,
-            lineWidthMaxPixels: 14,
-            getLineColor: [255, 238,100, 255],
+            getElevation : 1,
+            lineWidthScale: 20,
+            lineWidthMinPixels: 20,
+            getLineColor: [128,128,128],//[255, 238,0, 255],
             getRadius: 100,
-            getLineWidth: 10,
+            getLineWidth: 1,
             _subLayerProps: {
                 "line-strings": {type: CustomPathLayer},
             }
 
         });
 
-        const mvt = new MVTLayer();
 
 
-
+        //const mvt = new MVTLayer();
 
         //const hl = new HighlightLayer();
 
@@ -104,7 +97,7 @@ export default class JournalMap extends CompositeLayer {
 
        //s let assets = new AssetLayer({ data : _(slide.assets).filter( a => a.type === 'asset')});
 
-        return [  tilelayer, route  ];
+        return [   route  ];
     }
 }
 

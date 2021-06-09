@@ -9,6 +9,7 @@ import Frame from "../../Common/Frame";
 import AltitudeChart from './AltitudeChart';
 import {Mutation, Query} from "react-apollo";
 import gql from "graphql-tag";
+import Test from './../../Common/Test/App'
 
 const GET_EXTRA = gql`
     query MyQuery($card_id : Int) {
@@ -37,6 +38,8 @@ export default ({card, refetch, client, font}) => {
         { icon: <DeleteCard refetch={refetch} card={card}/>, name: 'Delete' },
         { icon: <AddGPS2 refetch={refetch} card={card}/>, name: 'Add gps' },
     ];
+
+    //return <Test/>
 
     return <Fragment>
 

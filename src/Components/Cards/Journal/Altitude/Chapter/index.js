@@ -5,7 +5,8 @@ import { IconButton, Tooltip } from '@material-ui/core';
 import PublicOutlinedIcon from '@material-ui/icons/PublicOutlined';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
-import Deck from '../../../Common/Deck';
+import DeckOld from '../../../Common/Deck';
+import Deck from '../../../Common/Test/Deck';
 import PhotoLookup from './../PhotoLookup';
 
 import './index.less';
@@ -96,8 +97,8 @@ export default class Chapter extends Component {
                     <div className="chapter-deck">
                         <div className="chapter-btn">
                             <Tooltip placement="top" title={`${this.state.interactiveMap ? 'Enabled' : 'Disabled'} the map`}>
-                                <IconButton 
-                                    color={this.state.interactiveMap ? 'primary' : 'default'} 
+                                <IconButton
+                                    color={this.state.interactiveMap ? 'primary' : 'default'}
                                     size="small"
                                     onClick={this.handleToggleMapInteraction}
                                 >
@@ -106,8 +107,8 @@ export default class Chapter extends Component {
                             </Tooltip>
 
                             <Tooltip placement="top" title="Add photo">
-                                <IconButton 
-                                    color="primary" 
+                                <IconButton
+                                    color="primary"
                                     size="small"
                                     onClick={this.handleOpenPhotoSlider}
                                 >
@@ -117,7 +118,7 @@ export default class Chapter extends Component {
 
                         </div>
                         <div style={{ zIndex: this.state.interactiveMap ? 9 : 0 }}>
-                            <PhotoLookup viewState={chapter.camera}>
+
                                 <Deck
                                     chapter={chapter}
                                     client={client}
@@ -131,7 +132,7 @@ export default class Chapter extends Component {
                                     gps_data={gps_data}
                                     card={card}
                                 />
-                            </PhotoLookup>
+
 
                         </div>
                         <div className="chapter-descriptions" style={{ pointerEvents: this.state.interactiveMap ? 'none' : 'auto'}}>
@@ -148,7 +149,7 @@ export default class Chapter extends Component {
                     </div>
                 </div>
 
-                <PhotoSelectSideBar 
+                <PhotoSelectSideBar
                     open={this.state.photoSliderOpen}
                     onClose={this.handleClosePhotoSlider}
                 />

@@ -2,12 +2,12 @@ import React, {Fragment, useState} from 'react';
 import DeckGL from '@deck.gl/react';
 import {MapController, LinearInterpolator, FlyToInterpolator} from '@deck.gl/core';
 import {Component} from 'react';
+import {BitmapLayer, GeoJsonLayer} from '@deck.gl/layers';
 import _ from "lodash";
 import './index.less';
-
-import JournalMap from './layers';
-
 import {AmbientLight, PointLight, DirectionalLight, LightingEffect} from '@deck.gl/core';
+import MVTLayer from "./layers/MVT";
+import CustomPathLayer from "./layers/CustomPathLayer";
 
 const cl = new DirectionalLight({
     color: [255, 255, 255],
@@ -51,8 +51,36 @@ export default class Deck extends Component {
 
         // console.log(gps_data);
 
+        const mvtLayer = new MVTLayer({
+            data: `https://a.tiles.mapbox.com/v4/mapbox.mapbox-streets-v7/{z}/{x}/{y}.vector.pbf?access_token=pk.eyJ1IjoibW9nbW9nIiwiYSI6ImNpZmI2eTZuZTAwNjJ0Y2x4a2g4cDIzZTcifQ.qlITXIamvfVj-NCTtAGylw`,
+
+
+            renderSubLayers: (props) => {
+
+                return [
+                    new GeoJsonLayer({
+                        ...props,
+                        data : props.data.filter(d => d.geometry.type === 'LineString'),
+                        //id: `${props.id}_point`,
+                        visible: true,
+                        getLineColor: [255, 127, 0, 100],
+                        lineWidthScale: 10,
+                        lineWidthMinPixels: 4,
+                        getRadius: 5,
+                        getLineWidth: 1,
+                        _subLayerProps: {
+                            "line-strings": {type: CustomPathLayer},
+                        }
+                    })
+                ]
+            }
+        });
+
+
+
         let layers = [
-           new JournalMap({ media : [], font : this.props.font, selectedAsset : null, slide : slide, refetch : this.props.refetch, client : this.props.client, trip : this.props.trip, width : this.props.width, data : gps_data || emptyFeatureCollection}),
+          // new JournalMap({ media : [], font : this.props.font, selectedAsset : null, slide : slide, refetch : this.props.refetch, client : this.props.client, trip : this.props.trip, width : this.props.width, data : gps_data || emptyFeatureCollection}),
+            mvtLayer
         ];
 
         let that = this;
@@ -78,9 +106,12 @@ export default class Deck extends Component {
             <div className="Deck" >
 
                 <div className="poster">
+                    test
                     <DeckGL
 
-                        viewState={this.props.viewState} controller={{type: controller, inertia: true, touchRotate : true, dragRotate : true, scrollZoom: true, doubleClickZoom : false}}
+                        viewState={this.props.viewState}
+                        //controller={{type: controller, inertia: true, touchRotate : true, dragRotate : true, scrollZoom: true, doubleClickZoom : false}}
+                        controller={true}
                         height="100%"
                         width="100%"
                         //effects={[lightingEffect]}
