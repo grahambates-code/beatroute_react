@@ -66,11 +66,11 @@ export default class JournalMap extends CompositeLayer {
                 });
             }});
 
+        console.log(this.props)
 
+        if (this.props.data.length ===0) return [tilelayer]
 
-        if (this.props.data.features.length ===0) return [tilelayer]
-
-        let t = turf.lineString(this.props.data.features.map(d => d.geometry.coordinates));
+        let t = turf.lineString(this.props.data.map(d => d.geometry.coordinates));
 
         console.log(t);
       //  console.log(turf.linestring(this.props.data.data.features).map(s => s.geometry.coordinates));

@@ -7,18 +7,10 @@ import LineBrush from '../../../../Charts/LineBrush';
 import LineScatter from '../../../../Charts/LineScatter';
 import LineMagnifyingView from '../../../../Charts/LineMagnifyingView';
 
-const GET_EXTRA = gql`
-    query MyQuery($card_id : Int) {
-        gps_data(where: {card_id: {_eq: $card_id}}) {
-        card_id
-        data
-    }
-}`
-
 const AltitudeChartHeader = ({ card, refetch, onSelection, gps_data=[] }) => {
     const brushFocusRef = useRef(null);
 
-                console.log( gps_data);
+              //  console.log( gps_data);
 
                 const lineData = gps_data.map((feature, i) => ({
                     x: i,
