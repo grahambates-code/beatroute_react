@@ -51,9 +51,28 @@ export default class JournalMap extends CompositeLayer {
 
         const masklayer = new JournalMaskLayer({ bounds: bounds });
 
+        const tilelayer = new TileLayer({ data: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', tileSize: 256, renderSubLayers: props => {
+                const {
+                    bbox: {west, south, east, north}
+                } = props.tile;
+
+                return new BitmapLayer(props, {
+                    data: null,
+                    desaturate : 1,
+                    opacity : 0.9,
+                    image: props.data,
+                    bounds: [west, south, east, north],
+
+                });
+            }});
+
+
+
+        if (this.props.data.features.length ===0) return [tilelayer]
+
         let t = turf.lineString(this.props.data.features.map(d => d.geometry.coordinates));
 
-       // console.log(t);
+        console.log(t);
       //  console.log(turf.linestring(this.props.data.data.features).map(s => s.geometry.coordinates));
 
         //console.log(t);
@@ -75,30 +94,17 @@ export default class JournalMap extends CompositeLayer {
         const mvt = new MVTLayer();
 
 
-        const tilelayer = new TileLayer({ data: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', tileSize: 256, renderSubLayers: props => {
-                const {
-                    bbox: {west, south, east, north}
-                } = props.tile;
 
-                return new BitmapLayer(props, {
-                    data: null,
-                    desaturate : 1,
-                    opacity : 0.9,
-                    image: props.data,
-                    bounds: [west, south, east, north],
-
-                });
-            }});
 
         //const hl = new HighlightLayer();
 
-        const pl = new PhotoLayer({media : this.props.media});
+        //const pl = new PhotoLayer({media : this.props.media});
 
        // const text = new TextLayer({ data : slide.assets.filter(a => a.type === 'text'), font });
 
        //s let assets = new AssetLayer({ data : _(slide.assets).filter( a => a.type === 'asset')});
 
-        return [  tilelayer, route , pl ];
+        return [  tilelayer, route  ];
     }
 }
 

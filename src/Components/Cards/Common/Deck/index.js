@@ -52,7 +52,7 @@ export default class Deck extends Component {
         // console.log(gps_data);
 
         let layers = [
-           new JournalMap({ media : media, font : this.props.font, selectedAsset : null, slide : slide, refetch : this.props.refetch, client : this.props.client, trip : this.props.trip, width : this.props.width, data : gps_data.data || emptyFeatureCollection}),
+           new JournalMap({ media : [], font : this.props.font, selectedAsset : null, slide : slide, refetch : this.props.refetch, client : this.props.client, trip : this.props.trip, width : this.props.width, data : gps_data.data || emptyFeatureCollection}),
         ];
 
         let that = this;
