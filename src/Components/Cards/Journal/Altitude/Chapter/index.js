@@ -9,6 +9,7 @@ import Deck from '../../../Common/Deck';
 import PhotoLookup from './../PhotoLookup';
 
 import './index.less';
+import PhotoSelectSideBar from '../../../../PhotoSelectSideBar';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -21,6 +22,7 @@ export default class Chapter extends Component {
             selectedAsset: null,
             viewState: props.chapter.camera,
             interactiveMap: false,
+            photoSliderOpen: false,
         }
         this.ref = React.createRef(null);
     }
@@ -76,58 +78,83 @@ export default class Chapter extends Component {
 
     };
 
+    handleOpenPhotoSlider = () => {
+        this.setState({ photoSliderOpen: true });
+    };
+
+    handleClosePhotoSlider = () => {
+        this.setState({ photoSliderOpen: false });
+    };
+
     render() {
         let { viewState } = this.state;
         let { font, client, chapter, refetch, width, trip, card, updateSlideCamera, gps_data } = this.props;
 
         return (
-            <div ref={this.ref} className="chapter">
-                <div className="chapter-deck">
-                    <div className="chapter-btn">
-                        <Tooltip placement="top" title={`${this.state.interactiveMap ? 'Enabled' : 'Disabled'} the map`}>
-                            <IconButton color={this.state.interactiveMap ? 'primary' : 'default'} onClick={this.handleToggleMapInteraction}>
-                                <PublicOutlinedIcon fontSize="small" />
-                            </IconButton>
-                        </Tooltip>
+            <>
+                <div ref={this.ref} className="chapter">
+                    <div className="chapter-deck">
+                        <div className="chapter-btn">
+                            <Tooltip placement="top" title={`${this.state.interactiveMap ? 'Enabled' : 'Disabled'} the map`}>
+                                <IconButton 
+                                    color={this.state.interactiveMap ? 'primary' : 'default'} 
+                                    size="small"
+                                    onClick={this.handleToggleMapInteraction}
+                                >
+                                    <PublicOutlinedIcon fontSize="small" />
+                                </IconButton>
+                            </Tooltip>
 
-                        <Tooltip placement="top" title={`Add photo`}>
-                            <IconButton color={ 'primary' } onClick={() => alert('open side panel')}>
-                                <AddCircleOutlineIcon fontSize="small" />
-                            </IconButton>
-                        </Tooltip>
+                            <Tooltip placement="top" title="Add photo">
+                                <IconButton 
+                                    color="primary" 
+                                    size="small"
+                                    onClick={this.handleOpenPhotoSlider}
+                                >
+                                    <AddCircleOutlineIcon fontSize="small" />
+                                </IconButton>
+                            </Tooltip>
 
-                    </div>
-                    <div style={{ zIndex: this.state.interactiveMap ? 9 : 0 }}>
-                        <PhotoLookup viewState={chapter.camera}>
-                            <Deck
-                                chapter={chapter}
-                                client={client}
-                                refetch={refetch}
-                                updateSlideCamera={updateSlideCamera}
-                                font={font}
-                                viewState={viewState}
-                                setViewState={this.setViewState}
-                                width={width}
-                                trip={trip}
-                                gps_data={gps_data}
-                                card={card}
-                            />
-                        </PhotoLookup>
-
-                    </div>
-                    <div className="chapter-descriptions" style={{ pointerEvents: this.state.interactiveMap ? 'none' : 'auto'}}>
-                        <div className="chapter-description-wrapper">
-                            <h6>Description 1 testsetest</h6>
                         </div>
-                        <div className="chapter-description-wrapper">
-                            <h6>Description 2 aaaa</h6>
+                        <div style={{ zIndex: this.state.interactiveMap ? 9 : 0 }}>
+                            <PhotoLookup viewState={chapter.camera}>
+                                <Deck
+                                    chapter={chapter}
+                                    client={client}
+                                    refetch={refetch}
+                                    updateSlideCamera={updateSlideCamera}
+                                    font={font}
+                                    viewState={viewState}
+                                    setViewState={this.setViewState}
+                                    width={width}
+                                    trip={trip}
+                                    gps_data={gps_data}
+                                    card={card}
+                                />
+                            </PhotoLookup>
+
                         </div>
-                        <div className="chapter-description-wrapper">
-                            <h6>Description 3 bhnnhnhnhn</h6>
+                        <div className="chapter-descriptions" style={{ pointerEvents: this.state.interactiveMap ? 'none' : 'auto'}}>
+                            <div className="chapter-description-wrapper">
+                                <h6>Description 1 testsetest</h6>
+                            </div>
+                            <div className="chapter-description-wrapper">
+                                <h6>Description 2 aaaa</h6>
+                            </div>
+                            <div className="chapter-description-wrapper">
+                                <h6>Description 3 bhnnhnhnhn</h6>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+
+                {this.state.photoSliderOpen && (
+                    <PhotoSelectSideBar 
+                        open={this.state.photoSliderOpen}
+                        onClose={this.handleClosePhotoSlider}
+                    />
+                )}
+            </>
         );
 
     }
