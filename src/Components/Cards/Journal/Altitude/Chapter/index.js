@@ -83,7 +83,7 @@ export default class Chapter extends Component {
             <div ref={this.ref} className="chapter">
                 <div className="chapter-deck">
                     <div className="chapter-btn">
-                        <Tooltip placement="top" title={`${this.state.interactiveMap ? 'Disabled' : 'Enabled'} the map`}>
+                        <Tooltip placement="top" title={`${this.state.interactiveMap ? 'Enabled' : 'Disabled'} the map`}>
                             <IconButton color={this.state.interactiveMap ? 'primary' : 'default'} onClick={this.handleToggleMapInteraction}>
                                 <PublicOutlinedIcon fontSize="small" />
                             </IconButton>
