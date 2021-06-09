@@ -27,6 +27,18 @@ const useStyles = makeStyles(theme => ({
 const PhotoSelectSideBar = ({ open, onClose }) => {
     const classes = useStyles();
     const [selectedPhotos, setSelectedPhotos] = useState({});
+    const [opened, setOpened] = useState(false);
+    const [unmouted, setUnmounted] = useState(false);
+
+    useLayoutEffect(() => {
+        if (open) {
+            setUnmounted(false);
+            setTimeout(() => setOpened(true), 150);
+        } else {
+            setOpened(false);
+            setTimeout(() => setUnmounted(true), 250);
+        }
+    }, [open]);
 
     const handleSelectPhoto = (photoItem) => () => {
         setSelectedPhotos(prev => {
@@ -48,60 +60,57 @@ const PhotoSelectSideBar = ({ open, onClose }) => {
         alert(`Selected photo ids: ${Object.keys(selectedPhotos)}`);
     };
 
+    if (unmouted) {
+        return null;
+    }
+
     return (
         <Drawer
             anchor="left"
-            open={open}
+            open={opened}
+            transitionDuration={250}
             onClose={onClose}
-            transitionDuration={500}
         >
-            
-                <Box 
-                    display="flex" 
-                    flexDirection="column" 
-                    width="75vw" 
-                    height="100%"
-                    padding={3}
-                >
-                    {open && (
-                        <>
-
-                            <Box display="flex" alignItems="center" justifyContent="space-between">
-                                <Typography variant="h5">
-                                    Select Photos
-                                </Typography>
-                                <IconButton onClick={onClose}>
-                                    <CancelIcon />
-                                </IconButton>
-                            </Box>
-                            
-                            <Box marginY={3} maxHeight="100%" flex="1" overflow="scroll">
-                                <GridList cellHeight={180} cols={3}>
-                                    {PhotoList.map((photoItem, index) => (
-                                        <GridListTile className={classes.listTitle} key={index} onClick={handleSelectPhoto(photoItem)}>
-                                            <img src={photoItem.src} alt="photos" />
-                                            <GridListTileBar
-                                                title={'Photo ID' + photoItem.id}
-                                                actionIcon={
-                                                    selectedPhotos[photoItem.id] ? (
-                                                        <IconButton color="primary">
-                                                            <CheckCircleIcon />
-                                                        </IconButton>
-                                                    ) : null
-                                                }
-                                            />
-                                        </GridListTile>
-                                    ))}
-                                </GridList>
-                            </Box>
-                            <Box>
-                                <Button variant="contained" color="primary" onClick={handleSaveSelectedPhoto}>
-                                    Save
-                                </Button>
-                            </Box>
-                        </>
-                    )}
+            <Box 
+                display="flex" 
+                flexDirection="column" 
+                width="75vw" 
+                height="100%"
+                padding={3}
+            >
+                <Box display="flex" alignItems="center" justifyContent="space-between">
+                    <Typography variant="h5">
+                        Select Photos
+                    </Typography>
+                    <IconButton onClick={onClose}>
+                        <CancelIcon />
+                    </IconButton>
                 </Box>
+                <Box marginY={3} maxHeight="100%" flex="1" overflow="scroll">
+                    <GridList cellHeight={180} cols={3}>
+                        {PhotoList.map((photoItem, index) => (
+                            <GridListTile className={classes.listTitle} key={index} onClick={handleSelectPhoto(photoItem)}>
+                                <img src={photoItem.src} alt="photos" />
+                                <GridListTileBar
+                                    title={'Photo ID' + photoItem.id}
+                                    actionIcon={
+                                        selectedPhotos[photoItem.id] ? (
+                                            <IconButton color="primary">
+                                                <CheckCircleIcon />
+                                            </IconButton>
+                                        ) : null
+                                    }
+                                />
+                            </GridListTile>
+                        ))}
+                    </GridList>
+                </Box>
+                <Box>
+                    <Button variant="contained" color="primary" onClick={handleSaveSelectedPhoto}>
+                        Save
+                    </Button>
+                </Box>
+            </Box>
         </Drawer>
     );
 };
