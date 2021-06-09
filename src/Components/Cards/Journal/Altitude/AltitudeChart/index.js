@@ -60,6 +60,7 @@ const AltitudeChart = ({font, card, width, refetch, updateSlideCamera, gps_data}
                 <div>
                     <AltitudeChartHeader
                         card={card}
+                        gps_data={gps_data}
                         refetch={refetch}
                         onSelection={(subData) => {
                             if (subData.length > 2) {

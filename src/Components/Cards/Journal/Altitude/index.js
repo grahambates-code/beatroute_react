@@ -48,9 +48,11 @@ export default ({card, refetch, client, font}) => {
                 <Query query={GET_EXTRA} variables={{card_id : card.id}} >
                     {({ loading, error, data  }) => {
 
-                        if (loading || !data || !data.gps_data.length) {
+                        if (loading || !data ) {
                             return null
                         };
+
+                        if (!data.gps_data.length) return <pre>Now upload your gps </pre>
 
                         return <Mutation
                             onError={() => alert('Could not save slide media')}
@@ -62,7 +64,7 @@ export default ({card, refetch, client, font}) => {
                                 return <AltitudeChart updateSlideCamera={updateSlideCamera}
                                                       font={font}
                                                       width={500}
-                                                      gps_data={data.gps_data[0]}
+                                                      gps_data={data.gps_data[0].data.features}
                                                       card={card} refetch={refetch} client={client}/>
                             }}
                         </Mutation>

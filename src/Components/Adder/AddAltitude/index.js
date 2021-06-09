@@ -27,7 +27,7 @@ export default ({trip, refetch, type}) => {
             onError={() => alert('Could not add altitude')}
             onCompleted={() => refetch()}
             mutation={ADD}
-            variables={{  type, trip_id : trip.id }}
+            variables={{  type, trip_id : trip.id , camera : {longitude : 0, latitude : 50, zoom : 10}}}
         >
 
             {(add, {loading, error}) => {

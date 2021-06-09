@@ -15,7 +15,7 @@ export default (props) => {
     return (
         <Mutation
             mutation={MY_MUTATION_MUTATION}
-            variables={{card_id : props.card.id, data : props.data, camera : {zoom : 5, latitude : props.data?.geometry?.coordinates[0][0][1], longitude : props.data?.geometry?.coordinates[0][0][0]}}}
+            variables={{card_id : props.card.id, data : props.data, camera : {zoom : 1, latitude : props.data?.geometry?.coordinates[0][0][1], longitude : props.data?.geometry?.coordinates[0][0][0]}}}
             onCompleted={() => props.refetch()}
         >
             {(MyMutation, { loading, error, data }) => {

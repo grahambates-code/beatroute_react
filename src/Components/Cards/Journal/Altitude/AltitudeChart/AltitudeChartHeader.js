@@ -7,29 +7,17 @@ import LineBrush from '../../../../Charts/LineBrush';
 import LineScatter from '../../../../Charts/LineScatter';
 import LineMagnifyingView from '../../../../Charts/LineMagnifyingView';
 
-const GET_EXTRA = gql`
-    query MyQuery($card_id : Int) {
-        gps_data(where: {card_id: {_eq: $card_id}}) {
-        card_id
-        data
-    }
-}`
-
-const AltitudeChartHeader = ({ card, refetch, onSelection }) => {
+const AltitudeChartHeader = ({ card, refetch, onSelection, gps_data=[] }) => {
     const brushFocusRef = useRef(null);
 
-    return (
-        <Query query={GET_EXTRA} variables={{card_id : card.id}} >
-            {({ loading, error, data  }) => {
-                if (loading || !data || !data.gps_data.length) {
-                    return null
-                };
+              //  console.log( gps_data);
 
-                const { data: { features } } = data.gps_data[0];
-                const lineData = features.map((feature, i) => ({ 
-                    x: i, 
+                const lineData = gps_data.map((feature, i) => ({
+                    x: i,
                     y: feature.properties.elevation
                 }));
+
+               // return <pre>{JSON.stringify(lineData)}</pre>
 
                 return (
                     <ConnectCharts>
@@ -46,7 +34,7 @@ const AltitudeChartHeader = ({ card, refetch, onSelection }) => {
                             onSelection={(focus) => {
                                 const prevFocus = brushFocusRef.current;
                                 if (!prevFocus || ((focus[0] !== prevFocus[0] || focus[1] !== prevFocus[1]))) {
-                                    const subFeatures = features.slice(Math.floor(focus[0]), Math.ceil(focus[1]));
+                                    const subFeatures = gps_data.slice(Math.floor(focus[0]), Math.ceil(focus[1]));
                                     const subCoordinates = subFeatures.map(feature => feature.geometry.coordinates);
 
                                     brushFocusRef.current = focus;
@@ -61,13 +49,11 @@ const AltitudeChartHeader = ({ card, refetch, onSelection }) => {
                             <LineMagnifyingView  color="#ec407a" />
                         </LineBrush>
                     </ConnectCharts>
-                );
-            }}
-        </Query>
+
     );
 };
 
 export default React.memo(
-    AltitudeChartHeader, 
+    AltitudeChartHeader,
     (prevProps, nextProps) => prevProps.card.id === nextProps.card.id
 );
