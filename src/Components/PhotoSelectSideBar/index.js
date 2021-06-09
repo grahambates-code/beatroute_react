@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Drawer, Box, Typography, IconButton, GridList, GridListTile, GridListTileBar, makeStyles, Button } from '@material-ui/core';
 import CancelIcon from '@material-ui/icons/Cancel';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import { useLayoutEffect } from 'react';
 
 const PhotoList = [
     { id: 1, src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTO56VO_tG3QyV0QIV4xhx9MNlOlRGvsm6B1w&usqp=CAU' },
@@ -52,47 +53,55 @@ const PhotoSelectSideBar = ({ open, onClose }) => {
             anchor="left"
             open={open}
             onClose={onClose}
+            transitionDuration={500}
         >
-            <Box 
-                display="flex" 
-                flexDirection="column" 
-                width="75vw" 
-                height="100%"
-                padding={3}
-            >
-                <Box display="flex" alignItems="center" justifyContent="space-between">
-                    <Typography variant="h5">
-                        Select Photos
-                    </Typography>
-                    <IconButton onClick={onClose}>
-                        <CancelIcon />
-                    </IconButton>
+            
+                <Box 
+                    display="flex" 
+                    flexDirection="column" 
+                    width="75vw" 
+                    height="100%"
+                    padding={3}
+                >
+                    {open && (
+                        <>
+
+                            <Box display="flex" alignItems="center" justifyContent="space-between">
+                                <Typography variant="h5">
+                                    Select Photos
+                                </Typography>
+                                <IconButton onClick={onClose}>
+                                    <CancelIcon />
+                                </IconButton>
+                            </Box>
+                            
+                            <Box marginY={3} maxHeight="100%" flex="1" overflow="scroll">
+                                <GridList cellHeight={180} cols={3}>
+                                    {PhotoList.map((photoItem, index) => (
+                                        <GridListTile className={classes.listTitle} key={index} onClick={handleSelectPhoto(photoItem)}>
+                                            <img src={photoItem.src} alt="photos" />
+                                            <GridListTileBar
+                                                title={'Photo ID' + photoItem.id}
+                                                actionIcon={
+                                                    selectedPhotos[photoItem.id] ? (
+                                                        <IconButton color="primary">
+                                                            <CheckCircleIcon />
+                                                        </IconButton>
+                                                    ) : null
+                                                }
+                                            />
+                                        </GridListTile>
+                                    ))}
+                                </GridList>
+                            </Box>
+                            <Box>
+                                <Button variant="contained" color="primary" onClick={handleSaveSelectedPhoto}>
+                                    Save
+                                </Button>
+                            </Box>
+                        </>
+                    )}
                 </Box>
-                <Box marginY={3} maxHeight="100%" flex="1" overflow="scroll">
-                    <GridList cellHeight={180} cols={3}>
-                        {PhotoList.map((photoItem, index) => (
-                            <GridListTile className={classes.listTitle} key={index} onClick={handleSelectPhoto(photoItem)}>
-                                <img src={photoItem.src} alt="photos" />
-                                <GridListTileBar
-                                    title={'Photo ID' + photoItem.id}
-                                    actionIcon={
-                                        selectedPhotos[photoItem.id] ? (
-                                            <IconButton color="primary">
-                                                <CheckCircleIcon />
-                                            </IconButton>
-                                        ) : null
-                                    }
-                                />
-                            </GridListTile>
-                        ))}
-                    </GridList>
-                </Box>
-                <Box>
-                    <Button variant="contained" color="primary" onClick={handleSaveSelectedPhoto}>
-                        Save
-                    </Button>
-                </Box>
-            </Box>
         </Drawer>
     );
 };

@@ -148,12 +148,10 @@ export default class Chapter extends Component {
                     </div>
                 </div>
 
-                {this.state.photoSliderOpen && (
-                    <PhotoSelectSideBar 
-                        open={this.state.photoSliderOpen}
-                        onClose={this.handleClosePhotoSlider}
-                    />
-                )}
+                <PhotoSelectSideBar 
+                    open={this.state.photoSliderOpen}
+                    onClose={this.handleClosePhotoSlider}
+                />
             </>
         );
 
