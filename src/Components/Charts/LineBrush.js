@@ -33,12 +33,12 @@ const LineBrushWrapper = ({ color, scatterData, onSelection, children }) => {
                 .call(brush)
                 .call(brush.move, defaultSelection);
 
-            // brushElement.select('.selection')
-            //     .attr('y', -padding)
-            //     .attr('rx', radius)
-            //     .attr('ry', radius)
-            //     .attr('width', brushHeight)
-            //     .attr('height', brushHeight);
+            brushElement.select('.selection')
+                .attr('y', -padding)
+                .attr('rx', radius)
+                .attr('ry', radius)
+                .attr('width', brushHeight)
+                .attr('height', brushHeight);
 
             function brushed({ selection }) {
                 const focus = selection.map(xScale.invert, xScale);
