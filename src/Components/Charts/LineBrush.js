@@ -20,6 +20,7 @@ const LineBrushWrapper = ({ color, scatterData, onSelection, children }) => {
 
             const brush = d3.brushX()
                 .extent([[0, 0], [innerWidth, innerHeight]])
+                .on("start", initBrush)
                 .on("brush", brushed)
                 .on("end", brushEnded);
             
@@ -33,23 +34,21 @@ const LineBrushWrapper = ({ color, scatterData, onSelection, children }) => {
                 .call(brush)
                 .call(brush.move, defaultSelection);
 
-            brushElement.select('.selection')
-                .attr('y', -padding)
-                .attr('rx', radius)
-                .attr('ry', radius)
-                .attr('width', brushHeight)
-                .attr('height', brushHeight);
-
-            function brushed({ selection }) {
-                const focus = selection.map(xScale.invert, xScale);
-                connectContext.updateMagnifyingFocusData(focus);
-
+            function initBrush() {
                 brushElement.select('.selection')
                     .attr('y', -padding)
                     .attr('rx', radius)
                     .attr('ry', radius)
                     .attr('width', brushHeight)
                     .attr('height', brushHeight);
+
+            }
+
+            function brushed({ selection }) {
+                const focus = selection.map(xScale.invert, xScale);
+                connectContext.updateMagnifyingFocusData(focus);
+
+                initBrush();
 
                 if (typeof onSelection === 'function') {
                     onSelection(focus);
