@@ -11,6 +11,7 @@ import PhotoLookup from './../PhotoLookup';
 
 import './index.less';
 import PhotoSelectSideBar from '../../../../PhotoSelectSideBar';
+import AddPage from '../AddPage';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -118,22 +119,19 @@ export default class Chapter extends Component {
 
                         </div>
                         <div style={{ zIndex: this.state.interactiveMap ? 9 : 0 }}>
-
-                                <Deck
-                                    chapter={chapter}
-                                    client={client}
-                                    refetch={refetch}
-                                    updateSlideCamera={updateSlideCamera}
-                                    font={font}
-                                    viewState={viewState}
-                                    setViewState={this.setViewState}
-                                    width={width}
-                                    trip={trip}
-                                    gps_data={gps_data}
-                                    card={card}
-                                />
-
-
+                            <Deck
+                                chapter={chapter}
+                                client={client}
+                                refetch={refetch}
+                                updateSlideCamera={updateSlideCamera}
+                                font={font}
+                                viewState={viewState}
+                                setViewState={this.setViewState}
+                                width={width}
+                                trip={trip}
+                                gps_data={gps_data}
+                                card={card}
+                            />
                         </div>
                         <div className="chapter-descriptions" style={{ pointerEvents: this.state.interactiveMap ? 'none' : 'auto'}}>
                             <div className="chapter-description-wrapper">
@@ -147,6 +145,11 @@ export default class Chapter extends Component {
                             </div>
                         </div>
                     </div>
+                    <AddPage 
+                        camera={chapter.camera}
+                        text="Some testing page"
+                        chapterId={chapter.id}
+                    />
                 </div>
 
                 <PhotoSelectSideBar
