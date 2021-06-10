@@ -4,7 +4,7 @@ import { Mutation } from 'react-apollo';
 import { Box, Button, Typography } from '@material-ui/core';
 
 const INSERT_PAGE_MUTATION = gql`
-    mutation MyMutation($camera: jsonb, $chapter_id: ID!, $text: String!) {
+    mutation MyMutation($camera: jsonb, $chapter_id: Int!, $text: String!) {
         insert_page(objects: {camera: $camera, chapter_id: $chapter_id, text: $text}) {
             returning {
                 id

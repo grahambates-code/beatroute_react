@@ -146,7 +146,7 @@ export default class Chapter extends Component {
                         </div>
                     </div>
                     <AddPage 
-                        camera={chapter.camera}
+                        camera={{}}
                         text="Some testing page"
                         chapterId={chapter.id}
                     />
