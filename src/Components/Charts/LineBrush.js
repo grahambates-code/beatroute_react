@@ -14,6 +14,10 @@ const LineBrushWrapper = ({ color, scatterData, onSelection, children }) => {
     useLayoutEffect(() => {
         if (ref) {
             const { innerWidth, innerHeight, xScale } = context;
+            const padding = 8;
+            const radius = padding + context.innerHeight / 2;
+            const brushHeight = radius * 2;
+
             const brush = d3.brushX()
                 .extent([[0, 0], [innerWidth, innerHeight]])
                 .on("brush", brushed)
@@ -29,15 +33,23 @@ const LineBrushWrapper = ({ color, scatterData, onSelection, children }) => {
                 .call(brush)
                 .call(brush.move, defaultSelection);
 
-            const radius = context.innerHeight / 2;
-
-            brushElement.select('.selection')
-                .attr('rx', radius)
-                .attr('ry', radius);
+            // brushElement.select('.selection')
+            //     .attr('y', -padding)
+            //     .attr('rx', radius)
+            //     .attr('ry', radius)
+            //     .attr('width', brushHeight)
+            //     .attr('height', brushHeight);
 
             function brushed({ selection }) {
                 const focus = selection.map(xScale.invert, xScale);
                 connectContext.updateMagnifyingFocusData(focus);
+
+                brushElement.select('.selection')
+                    .attr('y', -padding)
+                    .attr('rx', radius)
+                    .attr('ry', radius)
+                    .attr('width', brushHeight)
+                    .attr('height', brushHeight);
 
                 if (typeof onSelection === 'function') {
                     onSelection(focus);
