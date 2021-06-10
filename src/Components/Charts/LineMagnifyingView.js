@@ -9,10 +9,11 @@ const LineMagnifyingView = ({ color, enableScatter }) => {
     const chartContext = useContext(ChartContext);
     const ref = useRef(null);
     
-    const scale = 0.5;
+    const scale = 0.2;
+    const padding = 20;
     const width = (Math.min(chartContext.innerWidth, chartContext.innerHeight)) * scale;
     const height = width;
-    const radius = width / 2;
+    const radius = height / 2;
 
     useLayoutEffect(() => {
         if (ref) {
@@ -37,10 +38,10 @@ const LineMagnifyingView = ({ color, enableScatter }) => {
     return (
         <g ref={ref}>
             <clipPath id="clipPathDef">
-                <circle r={radius} cx={radius} cy={radius} />
+                <circle r={radius + padding} cx={radius} cy={radius} />
             </clipPath>
             <circle 
-                r={radius}
+                r={radius + padding}
                 cx={radius}
                 cy={radius}
                 stroke={color}
