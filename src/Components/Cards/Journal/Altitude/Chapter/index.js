@@ -16,6 +16,7 @@ import AddPage from '../AddPage';
 gsap.registerPlugin(ScrollTrigger);
 
 export default class Chapter extends Component {
+    timeline = null;
     constructor(props) {
         super(props);
 
@@ -30,7 +31,7 @@ export default class Chapter extends Component {
     }
 
     componentDidMount() {
-        const tl = gsap.timeline({
+        this.timeline = gsap.timeline({
             scrollTrigger: {
                 trigger: this.ref.current,
                 start: 'top top+=260',
@@ -47,7 +48,7 @@ export default class Chapter extends Component {
         gsap.utils
             .toArray(this.ref.current.querySelectorAll('.chapter-description-wrapper'))
             .forEach((el, i) => {
-                tl.fromTo(
+                this.timeline.fromTo(
                     el,
                     { alpha: 0, y: 128 },
                     {
@@ -64,10 +65,14 @@ export default class Chapter extends Component {
                             }
                         },
                     });
-                tl.to(el, { alpha: 0 });
+                this.timeline.to(el, { alpha: 0 });
             });
+    }
 
-        // tl.duration(10)
+    componentWillUnmount() {
+        if (this.timeline) {
+            this.timeline.kill();
+        }
     }
 
     setViewState = (p) => {
