@@ -33,6 +33,7 @@ import * as THREE from 'three';
 import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core';
 import Header from './Components/Header';
+import AddJournalText from './Components/Adder/AddJournalText';
 
 const theme = createMuiTheme({});
 
@@ -166,7 +167,6 @@ const App = () => {
                         <div> this is one time component</div>
                         {/*<Deck trip={trip} width={width} updateCard={() => alert("not implemented")}/>*/}
                       </portals.InPortal>
-
                       {cards.map((card, i) => {
                         return (
                           <div className="app-section" key={i}>
