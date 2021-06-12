@@ -7,7 +7,7 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
 import DeckOld from '../../../Common/Deck';
 import Deck from '../../../Common/Test/Deck';
-import PhotoLookup from './../PhotoLookup';
+import PhotoLookup from '../../../../PhotoSelectSideBar/PhotoLookup';
 
 import './index.less';
 import PhotoSelectSideBar from '../../../../PhotoSelectSideBar';
@@ -154,7 +154,7 @@ export default class Chapter extends Component {
                             </div>
                         </div>
                     </div>
-                    <AddPage 
+                    <AddPage
                         camera={{}}
                         text="Some testing page"
                         chapterId={chapter.id}
@@ -162,6 +162,7 @@ export default class Chapter extends Component {
                 </div>
 
                 <PhotoSelectSideBar
+                    viewState={viewState}
                     open={this.state.photoSliderOpen}
                     onClose={this.handleClosePhotoSlider}
                 />
