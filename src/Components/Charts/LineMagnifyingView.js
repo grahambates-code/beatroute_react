@@ -9,8 +9,9 @@ const LineMagnifyingView = ({ color, enableScatter }) => {
     const chartContext = useContext(ChartContext);
     const ref = useRef(null);
     
-    const scale = 0.2;
-    const padding = 20;
+    const linePadding = 0;
+    const scale = 0.5;
+    const padding = 8;
     const width = (Math.min(chartContext.innerWidth, chartContext.innerHeight)) * scale;
     const height = width;
     const radius = height / 2;
@@ -52,16 +53,16 @@ const LineMagnifyingView = ({ color, enableScatter }) => {
             <g clipPath="url(#clipPathDef)">
                 <ConnectChartContext.Consumer>
                     {({ magnifyingFocusData }) => (
-                        <>
+                        <g transform={`translate(0, ${linePadding})`}>
                             <Line 
                                 width={width}
-                                height={height}
+                                height={height - linePadding * 2}
                                 data={chartContext.data}
                                 xScale={chartContext.xScale.copy().range([0, width]).domain(magnifyingFocusData)}
-                                yScale={chartContext.yScale.copy().range([height, 0])}
+                                yScale={chartContext.yScale.copy().range([height - linePadding * 2, 0])}
                                 color={color}
                             />
-                        </>
+                        </g>
                     )}
                 </ConnectChartContext.Consumer>
             </g>
