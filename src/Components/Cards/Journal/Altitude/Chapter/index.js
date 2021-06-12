@@ -31,42 +31,46 @@ export default class Chapter extends Component {
     }
 
     componentDidMount() {
-        this.timeline = gsap.timeline({
-            scrollTrigger: {
-                trigger: this.ref.current,
-                start: 'top top+=260',
-                end: "+=" + (window.innerHeight * 3),
-                anticipatePin: true,
-                // end: 'bottom+=-40 center+=-16',
-                scrub: true,
-                pinSpacing: 'margin',
-                pin: this.ref.current.querySelector('.chapter-deck'),
-                refreshPriority: 0,
-            }
-        });
-
-        gsap.utils
-            .toArray(this.ref.current.querySelectorAll('.chapter-description-wrapper'))
-            .forEach((el, i) => {
-                this.timeline.fromTo(
-                    el,
-                    { alpha: 0, y: 128 },
-                    {
-                        alpha: 1,
-                        y: 0,
-                        onReverseComplete: () => {
-                            if (this.props.onDescriptionEnter) {
-                                this.props.onDescriptionEnter(i);
-                            }
-                        },
-                        onComplete: () => {
-                            if (this.props.onDescriptionEnter) {
-                                this.props.onDescriptionEnter(i);
-                            }
-                        },
-                    });
-                this.timeline.to(el, { alpha: 0 });
+        const initScroll = () => {
+            this.timeline = gsap.timeline({
+                scrollTrigger: {
+                    trigger: this.ref.current,
+                    start: 'top top+=260',
+                    end: "+=" + (window.innerHeight * 3),
+                    anticipatePin: true,
+                    // end: 'bottom+=-40 center+=-16',
+                    scrub: true,
+                    pinSpacing: 'margin',
+                    pin: this.ref.current.querySelector('.chapter-deck'),
+                    refreshPriority: 0,
+                }
             });
+    
+            gsap.utils
+                .toArray(this.ref.current.querySelectorAll('.chapter-description-wrapper'))
+                .forEach((el, i) => {
+                    this.timeline.fromTo(
+                        el,
+                        { alpha: 0, y: 128 },
+                        {
+                            alpha: 1,
+                            y: 0,
+                            onReverseComplete: () => {
+                                if (this.props.onDescriptionEnter) {
+                                    this.props.onDescriptionEnter(i);
+                                }
+                            },
+                            onComplete: () => {
+                                if (this.props.onDescriptionEnter) {
+                                    this.props.onDescriptionEnter(i);
+                                }
+                            },
+                        });
+                    this.timeline.to(el, { alpha: 0 });
+                });
+        };
+
+        setTimeout(() => initScroll(), 500);
     }
 
     componentWillUnmount() {

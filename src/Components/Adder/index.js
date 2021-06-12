@@ -4,8 +4,9 @@ import AddTitle     from './AddTitle'
 import AddMap    from './AddMap'
 import AddAltitude    from './AddAltitude'
 import {Button} from "@material-ui/core";
+import AddJournalText from './AddJournalText'
 
-export default ({trip, refetch}) => {
+const Adder = ({trip, refetch}) => {
 
     const [showButtons, setShowButtons] = useState(false);
 
@@ -37,7 +38,13 @@ export default ({trip, refetch}) => {
 
             <br/>
 
+            <AddJournalText trip={trip} />
+
+            <br/>
+
         </div> }
 
     </Fragment>
-}
+};
+
+export default Adder;
