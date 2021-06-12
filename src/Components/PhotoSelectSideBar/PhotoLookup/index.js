@@ -39,9 +39,9 @@ export default ({viewState, handleSelectPhoto}) => {
                   return <Fragment>
                       {data.search_media.map((photoItem, index) => (
                           <GridListTile key={index} onClick={handleSelectPhoto(photoItem)}>
-                              <img src={photoItem.json.secure_url} alt="photos" style={{width: '100px', height : 'auto'}}/>
+                              <img src={ `https://res.cloudinary.com/db8uwhsbg/image/upload/c_thumb,g_face,h_250,w_250/${photoItem.json.public_id}.jpg` } alt="photos" style={{width: '250px', height : 'auto'}}/>
                               <GridListTileBar
-                                  title={'Photo ID' + photoItem.asset_id}
+                                  title={'Photo ID' + photoItem.json.public_id}
                                   actionIcon={
                                       true ? (
                                           <IconButton color="primary">

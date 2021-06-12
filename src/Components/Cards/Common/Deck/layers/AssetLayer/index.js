@@ -21,11 +21,11 @@ export default class AssetLayer extends CompositeLayer {
 
             getPosition: asset => asset.position,
 
-            getTranslation : asset=> [0,0, -11000],
+            getTranslation : asset=> [0,0, 250],
 
-            getOrientation: asset => [0, 0, 90 ],
+            getOrientation: asset => [0, 0, 0 ],
 
-            getScale: (asset) =>[asset.scale,asset.scale,1],
+            getScale: (asset) =>[asset.scale,asset.scale,asset.scale],
 
             sizeScale: 25000,
 

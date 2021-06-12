@@ -45,7 +45,7 @@ export default class Chapter extends Component {
                     refreshPriority: 0,
                 }
             });
-    
+
             gsap.utils
                 .toArray(this.ref.current.querySelectorAll('.chapter-description-wrapper'))
                 .forEach((el, i) => {
@@ -142,6 +142,8 @@ export default class Chapter extends Component {
                                 card={card}
                             />
                         </div>
+
+
                         <div className="chapter-descriptions" style={{ pointerEvents: this.state.interactiveMap ? 'none' : 'auto'}}>
                             <div className="chapter-description-wrapper">
                                 <h6>Description 1 testsetest</h6>

@@ -63,21 +63,23 @@ const GETCARD = gql`
             data
             id
             
+             assets {
+              data
+              id
+              order
+              position
+              rotation
+              scale
+              translation
+            }
+            
             pages {
               id
               camera
               text
             }
             
-            assets(order_by: { order: desc }) {
-              id
-              position
-              scale
-              translation
-              rotation
-              type
-              data
-            }
+            
           }
         }
       }
