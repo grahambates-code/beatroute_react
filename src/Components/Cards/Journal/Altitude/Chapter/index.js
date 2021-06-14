@@ -51,7 +51,7 @@ export default class Chapter extends Component {
                 .forEach((el, i) => {
                     this.timeline.fromTo(
                         el,
-                        { alpha: 0, y: 128 },
+                        { alpha: 0, y: i === 0 ? 0 : 128 },
                         {
                             alpha: 1,
                             y: 0,
