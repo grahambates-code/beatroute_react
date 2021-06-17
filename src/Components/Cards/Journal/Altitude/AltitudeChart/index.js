@@ -11,7 +11,8 @@ import { useState } from 'react';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const AltitudeChart = ({font, card, width, refetch, updateSlideCamera, gps_data}) => {
+const AltitudeChart = ({font, card, width, refetch, updateSlideCamera, gps_data, client}) => {
+
     const [chapterDataSet, setChapterDataSet] = useState([]);
     // const [scatterData, setScatterData] = useState(lineData[0]);
     const ref = useRef(null);
@@ -76,6 +77,7 @@ const AltitudeChart = ({font, card, width, refetch, updateSlideCamera, gps_data}
                 </div>
             </div>
 
+            <pre>{chapterDataSet.length && JSON.stringify(chapterDataSet.geometry.coordinates)}</pre>
             <div className="top-scroll-graphic-content">
                 {card.chapters.map((s, i) => (
                     <div key={i} className="top-scroll-graphic-card">
@@ -85,8 +87,11 @@ const AltitudeChart = ({font, card, width, refetch, updateSlideCamera, gps_data}
                             card={card}
                             gps_data={gps_data}
                             updateSlideCamera={updateSlideCamera}
+                            chapterDataSet={chapterDataSet}
                             width={width}
+                            client={client}
                             chapter={s}
+                            refetch={refetch}
                             onDescriptionEnter={(index) => {
                                 console.log('the description comes in', index);
                             }}

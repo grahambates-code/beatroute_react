@@ -1,12 +1,10 @@
 import { CompositeLayer } from '@deck.gl/core';
-import {BitmapLayer} from '@deck.gl/layers';
-import GL from '@luma.gl/constants';
 import * as turf from "@turf/turf";
 import { EditableGeoJsonLayer, TransformMode, TranslateMode } from "nebula.gl";
 import gql from "graphql-tag";
-import AssetLayer from "../AssetLayer";
+import { ScenegraphLayer} from '@deck.gl/mesh-layers';
 
-const VISIBLE = 0;
+const VISIBLE = 1;
 
 const SAVE_ASSET_POSITION = gql `mutation MyMutation($id : Int, $position : jsonb) {
   update_asset(where: {id: {_eq: $id}}, _set: {position: $position}) {
@@ -30,7 +28,7 @@ export default class EditLayer extends CompositeLayer {
 
        const { asset } = this.props;
 
-      // console.log(this.state.position);
+     // console.log(this.state.position);
 
        const edit = new EditableGeoJsonLayer({
               id: 'mask-editor',
@@ -52,21 +50,38 @@ export default class EditLayer extends CompositeLayer {
 
                   const { updatedData, editType } = event;
 
-                 // console.log(updatedData);
                   this.setState({position : updatedData});
-                  //this.props.setSlidePhotoRotation({ ...this.props.slidePhotoRotation, position : updatedData});
+
                   if (editType === 'rotated' || editType === 'translated') {
-                      console.log(updatedData);
-                      console.log(this.props.client);
+                      //alert(JSON.stringify(this.props));
                       this.props.client && this.props.client.mutate({mutation: SAVE_ASSET_POSITION, variables : {id : asset.id, position : updatedData.features[0].geometry.coordinates } }).then(() => this.props.refetch());
-                   }
+                  }
 
               }
           })
 
-       // const assetL = new AssetLayer({ id : 'fgfdgfsd', type : asset.type, data : [{...asset, position : this.state.position.features[0].geometry.coordinates}] });
+        console.log(this.state.position);
 
-        return [  edit ];
+        const ll = new ScenegraphLayer({ data : [asset],
+
+            scenegraph: asset.data.file,
+
+            opacity : 1,
+
+            getPosition: asset => this.state.position.features[0].geometry.coordinates,
+
+            getTranslation : asset=> [0,0, 0],
+
+            getOrientation: asset => [0, 0, 90 ],
+
+            getScale: (asset) =>[asset.scale,asset.scale,asset.scale],
+
+            sizeScale: 10,
+
+            _lighting: 'pbr'
+        });
+
+        return [  edit, ll ];
     }
 }
 

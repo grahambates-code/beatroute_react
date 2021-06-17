@@ -5,7 +5,7 @@ import GL from '@luma.gl/constants';
 import CustomPathLayer from "./CustomPathLayer";
 import JournalMaskLayer from "./Masks/JournalMaskLayer";
 import AssetLayer from "./AssetLayer";
-import EditLayer from "./EditLayer";
+import EditLayer from "../../EditLayer";
 import HighlightLayer from "./HighlightLayer";
 import PhotoLayer from "./PhotoLayer";
 import TextLayer from "./TextLayer";

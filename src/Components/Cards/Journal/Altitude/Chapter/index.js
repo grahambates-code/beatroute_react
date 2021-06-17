@@ -140,6 +140,7 @@ export default class Chapter extends Component {
                                 trip={trip}
                                 gps_data={gps_data}
                                 card={card}
+                                chapterDataSet={this.props.chapterDataSet}
                             />
                         </div>
 

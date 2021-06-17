@@ -1,6 +1,7 @@
 import { CompositeLayer } from '@deck.gl/core';
 import { ScenegraphLayer} from '@deck.gl/mesh-layers';
 import _ from 'lodash';
+import EditLayer from "../../../../Common/EditLayer";
 
 export default class AssetLayer extends CompositeLayer {
 
@@ -8,12 +9,14 @@ export default class AssetLayer extends CompositeLayer {
 
         const { data, file } = this.props;
 
-        let grouped = data
+        let grouped = _(data)
             .groupBy(x => x.data.file)
             .map((values, key) => ({key: key, values: values}))
             .value();
 
-        return grouped.map(a => new ScenegraphLayer({ data : a.values,
+        let edit = data.map(b => new EditLayer({ refetch : this.props.refetch, client : this.props.client, asset : b }))
+
+        let models = grouped.map(a => new ScenegraphLayer({ data : a.values,
 
             scenegraph : a.key,
 
@@ -21,16 +24,18 @@ export default class AssetLayer extends CompositeLayer {
 
             getPosition: asset => asset.position,
 
-            getTranslation : asset=> [0,0, 250],
+            getTranslation : asset=> [0,0, 0],
 
-            getOrientation: asset => [0, 0, 0 ],
+            getOrientation: asset => [90, 0, 0 ],
 
             getScale: (asset) =>[asset.scale,asset.scale,asset.scale],
 
-            sizeScale: 25000,
+            sizeScale: 50000,
 
             _lighting: 'pbr'
         }));
+
+        return (edit)
 
     }
 }
