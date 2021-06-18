@@ -131,6 +131,7 @@ class MapHolder extends Component {
             data : this.props.chapterDataSet,
             pickable: true,
             stroked: false,
+            filled : true,
             getElevation : 1,
             lineWidthScale: 20,
             lineWidthMinPixels: 14,

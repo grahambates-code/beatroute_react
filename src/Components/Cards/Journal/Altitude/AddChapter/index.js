@@ -5,7 +5,7 @@ import AddToPhotosIcon from '@material-ui/icons/AddToPhotos';
 
 const MY_MUTATION_MUTATION = gql`
   mutation MyMutation($card_id : Int, $data : jsonb, $camera : jsonb) {
-     insert_card_slide_one(object: {card_id: $card_id, data: $data, camera: $camera}) {
+     insert_chapter_one(object: {card_id: $card_id, data: $data, camera: $camera}) {
     id
   }
   }

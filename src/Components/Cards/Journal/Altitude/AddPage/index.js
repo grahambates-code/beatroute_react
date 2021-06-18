@@ -13,7 +13,7 @@ const INSERT_PAGE_MUTATION = gql`
     }
 `;
 
-const AddPage = ({ chapterId, text, camera }) => {
+const AddPage = ({ chapterId, text, camera, refetch }) => {
     return (
         <Mutation
             mutation={INSERT_PAGE_MUTATION}
@@ -22,17 +22,17 @@ const AddPage = ({ chapterId, text, camera }) => {
                 text,
                 chapter_id: chapterId
             }}
-            onCompleted={() => console.info('complete add page')}
+            onCompleted={() => refetch()}
         >
             {(submitMutation, { loading, error, data }) => (
                 <Box>
                     <Button
-                        variant="outlined" 
-                        color="default" 
+                        variant="outlined"
+                        color="default"
                         onClick={submitMutation}
                         disabled={loading}
                     >
-                        {loading ? 'Adding...': 'Add a description'}
+                        {loading ? 'Adding...': 'Add a page'}
                     </Button>
 
                     {error && (

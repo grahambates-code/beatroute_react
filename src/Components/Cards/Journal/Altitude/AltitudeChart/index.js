@@ -8,13 +8,15 @@ import AltitudeChartHeader from './AltitudeChartHeader';
 import * as turf from '@turf/turf'
 import './index.css';
 import { useState } from 'react';
+import AddHighlight from './../../AddHighlight'
 
 gsap.registerPlugin(ScrollTrigger);
 
 const AltitudeChart = ({font, card, width, refetch, updateSlideCamera, gps_data, client}) => {
 
-    const [chapterDataSet, setChapterDataSet] = useState([]);
-    // const [scatterData, setScatterData] = useState(lineData[0]);
+    const [chapterDataSet, setChapterDataSet]   = useState([]);
+    const [pageIndex, setPageIndex]             = useState(0);
+
     const ref = useRef(null);
 
     useLayoutEffect(() => {
@@ -71,7 +73,7 @@ const AltitudeChart = ({font, card, width, refetch, updateSlideCamera, gps_data,
 
                                 var center = subData[0];
                                 var options = { steps: 36, units: 'kilometers', options: {} };
-                                var radius = 0.5;
+                                var radius = 0.25;
                                 var polygon = turf.circle(center, radius, options);
 
                                 setChapterDataSet(polygon);
@@ -82,7 +84,6 @@ const AltitudeChart = ({font, card, width, refetch, updateSlideCamera, gps_data,
                 </div>
             </div>
 
-            <pre>{chapterDataSet.length && JSON.stringify(chapterDataSet.geometry.coordinates)}</pre>
             <div className="top-scroll-graphic-content">
                 {card.chapters.map((s, i) => (
                     <div key={i} className="top-scroll-graphic-card">
@@ -97,7 +98,8 @@ const AltitudeChart = ({font, card, width, refetch, updateSlideCamera, gps_data,
                             client={client}
                             chapter={s}
                             refetch={refetch}
-                            onDescriptionEnter={(index) => {
+                            onPageEnter={(index) => {
+                                setPageIndex(index);
                                 console.log('the description comes in', index);
                             }}
                         />

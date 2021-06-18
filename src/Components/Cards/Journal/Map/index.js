@@ -62,7 +62,6 @@ export default class extends Component {
 
                                         <Deck font={font} slide={slide} setSelectedAsset={setSelectedAsset} selectedAsset={selectedAsset} client={client} slideIndex={slideIndex} refetch={props.refetch} viewState={viewState} setViewState={setViewState} width={props.width} updateSlide={updateSlide} updateSlideMedia={updateSlideMedia} updateMap={updateMap} updateAnnotation={updateAnnotation} trip={props.trip} card={props.card} />
 
-                                        <Slides updateSlide={updateSlide} slideIndex={slideIndex} setSlideIndex={setSlideIndex} card={props.card} viewState={viewState}  setViewState={setViewState}/>
 
                                         <Toolbar slide={slide} selectedAsset={selectedAsset} setSelectedAsset={setSelectedAsset} refetch={props.refetch} viewState={viewState} setViewState={setViewState} />
 

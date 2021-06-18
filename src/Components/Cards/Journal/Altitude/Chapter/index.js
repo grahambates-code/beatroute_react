@@ -146,19 +146,15 @@ export default class Chapter extends Component {
 
 
                         <div className="chapter-descriptions" style={{ pointerEvents: this.state.interactiveMap ? 'none' : 'auto'}}>
-                            <div className="chapter-description-wrapper">
-                                <h6>Description 1 testsetest</h6>
-                            </div>
-                            <div className="chapter-description-wrapper">
-                                <h6>Description 2 aaaa</h6>
-                            </div>
-                            <div className="chapter-description-wrapper">
-                                <h6>Description 3 bhnnhnhnhn</h6>
-                            </div>
+                            {chapter.pages.map(p =>  <div className="chapter-description-wrapper">
+                                <h6> {p.id} {p.text}</h6>
+                            </div>)}
+
                         </div>
                     </div>
                     <AddPage
                         camera={{}}
+                        refetch={refetch}
                         text="Some testing page"
                         chapterId={chapter.id}
                     />
