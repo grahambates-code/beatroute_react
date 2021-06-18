@@ -4,7 +4,7 @@ import AddTitle     from './AddTitle'
 import AddMap    from './AddMap'
 import AddAltitude    from './AddAltitude'
 import {Button} from "@material-ui/core";
-import AddJournalText from './AddJournalText'
+import AddText from './AddText'
 
 const Adder = ({trip, refetch}) => {
 
@@ -26,7 +26,7 @@ const Adder = ({trip, refetch}) => {
 
             <br/>
 
-            <AddTitle trip={trip} refetch={refetch} type={'JournalText'}/>
+            <AddText trip={trip} refetch={refetch} type={'JournalText'}/>
 
             <br/>
 
@@ -38,9 +38,6 @@ const Adder = ({trip, refetch}) => {
 
             <br/>
 
-            <AddJournalText trip={trip} />
-
-            <br/>
 
         </div> }
 

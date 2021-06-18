@@ -26,14 +26,11 @@ import JournalText from './Components/Cards/Journal/Text';
 import JournalMap from './Components/Cards/Journal/Map';
 import JournalAltitude from './Components/Cards/Journal/Altitude';
 
-import Wood3D from './Components/Cards/Wood/3D';
-
 import CardAdder from './Components/Adder';
 import * as THREE from 'three';
 import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core';
 import Header from './Components/Header';
-import AddJournalText from './Components/Adder/AddJournalText';
 
 const theme = createMuiTheme({});
 

@@ -69,7 +69,12 @@ const AltitudeChart = ({font, card, width, refetch, updateSlideCamera, gps_data,
                                 var bbox = turf.bbox(line);
                                 var bboxPolygon = turf.bboxPolygon(bbox);
 
-                                setChapterDataSet(bboxPolygon);
+                                var center = subData[0];
+                                var options = { steps: 36, units: 'kilometers', options: {} };
+                                var radius = 0.5;
+                                var polygon = turf.circle(center, radius, options);
+
+                                setChapterDataSet(polygon);
                             }
 
                         }}
