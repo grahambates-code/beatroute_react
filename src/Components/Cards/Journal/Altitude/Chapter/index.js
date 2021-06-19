@@ -31,52 +31,62 @@ export default class Chapter extends Component {
     }
 
     componentDidMount() {
-        const initScroll = () => {
-            this.timeline = gsap.timeline({
-                scrollTrigger: {
-                    trigger: this.ref.current,
-                    start: 'top top+=260',
-                    end: "+=" + (window.innerHeight * 3),
-                    anticipatePin: true,
-                    // end: 'bottom+=-40 center+=-16',
-                    scrub: true,
-                    pinSpacing: 'margin',
-                    pin: this.ref.current.querySelector('.chapter-deck'),
-                    refreshPriority: 0,
-                }
-            });
+        setTimeout(() => this.setupScroll(), 2000);
+    }
 
-            gsap.utils
-                .toArray(this.ref.current.querySelectorAll('.chapter-description-wrapper'))
-                .forEach((el, i) => {
-                    this.timeline.fromTo(
-                        el,
-                        { alpha: 0, y: i === 0 ? 0 : 128 },
-                        {
-                            alpha: 1,
-                            y: 0,
-                            onReverseComplete: () => {
-                                if (this.props.onDescriptionEnter) {
-                                    this.props.onDescriptionEnter(i);
-                                }
-                            },
-                            onComplete: () => {
-                                if (this.props.onDescriptionEnter) {
-                                    this.props.onDescriptionEnter(i);
-                                }
-                            },
-                        });
-                    this.timeline.to(el, { alpha: 0 });
-                });
-        };
-
-        setTimeout(() => initScroll(), 500);
+    componentDidUpdate(prevProps) {
+        if (prevProps.chapter.pages !== this.props.chapter.pages) {
+            this.setupScroll();
+        }
     }
 
     componentWillUnmount() {
         if (this.timeline) {
             this.timeline.kill();
         }
+    }
+
+    setupScroll = () => {
+        if (this.timeline) {
+            this.timeline.clear(true);
+        }
+
+        this.timeline = gsap.timeline({
+            scrollTrigger: {
+                trigger: this.ref.current,
+                start: 'top top+=260',
+                end: "+=" + (window.innerHeight * 3),
+                anticipatePin: true,
+                // end: 'bottom+=-40 center+=-16',
+                scrub: true,
+                pinSpacing: 'margin',
+                pin: this.ref.current.querySelector('.chapter-deck'),
+                refreshPriority: 0,
+            }
+        });
+
+        gsap.utils
+            .toArray(this.ref.current.querySelectorAll('.chapter-description-wrapper'))
+            .forEach((el, i) => {
+                this.timeline.fromTo(
+                    el,
+                    { alpha: 0, y: i === 0 ? 0 : 128 },
+                    {
+                        alpha: 1,
+                        y: 0,
+                        onReverseComplete: () => {
+                            if (this.props.onDescriptionEnter) {
+                                this.props.onDescriptionEnter(i);
+                            }
+                        },
+                        onComplete: () => {
+                            if (this.props.onDescriptionEnter) {
+                                this.props.onDescriptionEnter(i);
+                            }
+                        },
+                    });
+                this.timeline.to(el, { alpha: 0 });
+            });
     }
 
     setViewState = (p) => {
@@ -146,7 +156,7 @@ export default class Chapter extends Component {
 
 
                         <div className="chapter-descriptions" style={{ pointerEvents: this.state.interactiveMap ? 'none' : 'auto'}}>
-                            {chapter.pages.map(p =>  <div className="chapter-description-wrapper">
+                            {chapter.pages.map((p, i) =>  <div className="chapter-description-wrapper" key={i}>
                                 <h6> {p.id} {p.text}</h6>
                             </div>)}
 
