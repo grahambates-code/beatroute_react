@@ -10,7 +10,7 @@ const NewAsset = (props) => {
     const [name, setName]           = useState(null);
     const [thumbnail, setThumbnail] = useState(null);
 
-    console.log(thumbnail);
+   // console.log(thumbnail);
 
     return (
         <Dialog open={false}>

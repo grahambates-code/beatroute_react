@@ -4,14 +4,13 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { IconButton, Tooltip } from '@material-ui/core';
 import PublicOutlinedIcon from '@material-ui/icons/PublicOutlined';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-
-import DeckOld from '../../../Common/Deck';
 import Deck from '../../../Common/Test/Deck';
-import PhotoLookup from '../../../../PhotoSelectSideBar/PhotoLookup';
 
 import './index.less';
+
 import PhotoSelectSideBar from '../../../../PhotoSelectSideBar';
 import AddPage from '../AddPage';
+import DeletePage from '../DeletePage';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -110,12 +109,23 @@ export default class Chapter extends Component {
     render() {
         let { viewState } = this.state;
         let { font, client, chapter, refetch, width, trip, card, updateSlideCamera, gps_data } = this.props;
-
+       // console.log(viewState);
         return (
             <>
                 <div ref={this.ref} className="chapter">
                     <div className="chapter-deck">
                         <div className="chapter-btn">
+
+                            <Tooltip placement="top" title="Add photo">
+                                <AddPage
+                                    refetch={refetch}
+                                    text="Some testing page"
+                                    chapterId={chapter.id}
+                                    viewState={viewState}
+                                    chapterDataSet={this.props.chapterDataSet}
+                                />
+                            </Tooltip>
+
                             <Tooltip placement="top" title={`${this.state.interactiveMap ? 'Enabled' : 'Disabled'} the map`}>
                                 <IconButton
                                     color={this.state.interactiveMap ? 'primary' : 'default'}
@@ -137,6 +147,7 @@ export default class Chapter extends Component {
                             </Tooltip>
 
                         </div>
+
                         <div style={{ zIndex: this.state.interactiveMap ? 9 : 0 }}>
                             <Deck
                                 chapter={chapter}
@@ -158,16 +169,21 @@ export default class Chapter extends Component {
                         <div className="chapter-descriptions" style={{ pointerEvents: this.state.interactiveMap ? 'none' : 'auto'}}>
                             {chapter.pages.map((p, i) =>  <div className="chapter-description-wrapper" key={i}>
                                 <h6> {p.id} {p.text}</h6>
+
+                                <div className="chapter-btn">
+                                    <Tooltip placement="top" title="Delete photo">
+                                        <DeletePage
+                                            refetch={refetch}
+                                            pageId={p.id}
+                                        />
+                                    </Tooltip>
+                                </div>
+
                             </div>)}
 
                         </div>
                     </div>
-                    <AddPage
-                        camera={{}}
-                        refetch={refetch}
-                        text="Some testing page"
-                        chapterId={chapter.id}
-                    />
+
                 </div>
 
                 <PhotoSelectSideBar

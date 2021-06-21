@@ -2,27 +2,24 @@ import React, {Fragment} from 'react';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 import {Box, Button, IconButton, Tooltip, Typography} from '@material-ui/core';
-import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
-const INSERT_PAGE_MUTATION = gql`
-    mutation MyMutation($camera: jsonb, $marker: jsonb, $chapter_id: Int!, $text: String!) {
-        insert_page(objects: {camera: $camera,marker: $marker, chapter_id: $chapter_id, text: $text}) {
-            returning {
-                id
-            }
+const DELETE_PAGE_MUTATION = gql`
+   mutation MyMutation($pageId : Int) {
+      delete_page(where: {id: {_eq: $pageId}}) {
+        returning {
+          id
         }
-    }
+      }
+}
 `;
 
-const AddPage = ({ chapterId, text, viewState, chapterDataSet, refetch }) => {
+const AddPage = ({ pageId, refetch }) => {
     return (
         <Mutation
-            mutation={INSERT_PAGE_MUTATION}
+            mutation={DELETE_PAGE_MUTATION}
             variables={{
-                marker : chapterDataSet,
-                camera : viewState,
-                text,
-                chapter_id: chapterId
+                pageId
             }}
             onCompleted={() => refetch()}
         >
@@ -31,10 +28,10 @@ const AddPage = ({ chapterId, text, viewState, chapterDataSet, refetch }) => {
                     <IconButton
                         color="primary"
                         size="small"
-                        onClick={submitMutation}
+                        onClick={() => {alert(1);submitMutation()}}
                         disabled={loading}
                     >
-                        <AddCircleOutlineIcon fontSize="small" />
+                        <DeleteForeverIcon fontSize="small" />
                     </IconButton>
 
                     {error && (

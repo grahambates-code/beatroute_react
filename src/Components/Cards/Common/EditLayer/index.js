@@ -60,7 +60,7 @@ export default class EditLayer extends CompositeLayer {
               }
           })
 
-        console.log(this.state.position);
+      //  console.log(this.state.position);
 
         const ll = new ScenegraphLayer({ data : [asset],
 

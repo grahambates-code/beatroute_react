@@ -74,6 +74,7 @@ const GETCARD = gql`
               id
               camera
               text
+              marker
             }
             
             
