@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Box, IconButton, TextField } from '@material-ui/core';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
-import CheckCircleOutlineOutlinedIcon from '@material-ui/icons/CheckCircleOutlineOutlined';
 import DeletePage from '../DeletePage';
+import UpdatePage from '../UpdatePage';
 import './index.less';
 
 const DescriptionPage = ({ page, refetch }) => {
     const [isEditting, setIsEditting] = useState(false);
+    const textRef = useRef(null);
+
     return (
         <div className="description-page">
             <Box display="flex" justifyContent="space-between" alignItems="center">
@@ -18,6 +20,7 @@ const DescriptionPage = ({ page, refetch }) => {
                     )}
                     {isEditting && (
                         <TextField 
+                            ref={textRef}
                             multiline={true}
                             rows={2}
                             defaultValue={page.text}
@@ -34,9 +37,14 @@ const DescriptionPage = ({ page, refetch }) => {
                         </IconButton>
                     )}
                     {isEditting && (
-                        <IconButton color="primary" size="small" onClick={() => setIsEditting(false)}>
-                            <CheckCircleOutlineOutlinedIcon fontSize="small" />
-                        </IconButton>
+                        <UpdatePage 
+                            page={page}
+                            refetch={refetch}
+                            onSubmit={() => {
+                                setIsEditting(false);
+                            }}
+                            text={textRef.current ? textRef.current.value : page.text}
+                        />
                     )}
                     <DeletePage pageId={page.id} refetch={refetch} />
                 </Box>

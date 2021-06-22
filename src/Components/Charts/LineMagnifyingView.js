@@ -54,7 +54,7 @@ const LineMagnifyingView = ({ color, enableScatter }) => {
                 <ConnectChartContext.Consumer>
                     {({ magnifyingFocusData }) => (
                         <g transform={`translate(0, ${linePadding})`}>
-                            <Line 
+                            <Line
                                 width={width}
                                 height={height - linePadding * 2}
                                 data={chartContext.data}

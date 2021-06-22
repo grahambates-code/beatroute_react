@@ -10,6 +10,7 @@ const Line = ({ xScale, yScale, width, height, data, color, forwardRef,  }) => {
             const lineGenerator = d3.line()
                 .x(d => xScale(d.x))
                 .y(d => yScale(d.y))
+                .defined(d => !Number.isNaN(xScale(d.x)) && !Number.isNaN(yScale(d.y)))
                 .curve(d3.curveLinear);
 
             d3.select(lineRef.current)
@@ -22,7 +23,7 @@ const Line = ({ xScale, yScale, width, height, data, color, forwardRef,  }) => {
 
         if (areaRef) {
             const areaGenerator = d3.area()
-                .defined(d => !isNaN(d.y))
+                .defined(d => !Number.isNaN(xScale(d.x)) && !Number.isNaN(yScale(d.y)))
                 .x(d => xScale(d.x))
                 .y0(yScale.range()[0])
                 .y1(d => yScale(d.y))
