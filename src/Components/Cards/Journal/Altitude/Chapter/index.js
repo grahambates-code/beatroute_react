@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { IconButton, Tooltip } from '@material-ui/core';
+import { IconButton, Tooltip, Button } from '@material-ui/core';
 import PublicOutlinedIcon from '@material-ui/icons/PublicOutlined';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import PostAddIcon from '@material-ui/icons/PostAdd';
 import Deck from '../../../Common/Test/Deck';
 
 import './index.less';
@@ -25,6 +26,7 @@ export default class Chapter extends Component {
             viewState: props.chapter.camera,
             interactiveMap: false,
             photoSliderOpen: false,
+            addPageDialogOpen: false,
         }
         this.ref = React.createRef(null);
     }
@@ -115,15 +117,15 @@ export default class Chapter extends Component {
                 <div ref={this.ref} className="chapter">
                     <div className="chapter-deck">
                         <div className="chapter-btn">
-
-                            <Tooltip placement="top" title="Add photo">
-                                <AddPage
-                                    refetch={refetch}
-                                    text="Some testing page"
-                                    chapterId={chapter.id}
-                                    viewState={viewState}
-                                    chapterDataSet={this.props.chapterDataSet}
-                                />
+                            <Tooltip placement="top" title="Add page" >
+                                <IconButton 
+                                    variant="outlined" 
+                                    size="small"
+                                    color="primary"
+                                    onClick={() => this.setState({ addPageDialogOpen: true })}
+                                >
+                                    <PostAddIcon fontSize="small" />
+                                </IconButton>
                             </Tooltip>
 
                             <Tooltip placement="top" title={`${this.state.interactiveMap ? 'Enabled' : 'Disabled'} the map`}>
@@ -192,6 +194,16 @@ export default class Chapter extends Component {
                     open={this.state.photoSliderOpen}
                     onClose={this.handleClosePhotoSlider}
                 />
+
+                {this.state.addPageDialogOpen && (
+                    <AddPage
+                        refetch={refetch}
+                        chapterId={chapter.id}
+                        viewState={viewState}
+                        chapterDataSet={this.props.chapterDataSet}
+                        onClose={() => this.setState({ addPageDialogOpen: false })}
+                    />
+                )}
             </>
         );
 
