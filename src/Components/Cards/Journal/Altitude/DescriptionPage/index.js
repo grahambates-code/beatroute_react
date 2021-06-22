@@ -7,7 +7,7 @@ import './index.less';
 
 const DescriptionPage = ({ page, refetch }) => {
     const [isEditting, setIsEditting] = useState(false);
-    const textRef = useRef(null);
+    const [text, setText] = useState(page.text);
 
     return (
         <div className="description-page">
@@ -20,13 +20,20 @@ const DescriptionPage = ({ page, refetch }) => {
                     )}
                     {isEditting && (
                         <TextField 
-                            ref={textRef}
                             multiline={true}
                             rows={2}
-                            defaultValue={page.text}
+                            value={text}
                             fullWidth={true}
+                            autoFocus={true}
                             size="small"
                             variant="outlined"
+                            onChange={(e) => setText(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key.toLowerCase() === 'escape') {
+                                    setText(page.text);
+                                    setIsEditting(false);
+                                }
+                            }}
                         />
                     )}
                 </Box>
@@ -42,10 +49,11 @@ const DescriptionPage = ({ page, refetch }) => {
                         <UpdatePage 
                             page={page}
                             refetch={refetch}
-                            onSubmit={() => {
+                            onCompleted={() => {
                                 setIsEditting(false);
+                                refetch();
                             }}
-                            text={textRef.current ? textRef.current.value : page.text}
+                            text={text}
                         />
                     )}
                     <DeletePage pageId={page.id} refetch={refetch} />
