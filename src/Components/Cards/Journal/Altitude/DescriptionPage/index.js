@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Box, IconButton, TextField } from '@material-ui/core';
+import { Box, IconButton, TextField, Tooltip } from '@material-ui/core';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import DeletePage from '../DeletePage';
 import UpdatePage from '../UpdatePage';
@@ -32,9 +32,11 @@ const DescriptionPage = ({ page, refetch }) => {
                 </Box>
                 <Box className="description-page-actions">
                     {!isEditting && (
-                        <IconButton size="small" onClick={() => setIsEditting(true)}>
-                            <EditOutlinedIcon fontSize="small" />
-                        </IconButton>
+                        <Tooltip title="Edit page" placement="right-end">
+                            <IconButton size="small" onClick={() => setIsEditting(true)}>
+                                <EditOutlinedIcon fontSize="small" />
+                            </IconButton>
+                        </Tooltip>
                     )}
                     {isEditting && (
                         <UpdatePage 
