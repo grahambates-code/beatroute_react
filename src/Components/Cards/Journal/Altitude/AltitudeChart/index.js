@@ -16,6 +16,7 @@ const AltitudeChart = ({font, card, width, refetch, updateSlideCamera, gps_data,
 
     const [chapterDataSet, setChapterDataSet]   = useState([]);
     const [pageIndex, setPageIndex]             = useState(0);
+    const [xRange, setXRange] = useState([]); 
 
     const ref = useRef(null);
 
@@ -79,6 +80,10 @@ const AltitudeChart = ({font, card, width, refetch, updateSlideCamera, gps_data,
                                 setChapterDataSet(polygon);
                             }
 
+                        }}
+                        onRange={(range) => {
+                            setXRange(range);
+                            console.log('selected range', range);
                         }}
                     />
                 </div>
