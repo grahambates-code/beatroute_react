@@ -10,7 +10,7 @@ import './index.less';
 
 import PhotoSelectSideBar from '../../../../PhotoSelectSideBar';
 import AddPage from '../AddPage';
-import DeletePage from '../DeletePage';
+import DescriptionPage from '../DescriptionPage';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -168,7 +168,8 @@ export default class Chapter extends Component {
 
                         <div className="chapter-descriptions" style={{ pointerEvents: this.state.interactiveMap ? 'none' : 'auto'}}>
                             {chapter.pages.map((p, i) =>  <div className="chapter-description-wrapper" key={i}>
-                                <h6> {p.id} {p.text}</h6>
+                                <DescriptionPage page={p} refetch={refetch} />
+                                {/* <h6> {p.id} {p.text}</h6>
 
                                 <div className="chapter-btn">
                                     <Tooltip placement="top" title="Delete photo">
@@ -177,7 +178,7 @@ export default class Chapter extends Component {
                                             pageId={p.id}
                                         />
                                     </Tooltip>
-                                </div>
+                                </div> */}
 
                             </div>)}
 

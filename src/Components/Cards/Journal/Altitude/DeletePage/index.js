@@ -1,8 +1,9 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useState} from 'react';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
-import {Box, Button, IconButton, Tooltip, Typography} from '@material-ui/core';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import {Box, Button, IconButton, Tooltip } from '@material-ui/core';
+import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
+import ErrorDialog from '../../../../Dialogs/ErrorDialog';
 
 const DELETE_PAGE_MUTATION = gql`
    mutation MyMutation($pageId : Int) {
@@ -14,7 +15,9 @@ const DELETE_PAGE_MUTATION = gql`
 }
 `;
 
-const AddPage = ({ pageId, refetch }) => {
+const DeletePage = ({ pageId, refetch }) => {
+    const [error, setError] = useState(null);
+
     return (
         <Mutation
             mutation={DELETE_PAGE_MUTATION}
@@ -22,30 +25,33 @@ const AddPage = ({ pageId, refetch }) => {
                 pageId
             }}
             onCompleted={() => refetch()}
+            onError={(error) => setError(error)}
         >
-            {(submitMutation, { loading, error, data }) => (
+            {(submitMutation, { loading, data }) => (
                 <Fragment>
-                    <IconButton
-                        color="primary"
-                        size="small"
-                        onClick={() => {alert(1);submitMutation()}}
-                        disabled={loading}
-                    >
-                        <DeleteForeverIcon fontSize="small" />
-                    </IconButton>
+                    <Tooltip title="Delete page" placement="right-start">
+                        <IconButton
+                            size="small"
+                            onClick={() => {
+                                submitMutation();
+                            }}
+                            disabled={loading}
+                        >
+                            <DeleteOutlineOutlinedIcon fontSize="small" />
+                        </IconButton>
+                    </Tooltip>
 
                     {error && (
-                        <Box marginTop={2}>
-                            <Typography variant="caption" color="secondary">
-                                {error.message}
-                            </Typography>
-                        </Box>
+                        <ErrorDialog 
+                            title="Page Error"
+                            message={error.message}
+                            onClose={() => setError(null)}
+                        />
                     )}
                 </Fragment>
-
             )}
         </Mutation>
     );
 };
 
-export default AddPage;
+export default DeletePage;
