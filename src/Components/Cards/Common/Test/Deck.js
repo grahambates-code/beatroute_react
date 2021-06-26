@@ -52,7 +52,7 @@ class MapHolder extends Component {
         const mvtLayer = new MVTLayer({
             data: `https://a.tiles.mapbox.com/v4/mapbox.mapbox-streets-v7/{z}/{x}/{y}.vector.pbf?access_token=pk.eyJ1IjoibW9nbW9nIiwiYSI6ImNpZmI2eTZuZTAwNjJ0Y2x4a2g4cDIzZTcifQ.qlITXIamvfVj-NCTtAGylw`,
             //minZoom : 15,
-
+            //extent: [0, 0, 500,500],
             renderSubLayers: (props) => {
 
                 return [
@@ -63,7 +63,7 @@ class MapHolder extends Component {
                         visible: true,
                         getLineColor: [255, 127, 0, 100],
                         lineWidthScale: 10,
-                        lineWidthMinPixels: 4,
+                        lineWidthMinPixels: 2,
                         getRadius: 5,
                         getLineWidth: 1,
                         _subLayerProps: {
@@ -97,18 +97,15 @@ class MapHolder extends Component {
             id: 'geojson-layer-slection',
             data : this.props.chapterDataSet,
             pickable: true,
-            stroked: false,
-            filled : true,
+            stroked: true,
+            filled : false,
             getElevation : 1,
-            lineWidthScale: 20,
-            lineWidthMinPixels: 14,
-            getLineColor: [128,128,128],
-            getRadius: 100,
-            getLineWidth: 1,
+            lineWidthScale: 1,
+            lineWidthMinPixels: 2,
+            lineWidthMaxPixels: 20,
+            getLineColor: [0,0,0],
 
-            _subLayerProps: {
-                "line-strings": {type: CustomPathLayer},
-            }
+
 
         })
 

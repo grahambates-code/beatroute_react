@@ -8,6 +8,7 @@ import AltitudeChartHeader from './AltitudeChartHeader';
 import * as turf from '@turf/turf'
 import './index.css';
 import { useState } from 'react';
+import {circle} from './rough';
 import AddHighlight from './../../AddHighlight'
 
 gsap.registerPlugin(ScrollTrigger);
@@ -16,7 +17,7 @@ const AltitudeChart = ({font, card, width, refetch, updateSlideCamera, gps_data,
 
     const [chapterDataSet, setChapterDataSet]   = useState([]);
     const [pageIndex, setPageIndex]             = useState(0);
-    const [xRange, setXRange] = useState([]); 
+    const [xRange, setXRange] = useState([]);
 
     const ref = useRef(null);
 
@@ -73,9 +74,10 @@ const AltitudeChart = ({font, card, width, refetch, updateSlideCamera, gps_data,
                                 var bboxPolygon = turf.bboxPolygon(bbox);
 
                                 var center = subData[0];
-                                var options = { steps: 36, units: 'kilometers', options: {} };
-                                var radius = 0.25;
-                                var polygon = turf.circle(center, radius, options);
+
+                                var polygon = circle(center[0], center[1],  0.25, {seed : 1, roughness : 0.7  });
+
+
 
                                 setChapterDataSet(polygon);
                             }
