@@ -8,7 +8,7 @@ import AltitudeChartHeader from './AltitudeChartHeader';
 import * as turf from '@turf/turf'
 import './index.css';
 import { useState } from 'react';
-import {circle} from './rough';
+import {circle, hand_circle} from './rough';
 import AddHighlight from './../../AddHighlight'
 
 gsap.registerPlugin(ScrollTrigger);
@@ -75,7 +75,7 @@ const AltitudeChart = ({font, card, width, refetch, updateSlideCamera, gps_data,
 
                                 var center = subData[0];
 
-                                var polygon = circle(center[0], center[1],  0.25, {seed : 1, roughness : 0.7  });
+                                var polygon = hand_circle(center[0], center[1],  0.25, {rounds : 1.5}, false);
 
 
 
@@ -85,7 +85,7 @@ const AltitudeChart = ({font, card, width, refetch, updateSlideCamera, gps_data,
                         }}
                         onRange={(range) => {
                             setXRange(range);
-                            console.log('selected range', range);
+                           // console.log('selected range', range);
                         }}
                     />
                 </div>

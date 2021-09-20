@@ -15,28 +15,24 @@ export default class EditLayer extends CompositeLayer {
 
 
 
-        console.log(markers);
+      //  console.log(markers);
     }
 
     renderLayers() {
 
-        const { markers  } = this.props;
+        const { chapter  } = this.props;
 
         const layery = new GeoJsonLayer({
             id: 'geojson-marker',
-            data : {type : "FeatureCollection", features : markers},
+            data :  {type : "FeatureCollection", features : chapter.pages.map( p => p.marker.features[0])},
+            stroked : true,
             pickable: true,
             filled : false,
-            lineWidthMinPixels: 4,
+            lineWidthScale: 3,
+            lineWidthMinPixels: 3,
+            lineWidthMaxPixels: 100,
             getLineColor: [0,0,0],
-            getLineWidth: 10,
-
-            // _subLayerProps: {
-            //     "line-strings": {type: CustomPathLayer},
-            // }
-
         })
-
 
         return [ layery ];
     }

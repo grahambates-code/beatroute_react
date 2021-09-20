@@ -1,7 +1,7 @@
 
 import { svgtogeojson } from 'svg-to-geojson'
 import rough from 'roughjs/bundled/rough.cjs.js';
-import { bbox, point, buffer, bboxPolygon, lineString } from '@turf/turf';
+import { bbox, point, buffer, bboxPolygon, lineString, featureCollection, lengthToRadians, lengthToDegrees } from '@turf/turf';
 import {scaleLinear} from 'd3-scale';
 import { geoMercator } from 'd3-geo';
 
@@ -94,7 +94,59 @@ const line = (lng1, lat1, lng2, lat2, roughOptions, debug) => {
 
 }
 
+const hand_circle = (lng, lat, radius, {rounds},debug)=>{
+    let p = point([lng, lat]);
+    const ciPoints = handDrawCircle(lng,lat,lengthToDegrees(radius),rounds);
+    const string = lineString(ciPoints);
+    let collection = featureCollection([string])
+    if(debug){
+        collection.features.push(p)
+    }
+
+    return collection
+}
+
+
+function handDrawCircle(cx, cy, r, rounds) {
+
+    /// rounds is optional, defaults to 3 rounds
+    rounds = rounds ? rounds : 3;
+
+    var x, y,                                      /// the calced point
+        tol = Math.random() * (r * 0.025) + (r * 0.025), ///tolerance / fluctation
+        dx = Math.random() * tol * 0.75,           /// "bouncer" values
+        dy = Math.random() * tol * 0.75,
+        ix = (Math.random() - 1) * (r * 0.0044),   /// speed /incremental
+        iy = (Math.random() - 1) * (r * 0.0033),
+        rx = r + Math.random() * tol,              /// radius X
+        ry = (r + Math.random() * tol) * 0.8,      /// radius Y
+        a = 0,                                     /// angle
+        ad = 3,                                    /// angle delta (resolution)
+        i = 0,                                     /// counter
+        start = Math.random() + 50,                /// random delta start
+        tot = 360 * rounds + Math.random() * 50 - 100,  /// end angle
+        points = [],                               /// the points array
+        deg2rad = Math.PI / 180;
+
+    for (; i < tot; i += ad) {
+        dx += ix;
+        dy += iy;
+
+        if (dx < -tol || dx > tol) ix = -ix;
+        if (dy < -tol || dy > tol) iy = -iy;
+
+        x = cx + (rx + dx * 2) * Math.cos(i * deg2rad + start);
+        y = cy + (ry + dy * 2) * Math.sin(i * deg2rad + start);
+
+        points.push([x, y]);
+    }
+
+   // console.log(points)
+    return points
+}
+
 export {
+    hand_circle,
     circle,
     line
 }
